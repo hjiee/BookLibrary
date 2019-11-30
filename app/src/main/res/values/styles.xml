@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NoActionBarTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorLightBlack3</item>
+        <item name="android:windowBackground">@color/colorLightBlack3</item>
+        <item name="bottomNavigationStyle">@color/colorLightBlack3</item>
+    </style>
 </resources>
