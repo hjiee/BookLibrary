@@ -1,9 +1,54 @@
 <resources>
-    <string name="app_name">BookLibrary</string>
+<!--    <string name="app_name">BookLibrary</string>-->
+    <string name="app_name">책</string>
 
+    <!--정보-->
+    <string name="email">jin33032@gmail.com</string>
 
+    <!--일-->
+    <string name="email_subject">[서재] 앱 문의사항</string>
+    <string name="email_body"></string>
+
+    <!--바텀 메뉴-->
     <string name="menu_home">홈</string>
     <string name="menu_search">검색</string>
-    <string name="menu_library">나의서재</string>
+    <string name="menu_library">책꽂이</string>
     <string name="menu_setting">설정</string>
+
+
+    <!--설정 메뉴-->
+    <string name="setting_category_base_setting">기본설정</string>
+    <string name="setting_category_contact">도움말</string>
+    <string name="setting_category_tos">이용약관</string>
+    <string name="setting_category_infomation">정보</string>
+
+    <string name="setting_category_key1">category1</string>
+    <string name="setting_category_key2">category2</string>
+    <string name="setting_category_key3">category3</string>
+
+    <string name="setting_title_setting">설정</string>
+    <string name="setting_summary_setting">설정</string>
+    <string name="setting_key_setting">setting</string>
+
+
+    <string name="setting_title_version">앱 버전정보</string>
+    <string name="setting_summary_version">버전</string>
+    <string name="setting_key_version">version</string>
+
+    <string name="setting_title_opensource">오픈소스 라이선스</string>
+    <string name="setting_summary_opensource">오픈소스 소프트웨어에 대한 라이선스 정보</string>
+    <string name="setting_key_opensource">opensource</string>
+
+    <string name="setting_title_question">문의하기</string>
+    <string name="setting_summary_question">개발자에게 버그나 궁금한점, 기능개선 및 추가 메일을 보냅니다</string>
+    <string name="setting_key_question">sendmail</string>
+
+    <string name="setting_title_evaluation">평가하기</string>
+    <string name="setting_summary_evaluation">플레이스토어에 평점 및 리뷰 남겨주세요!</string>
+    <string name="setting_key_evaluation">evaluation</string>
+
+    <string name="setting_title_donate">후원하기</string>
+    <string name="setting_summary_donate">개발자를 응원합니다!</string>
+    <string name="setting_key_donate">donate</string>
+
 </resources>

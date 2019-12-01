@@ -12,5 +12,16 @@
         <item name="colorPrimaryDark">@color/colorLightBlack3</item>
         <item name="android:windowBackground">@color/colorLightBlack3</item>
         <item name="bottomNavigationStyle">@color/colorLightBlack3</item>
+
+    </style>
+
+    <style name="TextStyle">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorSecondary">@color/colorPaltte5</item>
     </style>
 </resources>

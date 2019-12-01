@@ -13,4 +13,10 @@
     <color name="colorLightBlack3">#2E3032</color>
 
 
+    <color name="colorPaltte1">#0A0B0C</color>
+    <color name="colorPaltte2">#413636</color>
+    <color name="colorPaltte3">#594A4A</color>
+    <color name="colorPaltte4">#7E808D</color>
+    <color name="colorPaltte5">#ACAEC1</color>
+    <color name="colorPaltte6">#8C3037</color>
 </resources>
