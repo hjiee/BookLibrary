@@ -4,35 +4,50 @@
 
     <data>
 
+        <import type="com.hyden.ext.RecyclerViewExtKt" />
+
+        <variable
+            name="vm"
+            type="com.hyden.booklibrary.view.search.SearchViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <include
             android:id="@+id/include_appbar"
+            layout="@layout/include_appbar_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/rvl_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/appbar_main"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_book"
+                bindItems="@{vm.searchBookInfo}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                app:spanCount="3" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/tv_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_data"
             android:textColor="@color/colorWhite"
-            android:gravity="center"
-            android:text="@string/menu_search"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_gravity="center" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

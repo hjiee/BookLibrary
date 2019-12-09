@@ -12,6 +12,11 @@
         android:icon="@drawable/menu_search"/>
 
     <item
+        android:id="@+id/menu_feed"
+        android:title="@string/menu_feed"
+        android:icon="@drawable/menu_feed"/>
+
+    <item
         android:id="@+id/menu_library"
         android:title="@string/menu_library"
         android:icon="@drawable/menu_library"/>
