@@ -11,37 +11,71 @@ class HomeRepository(
     private val bookApi: BookApi
 ) : HomeDataSource {
 
+    private var queryTypeName = ""
+
     override fun loadBook(
         ttbkey: String,
         page: Int,
         version: String,
         searchtarget: String,
         querytype: String,
+        categoryid : Int,
         maxresults: Int,
         output: String,
-        cover : String,
-        success: (BookResponse) -> Unit,
+        cover: String,
+        success: (BookResponse, String) -> Unit,
         failure: (String) -> Unit
     ): Disposable {
+        queryTypeName = querytype
         return bookApi.bookInfo(HashMap<String, Any>().apply {
             put("ttbkey", ttbkey)
             put("start", page)
-            put("Version", version)
-            put("SearchTarget", searchtarget)
-            put("QueryType", querytype)
-            put("MaxResults", maxresults)
+            put("version", version)
+            put("searchtarget", searchtarget)
+            put("querytype", queryTypeName)
+            put("categoryid", 0)
+            put("maxresults", maxresults)
             put("output", output)
             put("cover", cover)
         }).subscribeOn(Schedulers.io())
+//            .flatMap {
+//                queryTypeName = "ItemNewSpecial"
+//                bookApi.bookInfo(HashMap<String, Any>().apply {
+//                    put("ttbkey", ttbkey)
+//                    put("start", page)
+//                    put("version", version)
+//                    put("searchtarget", searchtarget)
+//                    put("querytype", queryTypeName)
+//                    put("categoryid", 0)
+//                    put("maxresults", maxresults)
+//                    put("output", output)
+//                    put("cover", cover)
+//                })
+//            }
+//            .flatMap {
+//                queryTypeName = "ItemEditorChoice"
+//                bookApi.bookInfo(HashMap<String, Any>().apply {
+//                    put("ttbkey", ttbkey)
+//                    put("start", page)
+//                    put("version", version)
+//                    put("searchtarget", searchtarget)
+//                    put("querytype", queryTypeName)
+//                    put("categoryid", 0)
+//                    put("maxresults", maxresults)
+//                    put("output", output)
+//                    put("cover", cover)
+//                })
+//            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
-                    success.invoke(it)
+                    val queryTypeName = it.query.split("=",";")[1]
+                    success.invoke(it,queryTypeName)
                 },
                 {
                     failure.invoke(it.toString())
                 }
             )
-
     }
 }
+

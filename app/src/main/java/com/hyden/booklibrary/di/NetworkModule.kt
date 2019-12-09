@@ -12,13 +12,17 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+private const val connectTime = 30L
+private const val readTime = 30L
+private const val writeTime = 30L
+
 val networkModule = module {
 
     single {
         OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.MINUTES)
-            .writeTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(connectTime, TimeUnit.SECONDS)
+            .readTimeout(readTime, TimeUnit.MINUTES)
+            .writeTimeout(writeTime, TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = if (BuildConfig.DEBUG) {
                     HttpLoggingInterceptor.Level.BODY
