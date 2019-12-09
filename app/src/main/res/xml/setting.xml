@@ -13,11 +13,14 @@
         android:title="@string/setting_category_base_setting"
         android:key="@string/setting_category_key1"
         app:iconSpaceReserved="true">
-        <Preference
-            android:summary="@string/setting_summary_setting"
-            android:title="@string/setting_title_setting"
+        <ListPreference
+            android:summary="@string/setting_summary_theme"
+            android:title="@string/setting_title_theme"
+            android:entries="@array/theme"
+            android:entryValues="@array/theme"
+            android:key="@string/setting_key_theme"
             app:iconSpaceReserved="true">
-        </Preference>
+        </ListPreference>
 
         <Preference
             android:summary="@string/setting_summary_setting"
@@ -70,11 +73,12 @@
             app:iconSpaceReserved="true"
             android:key="@string/setting_key_version"/>
 
-        <PreferenceScreen
+        <Preference
             android:summary="@string/setting_summary_opensource"
             android:title="@string/setting_title_opensource"
             app:iconSpaceReserved="true"
-            android:key="@string/setting_key_opensource"/>
+            android:key="@string/setting_key_opensource">
+        </Preference>
     </PreferenceCategory>
 
 

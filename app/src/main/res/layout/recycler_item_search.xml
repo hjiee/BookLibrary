@@ -4,27 +4,29 @@
 
     <data>
         <import type="com.hyden.ext.ImageViewExtKt"/>
+
         <variable
             name="type"
             type="com.hyden.util.ImageTransformType" />
+
         <variable
-            name="response"
+            name="search"
             type="com.hyden.booklibrary.data.remote.network.reponse.BookItems" />
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="2dp">
+        android:layout_margin="4dp">
 
         <ImageView
             android:id="@+id/img_book_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            loadUrl="@{response.cover}"
+            loadUrl="@{search.cover}"
             tranformType="@{type.FIT}"
             android:layout_gravity="center" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

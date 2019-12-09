@@ -9,7 +9,22 @@
         <item>설정6</item>
     </string-array>
 
+    <string-array name="theme">
+        <item>블랙</item>
+        <item>화이트</item>
+        <item>블루</item>
+        <item>핑크</item>
+    </string-array>
+
+    <string-array name="search">
+        <item>제목+저자</item>
+        <item>제목</item>
+        <item>저자</item>
+        <item>출판사</item>
+    </string-array>
+
     <string-array name="email">
         <item>jin33032@gmail.com</item>
     </string-array>
+
 </resources>
