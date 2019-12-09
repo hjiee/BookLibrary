@@ -79,11 +79,15 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
 
     // Room
-    def room_version = "2.2.1"
+    def room_version = "2.2.2"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-guava:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    // Stetho
+    def stetho_version = '1.5.1'
+    implementation "com.facebook.stetho:stetho:$stetho_version"
 
 }

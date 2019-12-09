@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.hyden.booklibrary.BuildConfig
 import com.hyden.booklibrary.R
+import com.hyden.booklibrary.view.OpenSourceActivity
+import com.hyden.ext.moveToActivity
 
 class SettingFragment : PreferenceFragmentCompat() {
 
@@ -24,9 +28,12 @@ class SettingFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting, rootKey)
+        changeTheme()
         setSendToMail()
         setSendToEvaluation()
         setSendToDonate()
+        infoAppVersion()
+        infoOpenSourceLicense()
         preferenceManager.context.setTheme(R.style.PreferenceTheme)
     }
 
@@ -51,16 +58,39 @@ class SettingFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun setSendToEvaluation() {
-        findPreference<Preference>(getString(R.string.setting_key_version))?.apply {
-            summary = "앱 버전 : ${BuildConfig.VERSION_NAME}"
-            this.context.setTheme(R.style.PreferenceTheme)
+    private fun changeTheme() {
+        findPreference<ListPreference>(getString(R.string.setting_key_theme))?.apply {
+            summary = this.value
+            setOnPreferenceClickListener {
+                true
+            }
+            setOnPreferenceChangeListener { preference, newValue ->
+                preference.summary = newValue.toString()
+                true
+            }
         }
+    }
+    private fun setSendToEvaluation() {
     }
 
     private fun setSendToDonate() {
         findPreference<Preference>(getString(R.string.setting_key_donate))?.apply {
             setOnPreferenceClickListener {
+                true
+            }
+        }
+    }
+
+    private fun infoAppVersion() {
+        findPreference<Preference>(getString(R.string.setting_key_version))?.apply {
+            summary = "앱 버전 : ${BuildConfig.VERSION_NAME}"
+            this.context.setTheme(R.style.PreferenceTheme)
+        }
+    }
+    private fun infoOpenSourceLicense() {
+        findPreference<Preference>(getString(R.string.setting_key_opensource))?.apply {
+            setOnPreferenceClickListener {
+                moveToActivity(Intent(activity,OpenSourceActivity::class.java))
                 true
             }
         }
