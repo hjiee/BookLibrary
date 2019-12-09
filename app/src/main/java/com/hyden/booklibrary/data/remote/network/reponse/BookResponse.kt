@@ -1,13 +1,9 @@
 package com.hyden.booklibrary.data.remote.network.reponse
 
-/**
- * title : 제목
- * cover : 표자
- */
+import android.os.Parcel
+import android.os.Parcelable
+
 data class BookResponse(
-    val item : List<BookItems>
-)
-data class BookItems(
-    val title : String,
-    val cover : String
+    val query : String, // ":"QueryType=ITEMNEWSPECIAL;SearchTarget=book",
+    val item : List<BookItems>?
 )
