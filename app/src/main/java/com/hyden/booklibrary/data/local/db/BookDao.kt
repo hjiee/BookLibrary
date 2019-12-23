@@ -3,6 +3,7 @@ package com.hyden.booklibrary.data.local.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASELIMIT
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 import io.reactivex.Completable
@@ -22,6 +23,9 @@ interface BookDao {
 
     @Query("SELECT * FROM $DATABASENAME LIMIT $DATABASELIMIT")
     fun getAll(): List<BookEntity>
+
+    @Update
+    fun updateBook(bookEntity: BookEntity) : Completable
 
     @Query("SELECT COUNT(*) FROM $DATABASENAME WHERE isbn13 = :isbn13")
     fun isContains(isbn13: String): Int
