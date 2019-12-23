@@ -8,7 +8,7 @@ import com.hyden.booklibrary.data.repository.RoomRepository
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
 
-class DetailViewModel(
+class UnSavedDetailViewModel(
     private val roomRepository: RoomRepository
 ) : BaseViewModel() {
 
