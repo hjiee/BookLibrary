@@ -1,20 +1,19 @@
 package com.hyden.booklibrary.view.detail
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.booklibrary.databinding.ActivityDetailBinding
+import com.hyden.booklibrary.databinding.ActivityDetailUnsavedBinding
 import com.hyden.ext.loadUrl
 import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
 
-class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_detail) {
+class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layout.activity_detail_unsaved) {
 
-    private val detailViewModel by inject<DetailViewModel>()
+    private val detailViewModel by inject<UnSavedDetailViewModel>()
 
     private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
     private val type by lazy { intent?.getStringExtra(getString(R.string.book_detail_type)) }
@@ -23,11 +22,11 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         super.onCreate(savedInstanceState)
         detailViewModel.bookInfo(item)
         detailViewModel.isContain.observe(
-            this@DetailActivity,
+            this@UnSavedDetailActivity,
             Observer {
                 when(it) {
-                    true -> Toast.makeText(this@DetailActivity, "책장에 담았습니다.", Toast.LENGTH_SHORT).show()
-                    false -> Toast.makeText(this@DetailActivity, "이미 책장에 있습니다.", Toast.LENGTH_SHORT).show()
+                    true -> Toast.makeText(this@UnSavedDetailActivity, "책장에 담았습니다.", Toast.LENGTH_SHORT).show()
+                    false -> Toast.makeText(this@UnSavedDetailActivity, "이미 책장에 있습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         )
@@ -35,10 +34,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             Observer {
                 when(it) {
                     true -> {
-                        Toast.makeText(this@DetailActivity, "삭제 하였습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@UnSavedDetailActivity, "삭제 하였습니다.", Toast.LENGTH_SHORT).show()
                         finish()
                     }
-                    false -> Toast.makeText(this@DetailActivity, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                    false -> Toast.makeText(this@UnSavedDetailActivity, "삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             })
     }
@@ -68,7 +67,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
             if(item?.title!!.split(" - ").size > 1)
                 tvSubtitle.text = item?.title!!.split(" - ")[1] ?: ""
             tvAuthor.text = getItem(item?.author!!.split(", "))
-            tvPublisher.text = item?.publisher!!
+            tvPublisher.text = item?.publisher
+            tvPrice.text = item?.priceSales
+            tvDescription.text = item?.description
         }
     }
 
@@ -77,7 +78,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(R.layout.activity_det
         item.map {
             buffer.append("$it\n")
         }
-
         return buffer.substring(0,buffer.length-1)
     }
 }
