@@ -16,16 +16,27 @@ interface BookDao {
         bookEntity: List<BookEntity?>
     ): Completable
 
+    @Insert
+    fun insertNote(
+        bookEntity: BookEntity?
+    ): Completable
+
+
     @Query("DELETE FROM $DATABASENAME WHERE isbn13 = :isbn13")
     fun deleteBook(
         isbn13: String
     ): Completable
 
+    @Query("SELECT * FROM $DATABASENAME WHERE isbn13 = :isbn13")
+    fun getBook(
+        isbn13: String
+    ): BookEntity
+
     @Query("SELECT * FROM $DATABASENAME LIMIT $DATABASELIMIT")
     fun getAll(): List<BookEntity>
 
     @Update
-    fun updateBook(bookEntity: BookEntity) : Completable
+    fun updateBook(bookEntity: BookEntity?) : Completable
 
     @Query("SELECT COUNT(*) FROM $DATABASENAME WHERE isbn13 = :isbn13")
     fun isContains(isbn13: String): Int
