@@ -32,6 +32,7 @@ class RoomRepository(
             )
     }
 
+
     override fun deleteBook(
         isbn13: String,
         success: () -> Unit,
@@ -48,6 +49,37 @@ class RoomRepository(
                     failure.invoke(it.toString())
                 }
             )
+    }
+
+    override fun updateBook(
+        bookEntity: BookEntity?,
+        success: () -> Unit,
+        failure: (String) -> Unit
+    ): Disposable {
+        return bookDao.updateBook(bookEntity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    success.invoke()
+                },
+                {
+                    failure.invoke(it.toString())
+                }
+            )
+    }
+
+    override fun getBook(
+        isbn13: String,
+        success: (BookEntity?) -> Unit,
+        failure: (String) -> Unit
+    ): Disposable {
+        return Single.create<BookEntity> { emitter ->
+            emitter.onSuccess(bookDao.getBook(isbn13))
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+
     }
 
     override fun getAll(
