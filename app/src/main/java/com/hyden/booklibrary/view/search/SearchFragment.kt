@@ -3,7 +3,6 @@ package com.hyden.booklibrary.view.search
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +22,9 @@ import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
 import com.hyden.booklibrary.databinding.FragmentSearchBinding
 import com.hyden.booklibrary.databinding.RecyclerItemSearchBinding
 import com.hyden.booklibrary.util.QueryType
-import com.hyden.booklibrary.view.detail.DetailActivity
+import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
 import com.hyden.ext.moveToActivity
+import com.hyden.ext.showKeyboard
 import com.hyden.util.ItemClickListener
 import org.koin.android.ext.android.inject
 
@@ -51,7 +51,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             override fun <T> onItemClick(item : T) {
                 when(item) {
                     is BookItems -> {
-                        Intent(activity,DetailActivity::class.java).apply {
+                        Intent(activity,UnSavedDetailActivity::class.java).apply {
                             putExtra(getString(R.string.book_info),item.toBookEntity())
                             moveToActivity(this)
                         }
@@ -141,6 +141,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     setOnClickListener {
                         edtSearchInput.setText("")
                         showProgress()
+                        context.showKeyboard(edtSearchInput)
                         searchViewModel.searchRefresh()
                     }
                 }

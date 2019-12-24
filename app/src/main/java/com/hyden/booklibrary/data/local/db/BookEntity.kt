@@ -12,7 +12,9 @@ import kotlinx.android.parcel.Parcelize
 data class BookEntity(
     var isLiked : Boolean? = false,
     var isShared : Boolean? = false,
-    var isChated : Boolean? = false,
+    var isReviews : Boolean? = false,
+    var bookNote : String?,
+    var bookReviews : String?,
     val title: String?,
     val link: String?,
     val author: String?,

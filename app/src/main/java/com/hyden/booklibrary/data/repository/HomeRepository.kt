@@ -38,34 +38,6 @@ class HomeRepository(
             put("output", output)
             put("cover", cover)
         }).subscribeOn(Schedulers.io())
-//            .flatMap {
-//                queryTypeName = "ItemNewSpecial"
-//                bookApi.bookInfo(HashMap<String, Any>().apply {
-//                    put("ttbkey", ttbkey)
-//                    put("start", page)
-//                    put("version", version)
-//                    put("searchtarget", searchtarget)
-//                    put("querytype", queryTypeName)
-//                    put("categoryid", 0)
-//                    put("maxresults", maxresults)
-//                    put("output", output)
-//                    put("cover", cover)
-//                })
-//            }
-//            .flatMap {
-//                queryTypeName = "ItemEditorChoice"
-//                bookApi.bookInfo(HashMap<String, Any>().apply {
-//                    put("ttbkey", ttbkey)
-//                    put("start", page)
-//                    put("version", version)
-//                    put("searchtarget", searchtarget)
-//                    put("querytype", queryTypeName)
-//                    put("categoryid", 0)
-//                    put("maxresults", maxresults)
-//                    put("output", output)
-//                    put("cover", cover)
-//                })
-//            }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {

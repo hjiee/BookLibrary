@@ -38,6 +38,10 @@
     <string name="setting_summary_setting">설정</string>
     <string name="setting_key_setting">setting</string>
 
+    <string name="setting_start_view">시작화면 설정</string>
+    <string name="setting_summary_start_view">시작화면을 변경합니다</string>
+    <string name="setting_key_start_view">start_view</string>
+
     <string name="setting_title_theme">테마설정</string>
     <string name="setting_summary_theme">테마 색상을 변경합니다</string>
     <string name="setting_key_theme">theme</string>

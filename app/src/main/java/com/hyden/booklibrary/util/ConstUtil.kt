@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.ext.numberFormatter
 import kotlinx.android.synthetic.main.dialog_book_info.view.*
 
 class ConstUtil {
     companion object {
         const val DATABASENAME = "book"
         const val DATABASELIMIT = 30
-
         const val BOOK_BLOGBEST = "BLOGBEST"
         const val BOOK_BESTSELLER = "BESTSELLER"
         const val BOOK_ITEMNEW = "ITEMNEWSPECIAL"
         const val BOOK_ITEMNEWALL = "ITEMNEWALL"
+        const val BOOK_NOTE_REQUEST_CODE = 1224
     }
 }
 
@@ -37,7 +38,7 @@ fun Context.dialogBookInfo(info: BookEntity?) {
 
         view.tv_author.text = info?.author
         view.tv_publisher.text = info?.publisher
-        view.tv_price.text = info?.priceSales
+        view.tv_price.text = info?.priceSales?.numberFormatter()
         view.tv_description.text = info?.description
 
         setTitle(info?.title)

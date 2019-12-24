@@ -23,7 +23,7 @@ import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BLOGBEST
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEWALL
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASELIMIT
-import com.hyden.booklibrary.view.detail.DetailActivity
+import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
 import com.hyden.ext.loadUrl
 import com.hyden.ext.moveToActivity
 import com.hyden.util.ImageTransformType
@@ -31,7 +31,6 @@ import com.hyden.util.ItemClickListener
 import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
@@ -48,7 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             override fun <T> onItemClick(item: T) {
                 when (item) {
                     is BookItems -> {
-                        Intent(activity, DetailActivity::class.java).apply {
+                        Intent(activity, UnSavedDetailActivity::class.java).apply {
                             putExtra(getString(R.string.book_info), item.toBookEntity())
                             moveToActivity(this)
                         }
@@ -91,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                                         homeViewModel.bookBlogBest.value!![rand].cover,
                                         ImageTransformType.ROUND
                                     )
-                                },3000)
+                                }, 3000)
                                 LogW("$it : $rand")
                                 binding.ivBookCover.loadUrl(
                                     homeViewModel.bookBlogBest.value!![rand].cover,
@@ -127,7 +126,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         layoutId = R.layout.recycler_item_home,
                         bindingVariableId = BR.response,
                         clickItemEvent = itemClickListener
-                    ) {}
+                    ) {
+
+                }
                 addOnScrollListener(endLessScrollListener1(BOOK_BESTSELLER))
             }
             rvBookNew.apply {

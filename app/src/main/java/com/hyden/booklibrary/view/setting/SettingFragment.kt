@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.hyden.booklibrary.BuildConfig
 import com.hyden.booklibrary.R
+import com.hyden.booklibrary.util.getPreferenceStartView
+import com.hyden.booklibrary.util.getPreferenceTheme
+import com.hyden.booklibrary.util.setPreferenceStartView
+import com.hyden.booklibrary.util.setPreferenceTheme
+import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
 import com.hyden.ext.moveToActivity
 
@@ -29,15 +33,16 @@ class SettingFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting, rootKey)
         changeTheme()
-        setSendToMail()
-        setSendToEvaluation()
-        setSendToDonate()
+        changeStartView()
+        sendToMail()
+        sendToEvaluation()
+        sendToDonate()
         infoAppVersion()
         infoOpenSourceLicense()
         preferenceManager.context.setTheme(R.style.PreferenceTheme)
     }
 
-    private fun setSendToMail() {
+    private fun sendToMail() {
         findPreference<Preference>(getString(R.string.setting_key_question))?.apply {
             setOnPreferenceClickListener {
                 Intent(Intent.ACTION_SEND).apply {
@@ -60,20 +65,40 @@ class SettingFragment : PreferenceFragmentCompat() {
 
     private fun changeTheme() {
         findPreference<ListPreference>(getString(R.string.setting_key_theme))?.apply {
-            summary = this.value
+            summary = getPreferenceTheme()
             setOnPreferenceClickListener {
                 true
             }
             setOnPreferenceChangeListener { preference, newValue ->
                 preference.summary = newValue.toString()
+                setPreferenceTheme(newValue.toString())
+                Intent(activity,MainActivity::class.java).apply {
+                    putExtra("theme",true)
+                    moveToActivity(this)
+                }
+                activity?.finish()
                 true
             }
         }
     }
-    private fun setSendToEvaluation() {
+
+    private fun changeStartView() {
+        findPreference<ListPreference>(getString(R.string.setting_key_start_view))?.apply {
+            summary = getPreferenceStartView()
+            setOnPreferenceClickListener {
+                true
+            }
+            setOnPreferenceChangeListener { preference, newValue ->
+                preference.summary = newValue.toString()
+                setPreferenceStartView(newValue.toString())
+                true
+            }
+        }
+    }
+    private fun sendToEvaluation() {
     }
 
-    private fun setSendToDonate() {
+    private fun sendToDonate() {
         findPreference<Preference>(getString(R.string.setting_key_donate))?.apply {
             setOnPreferenceClickListener {
                 true

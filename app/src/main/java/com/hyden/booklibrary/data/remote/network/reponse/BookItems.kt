@@ -1,16 +1,17 @@
 package com.hyden.booklibrary.data.remote.network.reponse
 
-import android.os.Parcel
 import android.os.Parcelable
 import com.hyden.booklibrary.data.local.db.BookEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BookItems(
-    var isSavaed : Boolean = false,
-    var isLiked : Boolean = false,
-    var isShared : Boolean = false,
-    var isChated : Boolean = false,
+    var isSavaed: Boolean = false,
+    var isLiked: Boolean = false,
+    var isShared: Boolean = false,
+    var isChated: Boolean = false,
+    var bookNote: String?,
+    var bookReviews: String?,
     val title: String?,
     val link: String?,
     val author: String?,
@@ -33,13 +34,15 @@ data class BookItems(
     val fixedPrice: String?,
     val customerReviewRank: String?,
     val bestRank: String?
-) : Parcelable { }
+) : Parcelable
 
 fun BookItems.toBookEntity(): BookEntity =
     BookEntity(
         isLiked,
         isShared,
         isChated,
+        bookNote,
+        bookReviews,
         title,
         link,
         author,
