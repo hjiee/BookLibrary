@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.view.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -7,10 +8,14 @@ import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.databinding.ActivityDetailSavedBinding
+import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
 import com.hyden.booklibrary.util.deleteBook
 import com.hyden.booklibrary.util.dialogBookInfo
 import com.hyden.booklibrary.util.dialogSimple
+import com.hyden.booklibrary.view.note.NoteActivity
 import com.hyden.ext.loadUrl
+import com.hyden.ext.moveToActivity
+import com.hyden.ext.moveToActivityForResult
 import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
 
@@ -19,7 +24,8 @@ class SavedDetailActivity :
 
     private val detailViewModel by inject<SavedDetailViewModel>()
 
-    private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
+//    private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
+    var item : BookEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +64,8 @@ class SavedDetailActivity :
             })
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-    }
-
     override fun initBind() {
+        item = intent?.getParcelableExtra(getString(R.string.book_info))
         binding.apply {
             vm = detailViewModel
             ibDelete.apply {
@@ -71,6 +73,7 @@ class SavedDetailActivity :
                     deleteBook { detailViewModel.deleteBook(item?.isbn13!!) }
                 }
             }
+            ibBack.setOnClickListener { finish() }
             ibInfo.apply {
                 setOnClickListener {
                     dialogBookInfo(item)
@@ -85,10 +88,10 @@ class SavedDetailActivity :
                 }
             }
             ivChat.apply {
-                isSelected = item?.isChated ?: false
+                isSelected = item?.isReviews ?: false
                 setOnClickListener {
                     isSelected = isSelected.not()
-                    item?.isChated = isSelected
+                    item?.isReviews = isSelected
                     detailViewModel.bookUpdate(item!!)
                 }
             }
@@ -109,11 +112,27 @@ class SavedDetailActivity :
                 }
             }
             ibEdit.apply { 
-                setOnClickListener { 
-                    Toast.makeText(context, "감상글을 수정합니다.", Toast.LENGTH_SHORT).show()
+                setOnClickListener {
+                    Intent(this@SavedDetailActivity,NoteActivity::class.java).apply {
+                        putExtra(getString(R.string.book_info),item)
+                        moveToActivityForResult(this)
+                    }
+//                    Toast.makeText(context, "감상글을 수정합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
+            tvTitle.text = item?.title!!.split(" - ")[0]
             ivBookCover.loadUrl(item?.cover, ImageTransformType.FIT)
+
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            BOOK_NOTE_REQUEST_CODE -> {
+                item = data?.getParcelableExtra("data") as? BookEntity
+                binding.tvNoteContent.text = item?.bookNote
+            }
         }
     }
 

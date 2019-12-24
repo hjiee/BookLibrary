@@ -33,11 +33,6 @@ class OpenSourceActivity : BaseActivity<ActivityOpensourceLicenseBinding>(R.layo
 //        licenseInfo.add(OpenSourceModel(getString(R.string.title_license_rxandroid),getString(R.string.content_license_rxandroid)))
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-    }
-
     override fun initBind() {
         binding.apply {
             ivBack.setOnClickListener { finish() }

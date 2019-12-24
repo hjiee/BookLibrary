@@ -8,12 +8,12 @@
 
     <application
         android:name=".HomeApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/NoActionBarTheme">
+        android:theme="@style/NoActionBarThemeDark">
         <activity
             android:name=".view.MainActivity"
             android:windowSoftInputMode="adjustPan">
@@ -28,7 +28,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.detail.DetailActivity"/>
+        <activity android:name=".view.detail.UnSavedDetailActivity"/>
+        <activity
+            android:windowSoftInputMode="adjustPan"
+            android:name=".view.note.NoteActivity"/>
+        <activity android:name=".view.detail.SavedDetailActivity"/>
         <activity android:name=".view.OpenSourceActivity" >
             <intent-filter>
                 <action android:name="view"/>

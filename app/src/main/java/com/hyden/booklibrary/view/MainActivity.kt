@@ -6,6 +6,8 @@ import android.widget.Toast
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityMainBinding
+import com.hyden.booklibrary.util.getPreferenceStartView
+import com.hyden.booklibrary.util.getPreferenceTheme
 import com.hyden.booklibrary.view.feed.FeedFragment
 import com.hyden.booklibrary.view.home.HomeFragment
 import com.hyden.booklibrary.view.library.LibraryFragment
@@ -20,8 +22,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var toast: Toast
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initTheme(getPreferenceTheme())
         super.onCreate(savedInstanceState)
-        replaceFragment(HomeFragment.newInstance(), binding.flContainer.id)
+        if (intent.getBooleanExtra("theme", false)) {
+            replaceFragment(SettingFragment.newInstance(), binding.flContainer.id)
+            binding.bnvMenu.selectedItemId = R.id.menu_setting
+        } else {
+            when (getPreferenceStartView()) {
+                "홈" -> {
+                    replaceFragment(HomeFragment.newInstance(), binding.flContainer.id)
+                    binding.bnvMenu.selectedItemId = R.id.menu_home
+                }
+                "검색" -> {
+                    replaceFragment(SearchFragment.newInstance(), binding.flContainer.id)
+                    binding.bnvMenu.selectedItemId = R.id.menu_search
+                }
+                "감상노트" -> {
+                    replaceFragment(FeedFragment.newInstance(), binding.flContainer.id)
+                    binding.bnvMenu.selectedItemId = R.id.menu_feed
+                }
+                "책꽂이" -> {
+                    replaceFragment(LibraryFragment.newInstance(), binding.flContainer.id)
+                    binding.bnvMenu.selectedItemId = R.id.menu_library
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -39,6 +64,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             toast.cancel()
         }
 
+    }
+
+    fun initTheme(themeName: String) {
+        when (themeName) {
+            "블랙" -> {
+                setTheme(R.style.NoActionBarThemeDark)
+            }
+            "화이트" -> {
+                setTheme(R.style.NoActionBarThemeWhite)
+            }
+            "블루" -> {
+            }
+            "핑크" -> {
+            }
+            "그레이" -> {
+            }
+        }
     }
 
     override fun initBind() {

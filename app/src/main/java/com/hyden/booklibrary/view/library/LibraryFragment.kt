@@ -1,13 +1,8 @@
 package com.hyden.booklibrary.view.library
 
-import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.library.baseAdapters.BR
 import com.hyden.base.BaseFragment
@@ -17,8 +12,10 @@ import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import com.hyden.booklibrary.databinding.FragmentLibraryBinding
 import com.hyden.booklibrary.databinding.RecyclerItemLibraryBinding
+import com.hyden.booklibrary.util.deleteBook
 import com.hyden.booklibrary.util.longClickVibrate
-import com.hyden.booklibrary.view.detail.DetailActivity
+import com.hyden.booklibrary.view.detail.SavedDetailActivity
+import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
 import com.hyden.util.ItemClickListener
 import com.hyden.util.ItemLongClickListener
 import org.koin.android.ext.android.inject
@@ -42,17 +39,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
                 when (item) {
                     is BookEntity -> {
                         longClickVibrate()
-                        AlertDialog.Builder(context!!,R.style.DeleteDialog).apply {
-                            setTitle(getString(R.string.app_name))
-                            setMessage("책에 저장된 정보가 삭제됩니다.\n정말 삭제하시겠습니까?")
-                            setPositiveButton("삭제") { _,_ ->
-                                deleteBook(item.isbn13)
-                            }
-                            setNegativeButton("취소") { _,_ ->
-
-                            }
-                        }.show()
-
+                        context?.deleteBook { deleteBook(item.isbn13) }
                     }
                 }
                 return true
@@ -91,9 +78,8 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
     }
 
     private fun moveToActivity(item : BookEntity) {
-        Intent(activity, DetailActivity::class.java).apply {
+        Intent(activity, SavedDetailActivity::class.java).apply {
             putExtra(getString(R.string.book_info), item)
-            putExtra(getString(R.string.book_detail_type), getString(R.string.book_detail_type_value))
             startActivity(this)
             activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }

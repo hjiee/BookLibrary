@@ -8,6 +8,7 @@ import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.databinding.ActivityDetailUnsavedBinding
 import com.hyden.ext.loadUrl
+import com.hyden.ext.numberFormatter
 import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
 
@@ -42,11 +43,6 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
             })
     }
 
-    override fun finish() {
-        super.finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-    }
-
     override fun initBind() {
         binding.apply {
             vm = detailViewModel
@@ -68,7 +64,7 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
                 tvSubtitle.text = item?.title!!.split(" - ")[1] ?: ""
             tvAuthor.text = getItem(item?.author!!.split(", "))
             tvPublisher.text = item?.publisher
-            tvPrice.text = item?.priceSales
+            tvPrice.text = item?.priceSales?.numberFormatter()
             tvDescription.text = item?.description
         }
     }

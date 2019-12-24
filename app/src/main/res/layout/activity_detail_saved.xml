@@ -25,6 +25,16 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextStyle"
+                    app:layout_constraintTop_toTopOf="@id/ib_back"
+                    app:layout_constraintBottom_toBottomOf="@id/ib_back"
+                    app:layout_constraintLeft_toRightOf="@id/ib_back"
+                    app:layout_constraintRight_toLeftOf="@id/ib_info"/>
                 <ImageButton
                     android:id="@+id/ib_back"
                     android:layout_width="wrap_content"
@@ -147,11 +157,12 @@
             app:layout_constraintTop_toBottomOf="@id/view_line"/>
 
         <TextView
+            android:id="@+id/tv_note_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:text="등록된 감상글이 없습니다."
+            android:text="@{vm.detailInfo.bookNote}"
             android:textColor="@color/colorWhite"
             app:layout_constraintRight_toRightOf="@id/view_line"
             app:layout_constraintLeft_toLeftOf="@id/view_line"
