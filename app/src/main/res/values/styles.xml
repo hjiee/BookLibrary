@@ -8,12 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="NoActionBarTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <!--기본 배경 테마-->
+    <style name="NoActionBarThemeDark" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/colorLightBlack3</item>
         <item name="android:windowBackground">@color/colorLightBlack3</item>
         <item name="bottomNavigationStyle">@color/colorLightBlack3</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="NoActionBarThemeWhite" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorWhite</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="bottomNavigationStyle">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:windowLightStatusBar">true</item> <!--status bar text color change-->
+    </style>
+
+    <!--삭제확인 다이얼로그 테마-->
     <style name="DeleteDialog" parent="Theme.MaterialComponents.Dialog.Alert.Bridge">
         <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
         <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
@@ -22,15 +33,15 @@
     <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="rippleColor">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="TextStyle">
@@ -39,7 +50,6 @@
     </style>
 
     <style name="TextTitleStyle">
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textColorSecondary">@color/colorWhite</item>
         <item name="android:textSize">20sp</item>
         <item name="android:layout_marginStart">5dp</item>
@@ -55,15 +65,12 @@
     </style>
 
     <style name="TableTextRightStyle">
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:ellipsize">end</item>
         <item name="android:layout_weight">1</item>
     </style>
 
 
     <style name="SpinnerStyle" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
-        <item name="android:textColorSecondary">@color/colorWhite</item>
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:colorAccent">@color/colorWhite</item>
         <item name="android:textAppearance">@color/colorWhite</item>
 
@@ -71,7 +78,12 @@
 
     <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
         <item name="android:colorAccent">@color/colorAccent</item>
-        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textColorSecondary">@color/colorPaltte5</item>
     </style>
+
+    <style name="TEST_dsd">
+
+    </style>
+
+
 </resources>

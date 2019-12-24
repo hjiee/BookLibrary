@@ -19,12 +19,14 @@
             android:entries="@array/theme"
             android:entryValues="@array/theme"
             android:key="@string/setting_key_theme"
-            app:iconSpaceReserved="true">
-        </ListPreference>
+            app:iconSpaceReserved="true"/>
 
-        <Preference
-            android:summary="@string/setting_summary_setting"
-            android:title="@string/setting_title_setting"
+        <ListPreference
+            android:summary="@string/setting_summary_start_view"
+            android:title="@string/setting_start_view"
+            android:entries="@array/start_view"
+            android:entryValues="@array/start_view"
+            android:key="@string/setting_key_start_view"
             app:iconSpaceReserved="true" />
 
         <Preference

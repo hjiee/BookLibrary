@@ -14,6 +14,14 @@
         <item>화이트</item>
         <item>블루</item>
         <item>핑크</item>
+        <item>그레이</item>
+    </string-array>
+
+    <string-array name="start_view">
+        <item>홈</item>
+        <item>검색</item>
+        <item>감상노트</item>
+        <item>책꽂이</item>
     </string-array>
 
     <string-array name="search">
