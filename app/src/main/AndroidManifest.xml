@@ -3,8 +3,8 @@
     package="com.hyden.booklibrary">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".HomeApplication"
@@ -28,14 +28,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.detail.UnSavedDetailActivity"/>
-        <activity
-            android:windowSoftInputMode="adjustPan"
-            android:name=".view.note.NoteActivity"/>
-        <activity android:name=".view.detail.SavedDetailActivity"/>
-        <activity android:name=".view.OpenSourceActivity" >
+        <activity android:name=".view.detail.UnSavedDetailActivity" />
+        <activity android:name=".view.note.NoteActivity" />
+        <activity android:name=".view.detail.SavedDetailActivity" />
+        <activity android:name=".view.OpenSourceActivity">
             <intent-filter>
-                <action android:name="view"/>
+                <action android:name="view" />
             </intent-filter>
         </activity>
 
