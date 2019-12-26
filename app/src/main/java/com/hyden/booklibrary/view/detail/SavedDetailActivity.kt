@@ -99,7 +99,7 @@ class SavedDetailActivity :
                 isSelected = item?.isShared ?: false
                 setOnClickListener {
                     if (!isSelected) {
-                        dialogSimple("책정보를 공유 하시겠습니까?") {
+                        dialogSimple("감상노트를 공유 하시겠습니까?") {
                             isSelected = isSelected.not()
                             sharedCheck(isSelected = isSelected)
                         }

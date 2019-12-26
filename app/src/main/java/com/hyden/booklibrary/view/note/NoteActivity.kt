@@ -33,7 +33,6 @@ class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_boo
 
     override fun initBind() {
         binding.apply {
-            showKeyboard(edtNoteContent)
             ibBack.setOnClickListener { finish() }
             ibDone.setOnClickListener {
                 saveNote()
@@ -41,7 +40,10 @@ class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_boo
                 finish()
             }
             tvTitle.text = item?.title!!.split(" - ")[0]
-            edtNoteContent.setText(item?.bookNote)
+            edtNoteContent.apply {
+                setText(item?.bookNote)
+                showKeyboard(this)
+            }
         }
     }
 

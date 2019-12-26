@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.library.BuildConfig
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.hyden.booklibrary.BuildConfig
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.util.getPreferenceStartView
 import com.hyden.booklibrary.util.getPreferenceTheme
