@@ -24,7 +24,7 @@
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/rvl_refresh"
+            android:id="@+id/srvl_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
