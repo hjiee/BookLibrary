@@ -53,7 +53,6 @@ dependencies {
 
     api project(':base')
 
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
@@ -90,10 +89,20 @@ dependencies {
     implementation "androidx.room:room-guava:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // Firebase
+    def firebase_analytics_version = "17.2.1"
+    def firebase_firestore_version = "21.3.1"
+    def firebase_version = "19.2.0"
+    implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
+    implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation "com.google.firebase:firebase-firestore:$firebase_firestore_version"
+
+
     // Stetho
     def stetho_version = '1.5.1'
     implementation "com.facebook.stetho:stetho:$stetho_version"
 
 }
 
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'

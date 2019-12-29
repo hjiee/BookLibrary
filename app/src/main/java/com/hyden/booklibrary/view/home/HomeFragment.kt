@@ -122,7 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             vm = homeViewModel
             rvBookBestseller.apply {
                 adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding, BookItems>(
+                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding>(
                         layoutId = R.layout.recycler_item_home,
                         bindingVariableId = BR.response,
                         clickItemEvent = itemClickListener
@@ -133,7 +133,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
             rvBookNew.apply {
                 adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding, BookItems>(
+                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding>(
                         layoutId = R.layout.recycler_item_home,
                         bindingVariableId = BR.response,
                         clickItemEvent = itemClickListener
@@ -142,7 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
             rvBookAll.apply {
                 adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding, BookItems>(
+                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding>(
                         layoutId = R.layout.recycler_item_home,
                         bindingVariableId = BR.response,
                         clickItemEvent = itemClickListener

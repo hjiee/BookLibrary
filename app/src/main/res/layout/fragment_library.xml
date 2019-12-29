@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/rvl_refresh"
+            android:id="@+id/srvl_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

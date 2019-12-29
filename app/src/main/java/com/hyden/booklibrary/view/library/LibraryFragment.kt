@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.library.baseAdapters.BR
+import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.base.BaseFragment
 import com.hyden.base.BaseRecyclerView
 import com.hyden.booklibrary.R
@@ -49,6 +50,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun onResume() {
@@ -61,7 +63,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
             vm = libraryViewModel
             rvBookself.apply {
                 adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemLibraryBinding, BookEntity>(
+                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemLibraryBinding>(
                         layoutId = R.layout.recycler_item_library,
                         bindingVariableId = BR.response,
                         clickItemEvent = itemClickListener,
@@ -69,7 +71,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
                     ) {}
 
             }
-            rvlRefresh.apply {
+            srvlRefresh.apply {
                 setOnRefreshListener {
                     isRefreshing = false
                 }

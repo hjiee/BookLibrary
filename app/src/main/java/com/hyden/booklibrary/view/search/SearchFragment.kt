@@ -115,7 +115,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             // 리사이클러 뷰
             rvBook.apply {
                 adapter = object :
-                    BaseRecyclerView.Adapter<SearchResponse, RecyclerItemSearchBinding, BookItems>(
+                    BaseRecyclerView.Adapter<SearchResponse, RecyclerItemSearchBinding>(
                         layoutId = R.layout.recycler_item_search,
                         bindingVariableId = BR.search,
                         clickItemEvent = itemClickListener
@@ -167,7 +167,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 }
             }
             // 리사이클러뷰 새로고침
-            rvlRefresh.apply {
+            srvlRefresh.apply {
                 setOnRefreshListener {
                     showProgress()
                     searchViewModel.searchRefresh(
