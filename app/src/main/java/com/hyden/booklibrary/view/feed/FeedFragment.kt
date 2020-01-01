@@ -11,8 +11,12 @@ import com.hyden.base.BaseFragment
 import com.hyden.base.BaseRecyclerView
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.model.Feed
+import com.hyden.booklibrary.data.model.User
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
+import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_ID
+import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_NAME
 import com.hyden.booklibrary.view.detail.SavedDetailViewModel
 import com.hyden.util.ItemClickListener
 import org.koin.android.ext.android.inject
@@ -63,7 +67,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
         binding.apply {
             vm = feedViewModel
             rvBookFeed.apply {
-                adapter = object : BaseRecyclerView.Adapter<BookEntity, RecyclerItemFeedBinding>(
+                adapter = object : BaseRecyclerView.Adapter<Feed, RecyclerItemFeedBinding>(
                     layoutId = R.layout.recycler_item_feed,
                     bindingVariableId = BR.response,
                     clickItemEvent = itemClickListener
@@ -79,7 +83,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                                     ivLike?.setOnClickListener { view ->
                                         view.isSelected = view.isSelected.not()
                                         feedViewModel.pushLiked(holder.adapterPosition, view.isSelected)
-                                        savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition])
+                                        savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
                                     }
                                 }
                             )
@@ -97,7 +101,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                     ) {
                         super.onBindViewHolder(holder, position)
                         feedViewModel.feedItems.value?.let {
-                            holder.binding?.ivLike?.isSelected = it[position].isLiked ?: false
+                            holder.binding?.ivLike?.isSelected =
+                                it[position].likesInfo.users?.contains(User(LOGIN_ID, LOGIN_NAME)) ?: false
                         }
 
                     }
