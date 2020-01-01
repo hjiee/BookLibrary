@@ -17,6 +17,8 @@ class ConstUtil {
         const val BOOK_ITEMNEW = "ITEMNEWSPECIAL"
         const val BOOK_ITEMNEWALL = "ITEMNEWALL"
         const val BOOK_NOTE_REQUEST_CODE = 1224
+        const val LOGIN_ID = "hjiee"
+        const val LOGIN_NAME = "hyojin"
     }
 }
 

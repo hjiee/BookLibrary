@@ -1,6 +1,7 @@
 package com.hyden.booklibrary.data.repository.source
 
 import com.hyden.booklibrary.BuildConfig
+import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -16,7 +17,7 @@ interface HomeDataSource {
         maxresults: Int = 30,                   // 검색결과 한 페이지당 최대 출력 개수
         output: String = "js",                  // 출력방법패
         cover : String = "big",                 // 표지크기
-        success: (BookResponse, String) -> Unit,        // 성공
+        success: (List<BookItems>, String) -> Unit,        // 성공
         failure: (String) -> Unit               // 실패
     ) : Disposable
 }

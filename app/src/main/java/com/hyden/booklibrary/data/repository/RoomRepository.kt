@@ -23,12 +23,8 @@ class RoomRepository(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    success.invoke()
-                },
-                {
-                    failure.invoke(it.toString())
-                }
+                { success.invoke() },
+                { failure.invoke(it.toString()) }
             )
     }
 
@@ -42,12 +38,8 @@ class RoomRepository(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    success.invoke()
-                },
-                {
-                    failure.invoke(it.toString())
-                }
+                { success.invoke() },
+                { failure.invoke(it.toString()) }
             )
     }
 
@@ -60,12 +52,8 @@ class RoomRepository(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    success.invoke()
-                },
-                {
-                    failure.invoke(it.toString())
-                }
+                { success.invoke() },
+                { failure.invoke(it.toString()) }
             )
     }
 
@@ -78,7 +66,10 @@ class RoomRepository(
             emitter.onSuccess(bookDao.getBook(isbn13))
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
+            .subscribe(
+                { success.invoke(it) },
+                { failure.invoke(it.toString()) }
+            )
 
     }
 
@@ -91,12 +82,8 @@ class RoomRepository(
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    success.invoke(it)
-                },
-                {
-                    failure.invoke(it.toString())
-                }
+                { success.invoke(it) },
+                { failure.invoke(it.toString()) }
             )
     }
 

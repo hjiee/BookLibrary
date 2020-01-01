@@ -12,7 +12,7 @@
 
         <variable
             name="response"
-            type="com.hyden.booklibrary.data.local.db.BookEntity" />
+            type="com.hyden.booklibrary.data.model.Feed" />
 
         <variable
             name="vm"
@@ -36,7 +36,7 @@
                 android:id="@+id/iv_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                loadUrl="@{response.cover}"
+                loadUrl="@{response.bookEntity.cover}"
                 tranformType="@{type.CIRCLE}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -52,7 +52,7 @@
 
             <ImageView
                 android:id="@+id/img_book_cover"
-                loadUrl="@{response.cover}"
+                loadUrl="@{response.bookEntity.cover}"
                 tranformType="@{type.FIT}"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -66,7 +66,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{response.title.split(` - `)[0]}"
+                android:text="@{(response.bookEntity.title.split(` - `)[0] == null || response.bookEntity.title.split(` - `)[0] == `null`) ? `책정보가 없습니다.` : response.bookEntity.title.split(` - `)[0]}"
                 style="@style/TextStyle"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@{response.bookNote == `null` ? `` : response.bookNote }"
+                android:text="@{(response.bookEntity.bookNote == `null` || response.bookEntity.bookNote == null) ? `` : response.bookEntity.bookNote }"
                 app:layout_constraintTop_toBottomOf="@+id/iv_like" />
 
 

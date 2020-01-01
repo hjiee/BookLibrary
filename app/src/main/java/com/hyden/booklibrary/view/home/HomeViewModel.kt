@@ -56,20 +56,12 @@ class HomeViewModel(
                 page = page,
                 querytype = queryType,
                 searchtarget = searchTarget,
-                success = { data, query ->
+                success = { item, query ->
                     when (query) {
-                        BOOK_BLOGBEST -> {
-                            bookBlohBest(data.item)
-                        }
-                        BOOK_BESTSELLER -> {
-                            bookBestSeller(data.item)
-                        }
-                        BOOK_ITEMNEW -> {
-                            bookNew(data.item)
-                        }
-                        BOOK_ITEMNEWALL -> {
-                            bookAll(data.item)
-                        }
+                        BOOK_BLOGBEST   -> { bookBlogBest(item) }
+                        BOOK_BESTSELLER -> { bookBestSeller(item) }
+                        BOOK_ITEMNEW    -> { bookNew(item) }
+                        BOOK_ITEMNEWALL -> { bookAll(item) }
                     }
                 },
                 failure = {
@@ -79,43 +71,43 @@ class HomeViewModel(
         )
     }
 
-    private fun bookBlohBest(data : List<BookItems>?) {
+    private fun bookBlogBest(data : List<BookItems>) {
         _bookBlogBest.value = data
     }
 
-    private fun bookBestSeller(data: List<BookItems>?) {
+    private fun bookBestSeller(data: List<BookItems>) {
         if (_isRefreshingBestSeller.value ?: true) {
-            _bookBestSeller.value = data ?: emptyList()
+            _bookBestSeller.value = data
         } else {
             _bookBestSeller.value = _bookBestSeller.value?.let {
                 it.toMutableList().apply {
-                    addAll(data ?: emptyList())
+                    addAll(data)
                 }
             }
         }
         _isRefreshingBestSeller.value = false
     }
 
-    private fun bookNew(data: List<BookItems>?) {
+    private fun bookNew(data: List<BookItems>) {
         if (_isRefreshingNew.value ?: true) {
             _bookNew.value = data ?: emptyList()
         } else {
             _bookNew.value = _bookNew.value?.let {
                 it.toMutableList().apply {
-                    addAll(data ?: emptyList())
+                    addAll(data)
                 }
             }
         }
         _isRefreshingNew.value = false
     }
 
-    private fun bookAll(data: List<BookItems>?) {
+    private fun bookAll(data: List<BookItems>) {
         if (_isRefreshingAll.value ?: true) {
-            _bookAll.value = data ?: emptyList()
+            _bookAll.value = data
         } else {
             _bookAll.value = _bookAll.value?.let {
                 it.toMutableList().apply {
-                    addAll(data ?: emptyList())
+                    addAll(data)
                 }
             }
         }
@@ -127,12 +119,8 @@ class HomeViewModel(
         compositeDisposable.add(
             roomRepository.isContains(
                 isbn13 = isbn13,
-                success = {
-                    result = it
-                },
-                failure = {
-                    result = it
-                }
+                success = { result = it },
+                failure = { result = it }
             )
         )
         return result
