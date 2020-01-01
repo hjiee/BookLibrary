@@ -17,12 +17,8 @@ class LibraryViewModel(
     fun loadBook() {
         compositeDisposable.add(
             roomRepository.getAll(
-                success = {
-                    _bookData.value = it
-                },
-                failure = {
-                    LogE("ERROR : $it")
-                }
+                success = { _bookData.value = it },
+                failure = { LogE("ERROR : $it") }
             )
         )
     }
@@ -33,12 +29,8 @@ class LibraryViewModel(
         compositeDisposable.add(
             roomRepository.deleteBook(
                 isbn13 = isbn13,
-                success = {
-                    loadBook()
-                },
-                failure = {
-                    LogE("ERROR : $it")
-                }
+                success = { loadBook() },
+                failure = { LogE("ERROR : $it") }
             )
         )
     }

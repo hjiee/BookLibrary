@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.di
 
+import com.hyden.booklibrary.view.MainViewModel
 import com.hyden.booklibrary.view.detail.SavedDetailViewModel
 import com.hyden.booklibrary.view.detail.UnSavedDetailViewModel
 import com.hyden.booklibrary.view.feed.FeedViewModel
@@ -20,4 +21,5 @@ val viewModelModule = module {
     viewModel { SavedDetailViewModel(get()) }
     viewModel { NoteViewModel(get()) }
     viewModel { FeedViewModel() }
+    viewModel { MainViewModel() }
 }

@@ -14,12 +14,15 @@ import com.hyden.booklibrary.view.library.LibraryFragment
 import com.hyden.booklibrary.view.search.SearchFragment
 import com.hyden.booklibrary.view.setting.SettingFragment
 import com.hyden.ext.replaceFragment
+import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private var currentNavigationView: Int = -1
     private var backKeyPressedTime = 0L
     private lateinit var toast: Toast
+
+    private val mainViewModel by inject<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTheme(getPreferenceTheme())

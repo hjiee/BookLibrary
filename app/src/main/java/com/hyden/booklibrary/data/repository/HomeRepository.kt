@@ -1,6 +1,7 @@
 package com.hyden.booklibrary.data.repository
 
 import com.hyden.booklibrary.data.remote.BookApi
+import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import com.hyden.booklibrary.data.repository.source.HomeDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +24,7 @@ class HomeRepository(
         maxresults: Int,
         output: String,
         cover: String,
-        success: (BookResponse, String) -> Unit,
+        success: (List<BookItems>, String) -> Unit,
         failure: (String) -> Unit
     ): Disposable {
         queryTypeName = querytype
@@ -42,7 +43,9 @@ class HomeRepository(
             .subscribe(
                 {
                     val queryTypeName = it.query.split("=",";")[1]
-                    success.invoke(it,queryTypeName)
+                    if(it == null) success.invoke(emptyList(),queryTypeName)
+                    else if(it.item !=null) success.invoke(it.item,queryTypeName)
+                    else failure.invoke("Item is Null")
                 },
                 {
                     failure.invoke(it.toString())
