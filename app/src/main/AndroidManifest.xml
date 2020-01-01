@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".view.splash.SplashActivity" />
         <activity android:name=".view.detail.UnSavedDetailActivity" />
         <activity android:name=".view.note.NoteActivity" />
         <activity android:name=".view.detail.SavedDetailActivity" />
