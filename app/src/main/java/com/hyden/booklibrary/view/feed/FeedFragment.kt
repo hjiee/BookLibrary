@@ -15,8 +15,6 @@ import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.data.model.User
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
-import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_ID
-import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_NAME
 import com.hyden.booklibrary.view.detail.SavedDetailViewModel
 import com.hyden.util.ItemClickListener
 import org.koin.android.ext.android.inject
@@ -83,7 +81,9 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                                     ivLike?.setOnClickListener { view ->
                                         view.isSelected = view.isSelected.not()
                                         feedViewModel.pushLiked(holder.adapterPosition, view.isSelected)
-                                        savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
+                                        feedViewModel.isSharedUser.value?.let {
+                                            if(it) savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
+                                        }
                                     }
                                 }
                             )
@@ -100,9 +100,9 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         position: Int
                     ) {
                         super.onBindViewHolder(holder, position)
-                        feedViewModel.feedItems.value?.let {
-                            holder.binding?.ivLike?.isSelected =
-                                it[position].likesInfo.users?.contains(User(LOGIN_ID, LOGIN_NAME)) ?: false
+                        feedViewModel.feedItems.value?.let { feedItems ->
+//                            holder.binding?.ivLike?.isSelected = it[position].likesInfo.users?.contains(User(LOGIN_ID, LOGIN_NAME)) ?: false
+                            holder.binding?.ivLike?.isSelected = feedItems[position].likesInfo.users?.let { feedViewModel.isContainsUser(it) } ?: false
                         }
 
                     }

@@ -4,22 +4,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.repository.FirebaseRepository
 import com.hyden.booklibrary.data.repository.RoomRepository
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
 
 class SavedDetailViewModel(
-    private val roomRepository: RoomRepository
+    private val roomRepository: RoomRepository,
+    private val firebaseRepository: FirebaseRepository
 ) : BaseViewModel() {
 
     private val _detailInfo = MutableLiveData<BookEntity>()
     val detailInfo: LiveData<BookEntity> get() = _detailInfo
 
     private val _isContain = MutableLiveData<Boolean>()
-    val isContain : LiveData<Boolean> get() = _isContain
+    val isContain: LiveData<Boolean> get() = _isContain
 
     private val _isDelete = MutableLiveData<Boolean>()
-    val isDelete : LiveData<Boolean> get() = _isDelete
+    val isDelete: LiveData<Boolean> get() = _isDelete
 
     fun bookInfo(bookInfo: BookEntity?) {
         _detailInfo.value = bookInfo
@@ -41,8 +43,9 @@ class SavedDetailViewModel(
             )
         )
     }
+
     fun deleteBook(
-        isbn13 : String
+        isbn13: String
     ) {
         compositeDisposable.add(
             roomRepository.deleteBook(
@@ -58,23 +61,31 @@ class SavedDetailViewModel(
         )
     }
 
-    fun bookUpdate(
-        bookEntity: BookEntity
-    ) {
-        compositeDisposable.add(
-            roomRepository.updateBook(
-                bookEntity = bookEntity,
-                success = {
-                },
-                failure = {
-                    LogE("ERROR : $it")
-                }
-            )
+    fun bookUpdate(bookEntity: BookEntity) {
+        compositeDisposable.add(roomRepository.updateBook(bookEntity = bookEntity))
+    }
+
+    fun pushLike(isSelected: Boolean, bookEntity: BookEntity) {
+        val documentId = firebaseRepository.LOGIN_EMAIL + "-" + bookEntity.isbn13
+        firebaseRepository.pushLike(
+            isSelected = isSelected,
+            documentId = documentId
         )
     }
 
+    fun pushShare(bookEntity: BookEntity) {
+        firebaseRepository.pushShare(bookEntity)
+    }
+
+    fun pushDelete(isbn13: String) {
+        firebaseRepository.deleteBook(isbn13)
+    }
+
+    fun isSharedUser() {
+    }
+
     fun isBookContains(
-        isbn13 : String
+        isbn13: String
     ) {
         compositeDisposable.add(
             roomRepository.isContains(

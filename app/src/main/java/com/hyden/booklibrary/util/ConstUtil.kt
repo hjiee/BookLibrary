@@ -11,14 +11,15 @@ import kotlinx.android.synthetic.main.dialog_book_info.view.*
 class ConstUtil {
     companion object {
         const val DATABASENAME = "book"
+        const val USER_FIRESTORE_NAME = "users"
         const val DATABASELIMIT = 30
         const val BOOK_BLOGBEST = "BLOGBEST"
         const val BOOK_BESTSELLER = "BESTSELLER"
         const val BOOK_ITEMNEW = "ITEMNEWSPECIAL"
         const val BOOK_ITEMNEWALL = "ITEMNEWALL"
         const val BOOK_NOTE_REQUEST_CODE = 1224
-        const val LOGIN_ID = "hjiee"
-        const val LOGIN_NAME = "hyojin"
+//        const val LOGIN_ID = "hjiee"
+//        const val LOGIN_NAME = "hyojin"
     }
 }
 

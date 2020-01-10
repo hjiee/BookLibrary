@@ -1,27 +1,24 @@
 package com.hyden.booklibrary.view.note
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.databinding.ActivityBookNoteBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
-import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 import com.hyden.booklibrary.view.detail.SavedDetailActivity
 import com.hyden.ext.showKeyboard
 import org.koin.android.ext.android.inject
 
 class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_book_note) {
 
-    val bookRecordViewModel by inject<NoteViewModel>()
+    private val noteViewModel by inject<NoteViewModel>()
     private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
-    private val firestore by lazy {
-        FirebaseFirestore.getInstance()
-    }
+//    private val firestore by lazy {
+//        FirebaseFirestore.getInstance()
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +55,9 @@ class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_boo
 //        item?.let { firestore.collection("book").document(it.isbn13).set(it) }
         item?.run {
             bookNote = binding.edtNoteContent.text.toString()
-            bookRecordViewModel.save(this)
-            firestore.collection(DATABASENAME).document(this.isbn13).set(this)
+            noteViewModel.updateBook(this)
+//            noteViewModel.remoteUpdateBook(this)
+//            firestore.collection(DATABASENAME).document(this.isbn13).set(this)
         }
         setResult(BOOK_NOTE_REQUEST_CODE, Intent(this@NoteActivity,SavedDetailActivity::class.java).putExtra("data",item))
     }

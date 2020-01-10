@@ -5,6 +5,7 @@
     <data>
 
         <import type="com.hyden.ext.ImageViewExtKt" />
+        <import type="com.hyden.ext.DateExtKt" />
 
         <variable
             name="type"
@@ -36,7 +37,7 @@
                 android:id="@+id/iv_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                loadUrl="@{response.bookEntity.cover}"
+                loadUrl="https://lh3.googleusercontent.com/a-/AAuE7mDSJ8NOHLJZB4kCQRtn19_OSvxmeoB3-bXXMrmY0w=s96-c"
                 tranformType="@{type.CIRCLE}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -101,12 +102,33 @@
                 />
 
             <TextView
+                android:id="@+id/tv_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{vm.likeCount.toString()}"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintTop_toTopOf="@+id/tv_date"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_date"
+                app:layout_constraintTop_toBottomOf="@+id/iv_chat"/>
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                dateFormat="@{response.sharedInfo.sharedDate}"
+                app:layout_constraintLeft_toRightOf="@+id/tv_like_count"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_chat"/>
+
+            <TextView
                 android:id="@+id/tv_note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@{(response.bookEntity.bookNote == `null` || response.bookEntity.bookNote == null) ? `` : response.bookEntity.bookNote }"
-                app:layout_constraintTop_toBottomOf="@+id/iv_like" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_date" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

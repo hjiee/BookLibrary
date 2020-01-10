@@ -44,17 +44,12 @@ class RoomRepository(
     }
 
     override fun updateBook(
-        bookEntity: BookEntity?,
-        success: () -> Unit,
-        failure: (String) -> Unit
+        bookEntity: BookEntity?
     ): Disposable {
         return bookDao.updateBook(bookEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { success.invoke() },
-                { failure.invoke(it.toString()) }
-            )
+            .subscribe()
     }
 
     override fun getBook(
