@@ -21,13 +21,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField("String","BASEURL","\"https://www.aladin.co.kr/ttb/api/\"")
-            buildConfigField("String","TTBKEY","\"ttbeoeo281259003\"")
-
+            buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
+            buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
         }
         debug {
-            buildConfigField("String","BASEURL","\"https://www.aladin.co.kr/ttb/api/\"")
-            buildConfigField("String","TTBKEY","\"ttbeoeo281259003\"")
+            buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
+            buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
         }
     }
     dataBinding {
@@ -40,11 +39,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+//    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
     testImplementation 'junit:junit:4.12'
@@ -70,7 +70,7 @@ dependencies {
     def retrofit_version = "2.6.0"
     def logging_version = "3.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation"com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_version"
 
     // Rx
@@ -97,11 +97,17 @@ dependencies {
     implementation "com.google.firebase:firebase-database:$firebase_version"
     implementation "com.google.firebase:firebase-auth:$firebase_version"
     implementation "com.google.firebase:firebase-firestore:$firebase_firestore_version"
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
 
     // Stetho
     def stetho_version = '1.5.1'
     implementation "com.facebook.stetho:stetho:$stetho_version"
+
+    // Lottie
+    def lottie_version = "3.3.1"
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
 }
 

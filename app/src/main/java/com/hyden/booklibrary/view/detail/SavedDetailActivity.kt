@@ -1,25 +1,15 @@
 package com.hyden.booklibrary.view.detail
 
 import android.content.Intent
-import android.os.Build.ID
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.booklibrary.data.model.Comment
-import com.hyden.booklibrary.data.model.Feed
-import com.hyden.booklibrary.data.model.Like
-import com.hyden.booklibrary.data.model.User
 import com.hyden.booklibrary.databinding.ActivityDetailSavedBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
-import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
-import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_ID
-import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_NAME
 import com.hyden.booklibrary.util.deleteBook
 import com.hyden.booklibrary.util.dialogBookInfo
 import com.hyden.booklibrary.util.dialogSimple
@@ -29,7 +19,6 @@ import com.hyden.ext.loadUrl
 import com.hyden.ext.moveToActivityForResult
 import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
-import java.util.*
 
 class SavedDetailActivity :
     BaseActivity<ActivityDetailSavedBinding>(R.layout.activity_detail_saved) {
@@ -37,10 +26,6 @@ class SavedDetailActivity :
     private val savedDetailViewModel by inject<SavedDetailViewModel>()
     private val feedViewModel by inject<FeedViewModel>()
 
-    //    private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
-    private val firestore by lazy {
-        FirebaseFirestore.getInstance()
-    }
     var item: BookEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,70 +84,33 @@ class SavedDetailActivity :
                 this.isSelected = item?.isLiked ?: false
                 setOnClickListener {
                     this.isSelected = this.isSelected.not()
-                    item?.isLiked = isSelected
+                    item?.isLiked = this.isSelected
                     savedDetailViewModel.bookUpdate(item!!)
-                    if (this.isSelected) {
-                        firestore.collection(DATABASENAME).document(item?.isbn13!!).update("likesCount", FieldValue.increment(1))
-                        firestore.collection(DATABASENAME).document(item?.isbn13!!).update("likesInfo.users", FieldValue.arrayUnion(((User(
-                            LOGIN_ID, LOGIN_NAME)))))
-                    } else {
-                        firestore.collection(DATABASENAME).document(item?.isbn13!!).update("likesCount", FieldValue.increment(-1))
-                        firestore.collection(DATABASENAME).document(item?.isbn13!!).update("likesInfo.users", FieldValue.arrayRemove(((User(
-                            LOGIN_ID, LOGIN_NAME)))))
-                    }
+                    savedDetailViewModel.pushLike(this.isSelected,item!!)
                 }
             }
             ivChat.apply {
-                isSelected = item?.isReviews ?: false
+                this.isSelected = item?.isReviews ?: false
                 setOnClickListener {
-                    isSelected = isSelected.not()
-                    item?.isReviews = isSelected
+                    this.isSelected = this.isSelected.not()
+                    item?.isReviews = this.isSelected
                     savedDetailViewModel.bookUpdate(item!!)
                 }
             }
             ivShared.apply {
-                isSelected = item?.isShared ?: false
+                this.isSelected = item?.isShared ?: false
                 setOnClickListener {
                     if (!isSelected) {
                         dialogSimple("감상노트를 공유 하시겠습니까?") {
-                            isSelected = isSelected.not()
+                            this.isSelected = this.isSelected.not()
                             sharedCheck(isSelected = isSelected)
-                            item?.let {
-                                firestore.collection(DATABASENAME).document(it.isbn13).set(
-                                    Feed(
-                                        bookEntity = it,
-                                        sharedDate = Date(),
-                                        usersInfo = User(LOGIN_ID, LOGIN_NAME),
-                                        likesCount = if(it.isLiked == true) 1 else 0,
-                                        likesInfo = if(it.isLiked == true) Like(listOf(User(LOGIN_ID, LOGIN_NAME))) else Like(emptyList()),
-                                        commentsCount = if(it.isReviews == true) 1 else 0,
-                                        commentsInfo = if(it.isReviews == true) Comment(listOf(User(LOGIN_ID, LOGIN_NAME))) else Comment(emptyList())
-                                    ), SetOptions.merge()
-                                )
-
-//                                firestore.collection(DATABASENAME).document(it.isbn13).update("likesInfo",Like(3,listOf(User("test","test"))))
-//                                firestore.collection(DATABASENAME).document(it.isbn13).update("likesCount",FieldValue.increment(1))
-//                                firestore.collection(DATABASENAME).document(it.isbn13).update("likesInfo.users",FieldValue.arrayUnion(((User("test2","test2")))))
-//                                firestore.collection(DATABASENAME).document(it.isbn13).update("likesCount",FieldValue.increment(1))
-//                                firestore.collection(DATABASENAME).document(it.isbn13).update("likesInfo.users",FieldValue.arrayUnion(((User("test3","test3")))))
-
-
-//                                firestore.collection(DATABASENAME).document(it.isbn13).set(Feed(
-//                                    bookEntity = it,
-//                                    sharedDate = Date(),
-//                                    usersInfo = User("test2","test2"),
-//                                    likesInfo = Like(2, listOf(User("test2","test2"))),
-//                                    commentsInfo = Comment(0, listOf(User("test2","test2")))
-//                                ), SetOptions.merge())
-                            }
+                            item?.let { savedDetailViewModel.pushShare(it) }
                         }
                     } else {
                         dialogSimple("공유한 책정보를 해제하시겠습니까?") {
-                            isSelected = isSelected.not()
-                            sharedCheck(isSelected = isSelected)
-                            item?.let {
-                                firestore.collection(DATABASENAME).document(it.isbn13).delete()
-                            }
+                            this.isSelected = this.isSelected.not()
+                            sharedCheck(isSelected = this.isSelected)
+                            item?.let { savedDetailViewModel.pushDelete(it.isbn13) }
                         }
                     }
                 }

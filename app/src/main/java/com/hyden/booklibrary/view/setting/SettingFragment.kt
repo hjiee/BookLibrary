@@ -10,16 +10,18 @@ import androidx.databinding.library.BuildConfig
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.firebase.auth.FirebaseAuth
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.util.getPreferenceStartView
-import com.hyden.booklibrary.util.getPreferenceTheme
-import com.hyden.booklibrary.util.setPreferenceStartView
-import com.hyden.booklibrary.util.setPreferenceTheme
+import com.hyden.booklibrary.util.*
 import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
+import com.hyden.booklibrary.view.login.LoginActivity
 import com.hyden.ext.moveToActivity
+import org.koin.android.ext.android.inject
 
 class SettingFragment : PreferenceFragmentCompat() {
+
+    private val settingViewModel by inject<SettingViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +36,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.setting, rootKey)
         changeTheme()
         changeStartView()
+        changeLoginState()
         sendToMail()
         sendToEvaluation()
         sendToDonate()
@@ -47,7 +50,7 @@ class SettingFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
                 Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
-                    putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
+                    putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.developer_email))
                     putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
                     putExtra(
                         Intent.EXTRA_TEXT,
@@ -95,6 +98,22 @@ class SettingFragment : PreferenceFragmentCompat() {
             }
         }
     }
+    private fun changeLoginState() {
+        findPreference<Preference>(getString(R.string.setting_key_logout))?.apply {
+            setOnPreferenceClickListener {
+
+                FirebaseAuth.getInstance().apply {
+                    context.dialogSimple("로그아웃 하시겠습니까?") {
+                        settingViewModel.signOut()
+                        moveToActivity(Intent(activity,LoginActivity::class.java))
+                        activity?.finish()
+                    }
+                }
+                true
+            }
+        }
+    }
+
     private fun sendToEvaluation() {
     }
 

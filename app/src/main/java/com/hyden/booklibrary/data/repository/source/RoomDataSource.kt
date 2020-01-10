@@ -20,9 +20,7 @@ interface RoomDataSource {
     ): Disposable
 
     fun updateBook(
-        bookEntity: BookEntity?,
-        success: () -> Unit,
-        failure: (String) -> Unit
+        bookEntity: BookEntity?
     ): Disposable
 
     fun getBook(

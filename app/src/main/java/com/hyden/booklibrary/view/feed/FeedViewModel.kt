@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.view.feed
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
@@ -10,13 +11,14 @@ import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
 import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
+import com.hyden.booklibrary.data.repository.FirebaseRepository
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
-import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_ID
-import com.hyden.booklibrary.util.ConstUtil.Companion.LOGIN_NAME
 import com.hyden.util.LogUtil.LogE
 import java.util.*
 
-class FeedViewModel : BaseViewModel() {
+class FeedViewModel(
+    private val firebaseRepository: FirebaseRepository
+) : BaseViewModel() {
 
     private val firestore by lazy { FirebaseFirestore.getInstance() }
     lateinit var documents: List<DocumentSnapshot>
@@ -24,27 +26,28 @@ class FeedViewModel : BaseViewModel() {
     private val _feedItems = MutableLiveData<List<Feed>>()
     val feedItems: LiveData<List<Feed>> get() = _feedItems
 
+    private val _isSharedUser = MutableLiveData<Boolean>()
+    val isSharedUser : LiveData<Boolean> get() = _isSharedUser
+
+    private val _likeCount = MutableLiveData<Long>()
+    val likeCount : LiveData<Long> get() = _likeCount
+
     fun pushLiked(position: Int, isLiked: Boolean) {
         _feedItems.value?.let {
-            it[position].bookEntity.isLiked = isLiked
-//            firestore.collection(DATABASENAME).document(it[position].isbn13).set(it[position])
-            if (isLiked) {
-                firestore.collection(DATABASENAME).document(it[position].bookEntity.isbn13)
-                    .update("likesCount", FieldValue.increment(1))
-                firestore.collection(DATABASENAME).document(it[position].bookEntity.isbn13).update("likesInfo.users", FieldValue.arrayUnion(((User(
-                    LOGIN_ID, LOGIN_NAME)))))
-
-
+            val documentId = it[position].sharedInfo.users.email +"-"+ it[position].bookEntity.isbn13
+            firebaseRepository.pushLike(isLiked,documentId)
+            if(it[position].sharedInfo.users.email == firebaseRepository.LOGIN_EMAIL) {
+                it[position].bookEntity.isLiked = isLiked
+                _isSharedUser.value = true
             } else {
-                firestore.collection(DATABASENAME).document(it[position].bookEntity.isbn13)
-                    .update("likesCount", FieldValue.increment(-1))
-                firestore.collection(DATABASENAME).document(it[position].bookEntity.isbn13).update("likesInfo.users", FieldValue.arrayRemove(((User(
-                    LOGIN_ID, LOGIN_NAME)))))
-
+                _isSharedUser.value = false
             }
-
-
+            _likeCount.value = firebaseRepository.getLikeCount(documentId)
         }
+    }
+
+    fun isContainsUser(users : List<User>) : Boolean {
+        return firebaseRepository.isExsitUser(users)
     }
 
     fun getFireStore() {
@@ -56,18 +59,21 @@ class FeedViewModel : BaseViewModel() {
                 LogE(temp.toString())
             }
             _feedItems.value = temp
+
         }
     }
 
-    private fun feed(documents: Map<*, *>?) : Feed {
+    private fun feed(documents: Map<*, *>?): Feed {
         return documents?.run {
-            Feed(get("sharedDate").toDate(),
-                    book(get("bookEntity") as HashMap<*, *>),
-                    get("commentsCount").toString().toLong(),
-                    get("commentsInfo").toComment(),
-                    get("likesCount").toString().toLong(),
-                    get("likesInfo").toLike(),
-                    get("usersInfo").toUser())
+            Feed(
+                get("sharedInfo").toSharedInfo(),
+                book(get("bookEntity") as HashMap<*, *>),
+                get("commentsCount").toString().toLong(),
+                get("commentsInfo").toComment(),
+                get("likesCount").toString().toLong(),
+                get("likesInfo").toLike(),
+                get("usersInfo").toUser()
+            )
         }?.toFeed()!!
     }
 

@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:text="@{vm.detailInfo.bookNote}"
+            android:text="@{(vm.detailInfo.bookNote == `null` || vm.detailInfo.bookNote == null) ? `` : vm.detailInfo.bookNote}"
             android:textColor="@color/colorWhite"
             app:layout_constraintRight_toRightOf="@id/view_line"
             app:layout_constraintLeft_toLeftOf="@id/view_line"

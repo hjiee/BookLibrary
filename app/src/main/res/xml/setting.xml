@@ -30,10 +30,16 @@
             app:iconSpaceReserved="true" />
 
         <Preference
-            android:summary="@string/setting_summary_setting"
-            android:title="@string/setting_title_setting"
-            android:key="@string/setting_key_setting"
+            android:summary="@string/setting_summary_logout"
+            android:title="@string/setting_state_logout"
+            android:key="@string/setting_key_logout"
             app:iconSpaceReserved="true" />
+
+<!--        <Preference-->
+<!--            android:summary="@string/setting_summary_setting"-->
+<!--            android:title="@string/setting_title_setting"-->
+<!--            android:key="@string/setting_key_setting"-->
+<!--            app:iconSpaceReserved="true" />-->
     </PreferenceCategory>
 
     <!--도움말-->

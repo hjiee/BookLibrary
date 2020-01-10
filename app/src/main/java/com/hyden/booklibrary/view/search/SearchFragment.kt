@@ -48,11 +48,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
     }
     private val itemClickListener by lazy {
         object : ItemClickListener {
-            override fun <T> onItemClick(item : T) {
-                when(item) {
+            override fun <T> onItemClick(item: T) {
+                when (item) {
                     is BookItems -> {
-                        Intent(activity,UnSavedDetailActivity::class.java).apply {
-                            putExtra(getString(R.string.book_info),item.toBookEntity())
+                        Intent(activity, UnSavedDetailActivity::class.java).apply {
+                            putExtra(getString(R.string.book_info), item.toBookEntity())
                             moveToActivity(this)
                         }
                     }
@@ -69,6 +69,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             )
         }
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -95,132 +96,127 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                 this@SearchFragment,
                 Observer {
                     binding.apply {
-                        includeAppbar.apply {
-                            when (it) {
-                                true -> {
-                                    hideProgress()
-                                }
-                            }
-                        }
+                        includeAppbar.apply { if (it) hideProgress() }
                     }
-
                 }
-            )
+
         }
+        )
     }
+}
 
-    override fun initBind() {
-        binding.apply {
-            vm = searchViewModel
-            // 리사이클러 뷰
-            rvBook.apply {
-                adapter = object :
-                    BaseRecyclerView.Adapter<SearchResponse, RecyclerItemSearchBinding>(
-                        layoutId = R.layout.recycler_item_search,
-                        bindingVariableId = BR.search,
-                        clickItemEvent = itemClickListener
-                    ) {
-                }
-                addOnScrollListener(endlessListener)
+override fun initBind() {
+    binding.apply {
+        vm = searchViewModel
+        // 리사이클러 뷰
+        rvBook.apply {
+            adapter = object :
+                BaseRecyclerView.Adapter<SearchResponse, RecyclerItemSearchBinding>(
+                    layoutId = R.layout.recycler_item_search,
+                    bindingVariableId = BR.search,
+                    clickItemEvent = itemClickListener
+                ) {
+            }
+            addOnScrollListener(endlessListener)
 
-            }
-            // 검색 바
-            includeAppbar.apply {
-                // 검색창
-                edtSearchInput.apply {
-                    addTextChangedListener {
-                        handler.removeCallbacks(runnable)
-                        searchQuery = it.toString()
-                        handler.postDelayed(runnable, delayTime)
-                        // 검색될때 프로그레스바 표시
-                        showProgress()
-                    }
-                }
-                // 클리어 버튼
-                ibClear.apply {
-                    setOnClickListener {
-                        edtSearchInput.setText("")
-                        showProgress()
-                        context.showKeyboard(edtSearchInput)
-                        searchViewModel.searchRefresh()
-                    }
-                }
-                // 검색 타입 스피너
-                spChoice.apply {
-                    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onNothingSelected(p0: AdapterView<*>?) {}
-                        override fun onItemSelected(
-                            p0: AdapterView<*>?,
-                            view: View?,
-                            p2: Int,
-                            p3: Long
-                        ) {
-                            (view as TextView).setTextColor(Color.WHITE)
-                            edtSearchInput.hint = ("${selectedItem} 검색")
-                            showProgress()
-                            searchViewModel.searchRefresh(
-                                query = binding.includeAppbar.edtSearchInput.text.toString(),
-                                queryType = getQueryType()
-                            )
-                        }
-                    }
-                }
-            }
-            // 리사이클러뷰 새로고침
-            srvlRefresh.apply {
-                setOnRefreshListener {
+        }
+        // 검색 바
+        includeAppbar.apply {
+            // 검색창
+            edtSearchInput.apply {
+                addTextChangedListener {
+                    handler.removeCallbacks(runnable)
+                    searchQuery = it.toString()
+                    handler.postDelayed(runnable, delayTime)
+                    // 검색될때 프로그레스바 표시
                     showProgress()
-                    searchViewModel.searchRefresh(
-                        query = binding.includeAppbar.edtSearchInput.text.toString(),
-                        queryType = getQueryType()
-                    )
-                    searchViewModel.isRefreshing.observe(
-                        this@SearchFragment,
-                        Observer {
-                            when (it) {
-                                true -> {
-                                }
-                                false -> isRefreshing = false
-                            }
-                        }
-                    )
+                }
+            }
+            // 클리어 버튼
+            ibClear.apply {
+                setOnClickListener {
+                    edtSearchInput.setText("")
+                    showProgress()
+                    context.showKeyboard(edtSearchInput)
+                    searchViewModel.searchRefresh()
+                }
+            }
+            // 검색 타입 스피너
+            spChoice.apply {
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(p0: AdapterView<*>?) {}
+                    override fun onItemSelected(
+                        p0: AdapterView<*>?,
+                        view: View?,
+                        p2: Int,
+                        p3: Long
+                    ) {
+                        (view as TextView).setTextColor(Color.WHITE)
+                        edtSearchInput.hint = ("${selectedItem} 검색")
+                        showProgress()
+                        searchViewModel.searchRefresh(
+                            query = binding.includeAppbar.edtSearchInput.text.toString(),
+                            queryType = getQueryType()
+                        )
+                    }
                 }
             }
         }
-    }
-
-    private fun hideProgress() {
-        binding.includeAppbar.apply {
-            if (edtSearchInput.text.toString().isNullOrEmpty())
-                ibClear.visibility = View.INVISIBLE
-            else
-                ibClear.visibility = View.VISIBLE
-            progressbar.visibility = View.INVISIBLE
-        }
-    }
-
-    private fun showProgress() {
-        binding.includeAppbar.apply {
-            ibClear.visibility = View.INVISIBLE
-            progressbar.visibility = View.VISIBLE
-        }
-    }
-
-    private fun getQueryType(): String =
-        when (binding.includeAppbar.spChoice.selectedItemPosition) {
-            0 -> QueryType.KEYWORD.toString()
-            1 -> QueryType.TITLE.toString()
-            2 -> QueryType.AUTHOR.toString()
-            3 -> QueryType.PUBLISHER.toString()
-            else -> "keyword"
-        }
-
-
-    companion object {
-        fun newInstance() = SearchFragment().apply {
-            arguments = Bundle().apply {
-
+        // 리사이클러뷰 새로고침
+        srvlRefresh.apply {
+            setOnRefreshListener {
+                showProgress()
+                searchViewModel.searchRefresh(
+                    query = binding.includeAppbar.edtSearchInput.text.toString(),
+                    queryType = getQueryType()
+                )
+                searchViewModel.isRefreshing.observe(
+                    this@SearchFragment,
+                    Observer {
+                        when (it) {
+                            true -> {
+                            }
+                            false -> isRefreshing = false
+                        }
+                    }
+                )
             }
         }
     }
+}
+
+private fun hideProgress() {
+    binding.includeAppbar.apply {
+        if (edtSearchInput.text.toString().isNullOrEmpty())
+            ibClear.visibility = View.INVISIBLE
+        else
+            ibClear.visibility = View.VISIBLE
+        progressbar.visibility = View.INVISIBLE
+    }
+}
+
+private fun showProgress() {
+    binding.includeAppbar.apply {
+        ibClear.visibility = View.INVISIBLE
+        progressbar.visibility = View.VISIBLE
+    }
+}
+
+private fun getQueryType(): String =
+    when (binding.includeAppbar.spChoice.selectedItemPosition) {
+        0 -> QueryType.KEYWORD.toString()
+        1 -> QueryType.TITLE.toString()
+        2 -> QueryType.AUTHOR.toString()
+        3 -> QueryType.PUBLISHER.toString()
+        else -> "keyword"
+    }
+
+
+companion object {
+    fun newInstance() = SearchFragment().apply {
+        arguments = Bundle().apply {
+
+        }
+    }
+}
 }
