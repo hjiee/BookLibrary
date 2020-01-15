@@ -16,7 +16,9 @@ import com.hyden.booklibrary.data.model.User
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
 import com.hyden.booklibrary.view.detail.SavedDetailViewModel
+import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
+import com.hyden.util.RecyclerItemDecoration
 import org.koin.android.ext.android.inject
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
@@ -107,6 +109,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
                     }
                 }
+                addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
             }
 
             srvlRefresh.apply {

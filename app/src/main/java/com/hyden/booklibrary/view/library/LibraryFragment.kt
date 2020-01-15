@@ -17,8 +17,10 @@ import com.hyden.booklibrary.util.deleteBook
 import com.hyden.booklibrary.util.longClickVibrate
 import com.hyden.booklibrary.view.detail.SavedDetailActivity
 import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
+import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.ItemLongClickListener
+import com.hyden.util.RecyclerItemDecoration
 import org.koin.android.ext.android.inject
 
 
@@ -69,7 +71,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
                         clickItemEvent = itemClickListener,
                         longClickItemEvent = itemLongClickListener
                     ) {}
-
+                addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
             }
             srvlRefresh.apply {
                 setOnRefreshListener {

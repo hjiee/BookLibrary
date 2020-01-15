@@ -91,7 +91,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                                         ImageTransformType.ROUND
                                     )
                                 }, 3000)
-                                LogW("$it : $rand")
+//                                LogW("$it : $rand")
                                 binding.ivBookCover.loadUrl(
                                     homeViewModel.bookBlogBest.value!![rand].cover,
                                     ImageTransformType.ROUND
