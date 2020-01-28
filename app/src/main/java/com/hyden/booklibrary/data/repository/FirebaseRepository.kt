@@ -2,15 +2,11 @@ package com.hyden.booklibrary.data.repository
 
 import android.content.Context
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.BuildConfig
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
@@ -33,12 +29,7 @@ class FirebaseRepository(
     }
     private val googleSignInClient by lazy { GoogleSignIn.getClient(context,googleSignInOptions) }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
-    private val currentUser by lazy { User(LOGIN_EMAIL, LOGIN_NAME, LOGIN_NICKNAME,LOGIN_PROFILE) }
-
-    val LOGIN_EMAIL = googleAuth.currentUser?.email ?: ""
-    val LOGIN_NAME = googleAuth.currentUser?.displayName ?: ""
-    val LOGIN_PROFILE = googleAuth.currentUser?.photoUrl.toString() ?: ""
-    var LOGIN_NICKNAME = ""
+    private val currentUser by lazy { User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile()) }
 
 
     // Book
@@ -65,7 +56,7 @@ class FirebaseRepository(
     }
 
     override fun pushShare(item : BookEntity) {
-        firebaseFireStore.collection(DATABASENAME).document(LOGIN_EMAIL+"-"+item.isbn13).set(
+        firebaseFireStore.collection(DATABASENAME).document(getLoginEmail()+"-"+item.isbn13).set(
             Feed(
                 bookEntity = item,
                 sharedInfo = SharedInfo(Date(),currentUser),
@@ -79,11 +70,11 @@ class FirebaseRepository(
     }
 
     override fun updateBook(item : BookEntity) {
-        firebaseFireStore.collection(DATABASENAME).document(LOGIN_EMAIL+"-"+item.isbn13).update("bookEntity",item)
+        firebaseFireStore.collection(DATABASENAME).document(getLoginEmail()+"-"+item.isbn13).update("bookEntity",item)
     }
 
     override fun deleteBook(isbn13 : String) {
-        firebaseFireStore.collection(DATABASENAME).document(LOGIN_EMAIL+"-"+isbn13).delete()
+        firebaseFireStore.collection(DATABASENAME).document(getLoginEmail()+"-"+isbn13).delete()
     }
 
     override fun saveBook() {
@@ -110,11 +101,20 @@ class FirebaseRepository(
     }
 
     override fun googleSignIn() {
-        firebaseFireStore.collection(USER_FIRESTORE_NAME).document(LOGIN_EMAIL).set(currentUser)
+        firebaseFireStore.collection(USER_FIRESTORE_NAME).document(getLoginEmail()).set(currentUser)
     }
 
     override fun googleSignOut() {
         googleAuth.signOut()
         googleSignInClient.signOut()
     }
+
+    // Getter
+    override fun getLoginEmail(): String = googleAuth.currentUser?.email ?: ""
+
+    override fun getLoginName(): String = googleAuth.currentUser?.displayName ?: ""
+
+    override fun getLoginProfile(): String = googleAuth.currentUser?.photoUrl.toString() ?: ""
+
+    override fun getLoginNickname(): String = ""
 }
