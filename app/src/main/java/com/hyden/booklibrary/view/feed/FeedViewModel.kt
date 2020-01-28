@@ -1,10 +1,8 @@
 package com.hyden.booklibrary.view.feed
 
-import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
@@ -36,7 +34,7 @@ class FeedViewModel(
         _feedItems.value?.let {
             val documentId = it[position].sharedInfo.users.email +"-"+ it[position].bookEntity.isbn13
             firebaseRepository.pushLike(isLiked,documentId)
-            if(it[position].sharedInfo.users.email == firebaseRepository.LOGIN_EMAIL) {
+            if(it[position].sharedInfo.users.email == firebaseRepository.getLoginEmail()) {
                 it[position].bookEntity.isLiked = isLiked
                 _isSharedUser.value = true
             } else {

@@ -28,4 +28,10 @@ interface FirebaseDataSource {
     fun login()
     fun googleSignIn()
     fun googleSignOut()
+
+    // getter
+    fun getLoginEmail() : String
+    fun getLoginName() : String
+    fun getLoginProfile() : String
+    fun getLoginNickname() : String
 }
