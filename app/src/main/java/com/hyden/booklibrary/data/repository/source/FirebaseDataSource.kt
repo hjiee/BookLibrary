@@ -14,7 +14,8 @@ interface FirebaseDataSource {
     fun deleteBook(isbn13 : String)
 
     fun pushLike(isSelected : Boolean, documentId : String)
-    fun getLikeCount(documentId : String) : Long
+    fun getLikeCount(documentId : String,complete : (Long) -> Unit)
+    fun getCommentCount(documentId : String,complete : (Long) -> Unit)
     fun pushComment()
     fun pushShare(item : BookEntity)
 

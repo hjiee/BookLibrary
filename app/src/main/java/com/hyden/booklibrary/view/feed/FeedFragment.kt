@@ -19,6 +19,7 @@ import com.hyden.booklibrary.view.detail.SavedDetailViewModel
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.RecyclerItemDecoration
+import com.hyden.util.toPx
 import org.koin.android.ext.android.inject
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
@@ -36,8 +37,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
             override fun <T> onItemClick(item: T) {
                 when (item) {
                     is BookEntity -> {
-                        Toast.makeText(context, item.title!!.split(" - ")[0], Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(context, item.title!!.split(" - ")[0], Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -67,6 +67,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
         binding.apply {
             vm = feedViewModel
             rvBookFeed.apply {
+                addItemDecoration(RecyclerItemDecoration(5f.toPx(context)))
                 adapter = object : BaseRecyclerView.Adapter<Feed, RecyclerItemFeedBinding>(
                     layoutId = R.layout.recycler_item_feed,
                     bindingVariableId = BR.response,
@@ -86,17 +87,22 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                                         feedViewModel.isSharedUser.value?.let {
                                             if(it) savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
                                         }
+                                        when(view.isSelected) {
+                                            true -> tvLikeCount.text = (tvLikeCount.text.toString().toInt() + 1).toString()
+                                            false -> tvLikeCount.text = (tvLikeCount.text.toString().toInt() -1).toString()
+                                        }
                                     }
                                 }
                             )
 
-                            ivChat?.setOnClickListener {
+                            ivComment?.setOnClickListener {
                                 Toast.makeText(context, "댓글", Toast.LENGTH_SHORT).show()
                             }
                         }
                         return holder
                     }
 
+                    // 좋아요 기능
                     override fun onBindViewHolder(
                         holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>,
                         position: Int
