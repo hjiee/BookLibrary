@@ -44,12 +44,21 @@ class FirebaseRepository(
 
     }
 
-    override fun getLikeCount(documentId : String): Long {
+    override fun getLikeCount(documentId : String,complete : (Long) -> Unit) {
         var count = 0L
         firebaseFireStore.collection(DATABASENAME).document(documentId).get().addOnCompleteListener {
             count = it.result?.get("likesCount") as Long
+            complete.invoke(count)
         }
-        return count
+    }
+
+    override fun getCommentCount(documentId: String, complete : (Long) -> Unit) {
+        var count = 0L
+        firebaseFireStore.collection(DATABASENAME).document(documentId).get().addOnCompleteListener {
+            count = it.result?.get("commentsCount") as Long
+            complete.invoke(count)
+
+        }
     }
 
     override fun pushComment() {

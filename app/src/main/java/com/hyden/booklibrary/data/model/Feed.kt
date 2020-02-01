@@ -8,9 +8,9 @@ import java.util.*
 data class Feed(
     val sharedInfo: SharedInfo,
     val bookEntity: BookEntity,
-    val commentsCount: Long,
+    var commentsCount: Long,
     val commentsInfo: Comment,
-    val likesCount: Long,
+    var likesCount: Long,
     val likesInfo: Like,
     val usersInfo: User
 )

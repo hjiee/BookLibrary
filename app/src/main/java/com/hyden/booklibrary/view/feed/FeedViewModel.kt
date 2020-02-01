@@ -9,13 +9,13 @@ import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
 import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
-import com.hyden.booklibrary.data.repository.FirebaseRepository
+import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 import com.hyden.util.LogUtil.LogE
 import java.util.*
 
 class FeedViewModel(
-    private val firebaseRepository: FirebaseRepository
+    private val firebaseDataSource: FirebaseDataSource
 ) : BaseViewModel() {
 
     private val firestore by lazy { FirebaseFirestore.getInstance() }
@@ -25,27 +25,25 @@ class FeedViewModel(
     val feedItems: LiveData<List<Feed>> get() = _feedItems
 
     private val _isSharedUser = MutableLiveData<Boolean>()
-    val isSharedUser : LiveData<Boolean> get() = _isSharedUser
+    val isSharedUser: LiveData<Boolean> get() = _isSharedUser
 
-    private val _likeCount = MutableLiveData<Long>()
-    val likeCount : LiveData<Long> get() = _likeCount
-
+    // 좋아요 클릭 이벤트 처리
     fun pushLiked(position: Int, isLiked: Boolean) {
         _feedItems.value?.let {
-            val documentId = it[position].sharedInfo.users.email +"-"+ it[position].bookEntity.isbn13
-            firebaseRepository.pushLike(isLiked,documentId)
-            if(it[position].sharedInfo.users.email == firebaseRepository.getLoginEmail()) {
+            val documentId =
+                it[position].sharedInfo.users.email + "-" + it[position].bookEntity.isbn13
+            firebaseDataSource.pushLike(isLiked, documentId)
+            if (it[position].sharedInfo.users.email == firebaseDataSource.getLoginEmail()) {
                 it[position].bookEntity.isLiked = isLiked
                 _isSharedUser.value = true
             } else {
                 _isSharedUser.value = false
             }
-            _likeCount.value = firebaseRepository.getLikeCount(documentId)
         }
     }
 
-    fun isContainsUser(users : List<User>) : Boolean {
-        return firebaseRepository.isExsitUser(users)
+    fun isContainsUser(users: List<User>): Boolean {
+        return firebaseDataSource.isExsitUser(users)
     }
 
     fun getFireStore() {
@@ -57,7 +55,6 @@ class FeedViewModel(
                 LogE(temp.toString())
             }
             _feedItems.value = temp
-
         }
     }
 
