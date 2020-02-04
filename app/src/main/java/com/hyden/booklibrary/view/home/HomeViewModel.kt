@@ -4,21 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.repository.HomeRepository
-import com.hyden.booklibrary.data.repository.RoomRepository
+import com.hyden.booklibrary.data.repository.source.HomeDataSource
+import com.hyden.booklibrary.data.repository.source.RoomDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BESTSELLER
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BLOGBEST
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEWALL
 import com.hyden.util.LogUtil.LogE
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel(
-    private val homeRepository: HomeRepository,
-    private val roomRepository: RoomRepository
+    private val homeDataSource: HomeDataSource,
+    private val roomDataSource: RoomDataSource
 ) : BaseViewModel() {
 
     private val _bookBlogBest = MutableLiveData<List<BookItems>>()
-    val bookBlogBest : LiveData<List<BookItems>> get() = _bookBlogBest
+    val bookBlogBest: LiveData<List<BookItems>> get() = _bookBlogBest
 
     private val _bookBestSeller = MutableLiveData<List<BookItems>>()
     val bookBestSeller: LiveData<List<BookItems>> get() = _bookBestSeller
@@ -52,26 +54,30 @@ class HomeViewModel(
         searchTarget: String = "book"
     ) {
         compositeDisposable.add(
-            homeRepository.loadBook(
+            homeDataSource.loadBook(
                 page = page,
                 querytype = queryType,
-                searchtarget = searchTarget,
-                success = { item, query ->
-                    when (query) {
-                        BOOK_BLOGBEST   -> { bookBlogBest(item) }
-                        BOOK_BESTSELLER -> { bookBestSeller(item) }
-                        BOOK_ITEMNEW    -> { bookNew(item) }
-                        BOOK_ITEMNEWALL -> { bookAll(item) }
+                searchtarget = searchTarget
+            ).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        val queryTypeName = it.query.split("=", ";")[1]
+                        when (queryTypeName) {
+                            BOOK_BLOGBEST -> bookBlogBest(it.item)
+                            BOOK_BESTSELLER -> bookBestSeller(it.item)
+                            BOOK_ITEMNEW -> bookNew(it.item)
+                            BOOK_ITEMNEWALL -> bookAll(it.item)
+                        }
+                    },
+                    {
+                        LogE("ERROR : $it")
                     }
-                },
-                failure = {
-                    LogE("ERROR : $it")
-                }
-            )
+                )
         )
     }
 
-    private fun bookBlogBest(data : List<BookItems>) {
+    private fun bookBlogBest(data: List<BookItems>) {
         _bookBlogBest.value = data
     }
 
@@ -114,10 +120,10 @@ class HomeViewModel(
         _isRefreshingAll.value = false
     }
 
-    fun isContains(isbn13 : String) : Boolean {
+    fun isContains(isbn13: String): Boolean {
         var result = false
         compositeDisposable.add(
-            roomRepository.isContains(
+            roomDataSource.isContains(
                 isbn13 = isbn13,
                 success = { result = it },
                 failure = { result = it }
