@@ -4,6 +4,7 @@ import com.hyden.booklibrary.data.remote.BookApi
 import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import com.hyden.booklibrary.data.repository.source.HomeDataSource
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -23,10 +24,8 @@ class HomeRepository(
         categoryid : Int,
         maxresults: Int,
         output: String,
-        cover: String,
-        success: (List<BookItems>, String) -> Unit,
-        failure: (String) -> Unit
-    ): Disposable {
+        cover: String
+    ): Single<BookResponse> {
         queryTypeName = querytype
         return bookApi.bookInfo(HashMap<String, Any>().apply {
             put("ttbkey", ttbkey)
@@ -38,19 +37,7 @@ class HomeRepository(
             put("maxresults", maxresults)
             put("output", output)
             put("cover", cover)
-        }).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    val queryTypeName = it.query.split("=",";")[1]
-                    if(it == null) success.invoke(emptyList(),queryTypeName)
-                    else if(it.item !=null) success.invoke(it.item,queryTypeName)
-                    else failure.invoke("Item is Null")
-                },
-                {
-                    failure.invoke(it.toString())
-                }
-            )
+        })
     }
 }
 

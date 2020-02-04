@@ -5,5 +5,5 @@ import android.os.Parcelable
 
 data class BookResponse(
     val query : String, // ":"QueryType=ITEMNEWSPECIAL;SearchTarget=book",
-    val item : List<BookItems>?
+    val item : List<BookItems>
 )
