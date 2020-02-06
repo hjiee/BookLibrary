@@ -89,7 +89,7 @@ class SavedDetailActivity :
                     savedDetailViewModel.pushLike(this.isSelected,item!!)
                 }
             }
-            ivChat.apply {
+            ivComment.apply {
                 this.isSelected = item?.isReviews ?: false
                 setOnClickListener {
                     this.isSelected = this.isSelected.not()
