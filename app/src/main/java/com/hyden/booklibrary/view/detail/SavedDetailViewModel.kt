@@ -13,7 +13,7 @@ import com.hyden.util.LogUtil.LogE
 
 class SavedDetailViewModel(
     private val roomDatasource: RoomDataSource,
-    private val firebaseRepository: FirebaseDataSource
+    private val firebaseDataSource: FirebaseDataSource
 ) : BaseViewModel() {
 
     private val _detailInfo = MutableLiveData<BookEntity>()
@@ -68,19 +68,19 @@ class SavedDetailViewModel(
     }
 
     fun pushLike(isSelected: Boolean, bookEntity: BookEntity) {
-        val documentId = firebaseRepository.getLoginEmail() + "-" + bookEntity.isbn13
-        firebaseRepository.pushLike(
+        val documentId = firebaseDataSource.getLoginEmail() + "-" + bookEntity.isbn13
+        firebaseDataSource.pushLike(
             isSelected = isSelected,
             documentId = documentId
         )
     }
 
     fun pushShare(bookEntity: BookEntity) {
-        firebaseRepository.pushShare(bookEntity)
+        firebaseDataSource.pushShare(bookEntity)
     }
 
     fun pushDelete(isbn13: String) {
-        firebaseRepository.deleteBook(isbn13)
+        firebaseDataSource.deleteBook(isbn13)
     }
 
     fun isSharedUser() {

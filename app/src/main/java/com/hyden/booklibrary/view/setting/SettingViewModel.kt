@@ -5,9 +5,9 @@ import com.hyden.booklibrary.data.repository.FirebaseRepository
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 
 class SettingViewModel(
-    private val firebaseRepository: FirebaseRepository
+    private val firebaseDataSource: FirebaseDataSource
 ) : BaseViewModel() {
 
-    fun signOut() = firebaseRepository.googleSignOut()
+    fun signOut() = firebaseDataSource.googleSignOut()
 
 }

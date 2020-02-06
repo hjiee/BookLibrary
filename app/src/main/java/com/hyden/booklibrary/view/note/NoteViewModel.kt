@@ -5,17 +5,19 @@ import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.repository.FirebaseRepository
 import com.hyden.booklibrary.data.repository.RoomRepository
+import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
+import com.hyden.booklibrary.data.repository.source.RoomDataSource
 
 class NoteViewModel(
-    private val roomRepository: RoomRepository,
-    private val firebaseRepository: FirebaseRepository
+    private val roomDataSource: RoomDataSource,
+    private val firebaseDataSource: FirebaseDataSource
 ) : BaseViewModel() {
 
     var bookNote = ObservableField<String>()
 
     fun updateBook(bookEntity: BookEntity) {
-        compositeDisposable.add(roomRepository.updateBook(bookEntity = bookEntity))
-        firebaseRepository.updateBook(bookEntity)
+        compositeDisposable.add(roomDataSource.updateBook(bookEntity = bookEntity))
+        firebaseDataSource.updateBook(bookEntity)
     }
 
 
@@ -23,7 +25,7 @@ class NoteViewModel(
         isbn13 : String
     ) {
         compositeDisposable.add(
-            roomRepository.getBook(
+            roomDataSource.getBook(
                 isbn13 = isbn13,
                 success = {
                     bookNote.set(it?.bookNote)

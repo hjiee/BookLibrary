@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.repository.FirebaseRepository
+import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 
 class LoginViewModel(
-    private val firebaseRepository: FirebaseRepository
+    private val firebaseDataSource: FirebaseDataSource
 ) : BaseViewModel() {
 
     private val _auth = MutableLiveData<FirebaseAuth>().apply { FirebaseAuth.getInstance() }
@@ -15,12 +16,12 @@ class LoginViewModel(
 
 
     fun loing() {
-        firebaseRepository.login()
+        firebaseDataSource.login()
 //        _auth.value?.createUserWithEmailAndPassword("", "")
     }
 
-    fun googleSignIn() = firebaseRepository.googleSignIn()
+    fun googleSignIn() = firebaseDataSource.googleSignIn()
 
 
-    fun googleSignOut() = firebaseRepository.googleSignOut()
+    fun googleSignOut() = firebaseDataSource.googleSignOut()
 }

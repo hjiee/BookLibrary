@@ -40,7 +40,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         if(googleAuth.currentUser != null) { goMain() }
         binding.apply {
             btnLogin.setOnClickListener {
-                loginViewModel.loing()
+//                loginViewModel.loing()
+                goMain()
             }
             btnGoogleLogin.setOnClickListener {
                 startActivityForResult(googleSignInClient.signInIntent,RC_SIGN_IN)
