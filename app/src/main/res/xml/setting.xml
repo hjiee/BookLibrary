@@ -30,6 +30,12 @@
             app:iconSpaceReserved="true" />
 
         <Preference
+            android:summary="@string/setting_summary_profile"
+            android:title="@string/setting_state_profile"
+            android:key="@string/setting_key_profile"
+            app:iconSpaceReserved="true" />
+
+        <Preference
             android:summary="@string/setting_summary_logout"
             android:title="@string/setting_state_logout"
             android:key="@string/setting_key_logout"

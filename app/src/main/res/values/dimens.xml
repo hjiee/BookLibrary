@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="profile_iamge_margin_top">10dp</dimen>
+    <dimen name="profile_modify_iamge_margin_right">5dp</dimen>
+    <dimen name="profile_modify_iamge_margin_bottom">5dp</dimen>
+</resources>
