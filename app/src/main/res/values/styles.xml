@@ -81,8 +81,9 @@
         <item name="android:textColorSecondary">@color/colorPaltte5</item>
     </style>
 
-    <style name="TEST_dsd">
-
+    <style name="TextHintStyle">
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item type="id" name="tv_expandable"/>
+    <item type="id" name="tv_show_more"/>
+    <item type="id" name="ib_expand_collapse"/>
+</resources>
