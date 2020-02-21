@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.hyden.util.ImageTransformType" />
+
+        <variable
+            name="firebase"
+            type="com.hyden.booklibrary.view.common.FirebaseViewModel" />
+
+        <variable
+            name="vm"
+            type="com.hyden.booklibrary.view.profile.ProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:background="@drawable/ripple_effect"
+                    android:src="@drawable/ic_back"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    style="@style/TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/profile"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_back"/>
+
+                <TextView
+                    android:id="@+id/tv_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/complete"
+                    android:onClick="@{() -> vm.changedComplete()}"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            loadUrl="@{firebase.getProfile()}"
+            tranformType="@{ImageTransformType.CIRCLE}"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="@dimen/profile_iamge_margin_top"
+            android:onClick="@{() -> vm.changeProfile()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_circle"
+            android:layout_marginEnd="@dimen/profile_modify_iamge_margin_right"
+            android:layout_marginBottom="@dimen/profile_modify_iamge_margin_bottom"
+            android:src="@drawable/ic_profile_modify"
+            app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+            app:layout_constraintRight_toRightOf="@id/iv_profile" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextHintStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:backgroundTint="@color/colorLightBlack3"
+                android:clickable="false"
+                android:focusable="false"
+                android:cursorVisible="false"
+                android:hint="@string/string_email_kr"
+                android:text="@{firebase.getEmail()}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextHintStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:backgroundTint="@color/colorLightBlack3"
+                android:hint="@string/string_name"
+                android:clickable="false"
+                android:focusable="false"
+                android:cursorVisible="false"
+                android:text="@{firebase.getName()}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextHintStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:background="@null"
+                android:backgroundTint="@color/colorLightBlack3"
+                android:hint="@string/string_nickname"
+                android:clickable="false"
+                android:focusable="false"
+                android:cursorVisible="false"
+                android:drawableEnd="@drawable/ic_modify"
+                android:onClick="@{() -> vm.changeNickName()}"
+                android:text="@{firebase.getNickName()}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
