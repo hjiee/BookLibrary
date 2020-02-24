@@ -15,13 +15,15 @@ import com.hyden.booklibrary.R
 import com.hyden.booklibrary.util.*
 import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
+import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
 import com.hyden.ext.moveToActivity
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingFragment : PreferenceFragmentCompat() {
 
-    private val settingViewModel by inject<SettingViewModel>()
+    private val settingViewModel by viewModel<SettingViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +39,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         changeTheme()
         changeStartView()
         changeLoginState()
+        changeProfile()
         sendToMail()
         sendToEvaluation()
         sendToDonate()
@@ -45,6 +48,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         preferenceManager.context.setTheme(R.style.PreferenceTheme)
     }
 
+    // 문의 하기
     private fun sendToMail() {
         findPreference<Preference>(getString(R.string.setting_key_question))?.apply {
             setOnPreferenceClickListener {
@@ -66,6 +70,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         }
     }
 
+    // 색상 테마 변경
     private fun changeTheme() {
         findPreference<ListPreference>(getString(R.string.setting_key_theme))?.apply {
             summary = getPreferenceTheme()
@@ -85,6 +90,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         }
     }
 
+    // 시작 화면 변경
     private fun changeStartView() {
         findPreference<ListPreference>(getString(R.string.setting_key_start_view))?.apply {
             summary = getPreferenceStartView()
@@ -98,6 +104,20 @@ class SettingFragment : PreferenceFragmentCompat() {
             }
         }
     }
+
+    // 프로필 설정 변경
+    private fun changeProfile() {
+        findPreference<Preference>(getString(R.string.setting_key_profile))?.apply {
+            setOnPreferenceClickListener {
+                moveToActivity(Intent(activity,
+                    ProfileActivity::class.java))
+                true
+            }
+        }
+
+    }
+
+    // 로그아웃
     private fun changeLoginState() {
         findPreference<Preference>(getString(R.string.setting_key_logout))?.apply {
             setOnPreferenceClickListener {
@@ -131,6 +151,8 @@ class SettingFragment : PreferenceFragmentCompat() {
             this.context.setTheme(R.style.PreferenceTheme)
         }
     }
+
+    // 오픈소스 라이브러리 정보
     private fun infoOpenSourceLicense() {
         findPreference<Preference>(getString(R.string.setting_key_opensource))?.apply {
             setOnPreferenceClickListener {

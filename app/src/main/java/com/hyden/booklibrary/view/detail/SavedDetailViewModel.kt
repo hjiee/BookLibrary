@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.booklibrary.data.repository.FirebaseRepository
-import com.hyden.booklibrary.data.repository.RoomRepository
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.data.repository.source.RoomDataSource
 import com.hyden.util.LogUtil.LogD
@@ -28,6 +26,20 @@ class SavedDetailViewModel(
     fun bookInfo(bookInfo: BookEntity?) {
         _detailInfo.value = bookInfo
         LogD("데이터 저장")
+    }
+
+    fun bookReLoad(isbn13: String) {
+        compositeDisposable.add(
+            roomDatasource.getBook(
+                isbn13 = isbn13
+                ,
+                success = {
+                    _detailInfo.value = it
+                },
+                failure = {
+                    LogE("ERROR : $it")
+                })
+        )
     }
 
     fun bookInsert() {

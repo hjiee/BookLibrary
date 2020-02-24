@@ -15,6 +15,7 @@ import com.hyden.booklibrary.view.search.SearchFragment
 import com.hyden.booklibrary.view.setting.SettingFragment
 import com.hyden.ext.replaceFragment
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
@@ -22,7 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var backKeyPressedTime = 0L
     private lateinit var toast: Toast
 
-    private val mainViewModel by inject<MainViewModel>()
+    private val mainViewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTheme(getPreferenceTheme())

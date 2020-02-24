@@ -19,18 +19,19 @@ import com.hyden.ext.loadUrl
 import com.hyden.ext.moveToActivityForResult
 import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SavedDetailActivity :
     BaseActivity<ActivityDetailSavedBinding>(R.layout.activity_detail_saved) {
 
-    private val savedDetailViewModel by inject<SavedDetailViewModel>()
+    private val savedDetailViewModel by viewModel<SavedDetailViewModel>()
     private val feedViewModel by inject<FeedViewModel>()
 
     var item: BookEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        savedDetailViewModel.bookInfo(item)
+
         savedDetailViewModel.isContain.observe(
             this@SavedDetailActivity,
             Observer {
@@ -48,6 +49,7 @@ class SavedDetailActivity :
                 }
             }
         )
+        // 삭제
         savedDetailViewModel.isDelete.observe(this,
             Observer {
                 when (it) {
@@ -65,8 +67,14 @@ class SavedDetailActivity :
             })
     }
 
+    override fun onResume() {
+        super.onResume()
+        savedDetailViewModel.bookReLoad(item?.isbn13!!)
+    }
+
     override fun initBind() {
         item = intent?.getParcelableExtra(getString(R.string.book_info))
+        savedDetailViewModel.bookInfo(item)
         binding.apply {
             vm = savedDetailViewModel
             ibDelete.apply {
@@ -97,6 +105,7 @@ class SavedDetailActivity :
                     savedDetailViewModel.bookUpdate(item!!)
                 }
             }
+            // 피드에 책 등록
             ivShared.apply {
                 this.isSelected = item?.isShared ?: false
                 setOnClickListener {

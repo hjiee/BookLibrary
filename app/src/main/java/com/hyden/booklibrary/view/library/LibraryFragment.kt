@@ -22,11 +22,12 @@ import com.hyden.util.ItemClickListener
 import com.hyden.util.ItemLongClickListener
 import com.hyden.util.RecyclerItemDecoration
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_library) {
 
-    private val libraryViewModel by inject<LibraryViewModel>()
+    private val libraryViewModel by viewModel<LibraryViewModel>()
 
     private val itemClickListener by lazy {
         object : ItemClickListener {
