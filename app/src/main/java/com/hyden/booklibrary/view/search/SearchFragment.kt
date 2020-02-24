@@ -23,14 +23,17 @@ import com.hyden.booklibrary.util.QueryType
 import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
 import com.hyden.ext.moveToActivity
 import com.hyden.ext.showKeyboard
+import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
+import com.hyden.util.RecyclerItemDecoration
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private lateinit var searchQuery: String
     private val delayTime: Long = 500L
-    private val searchViewModel by inject<SearchViewModel>()
+    private val searchViewModel by viewModel<SearchViewModel>()
 
     private val endlessListener by lazy {
         object : EndlessRecyclerViewScrollListener(binding.rvBook.layoutManager) {
@@ -107,6 +110,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     ) {
                 }
                 addOnScrollListener(endlessListener)
+                addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
 
             }
             // 검색 바
@@ -155,6 +159,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             srvlRefresh.apply {
                 setOnRefreshListener {
                     showProgress()
+                    endlessListener.resetState()
                     searchViewModel.searchRefresh(
                         query = binding.includeAppbar.edtSearchInput.text.toString(),
                         queryType = getQueryType()

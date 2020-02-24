@@ -24,4 +24,6 @@ class LoginViewModel(
 
 
     fun googleSignOut() = firebaseDataSource.googleSignOut()
+
+    fun saveUser() = firebaseDataSource.saveUser()
 }

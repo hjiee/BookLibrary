@@ -11,10 +11,11 @@ import com.hyden.ext.loadUrl
 import com.hyden.ext.numberFormatter
 import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layout.activity_detail_unsaved) {
 
-    private val detailViewModel by inject<UnSavedDetailViewModel>()
+    private val detailViewModel by viewModel<UnSavedDetailViewModel>()
 
     private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
     private val type by lazy { intent?.getStringExtra(getString(R.string.book_detail_type)) }

@@ -17,10 +17,11 @@ import com.hyden.ext.moveToActivity
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogW
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
 
-    private val loginViewModel by inject<LoginViewModel>()
+    private val loginViewModel by viewModel<LoginViewModel>()
     private val googleSignInOptions by lazy {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -91,6 +92,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     }
 
     private fun goMain() {
+        loginViewModel.saveUser()
         moveToActivity(Intent(this@LoginActivity,MainActivity::class.java))
         finish()
     }

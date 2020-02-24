@@ -82,11 +82,11 @@ class SearchViewModel(
                         }
                     }
                     _searchFinishing.value = true
-                    LogUtil.LogW("SUCCESS : $data")
+//                    LogUtil.LogW("SUCCESS : $data")
                 },
                 failure = {
                     _isResultEmpty.value = false
-                    LogUtil.LogW("ERROR : $it")
+//                    LogUtil.LogW("ERROR : $it")
                 }
             )
         )

@@ -11,10 +11,11 @@ import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
 import com.hyden.booklibrary.view.detail.SavedDetailActivity
 import com.hyden.ext.showKeyboard
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_book_note) {
 
-    private val noteViewModel by inject<NoteViewModel>()
+    private val noteViewModel by viewModel<NoteViewModel>()
     private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
 //    private val firestore by lazy {
 //        FirebaseFirestore.getInstance()
