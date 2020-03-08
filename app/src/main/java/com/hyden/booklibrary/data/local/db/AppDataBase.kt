@@ -7,8 +7,9 @@ import androidx.room.RoomDatabase
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 
 @Database(entities = [BookEntity::class], version = 1)
-abstract class BookDataBase : RoomDatabase() {
+abstract class AppDataBase : RoomDatabase() {
     abstract fun getBookDao() : BookDao
+    abstract fun getUserDao() : UserDao
 
 //    companion object {
 //        var INSTANCE: BookDataBase? = null
