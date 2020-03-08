@@ -15,10 +15,10 @@
 
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        >
 
         <ImageView
             android:id="@+id/img_book_cover"
@@ -28,5 +28,5 @@
             tranformType="@{type.FIT}"
             android:layout_gravity="center" />
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

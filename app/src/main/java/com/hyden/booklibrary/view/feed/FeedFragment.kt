@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
@@ -17,20 +16,16 @@ import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
-import com.hyden.booklibrary.util.ConstUtil.Companion.DEFAULT_COLLAPSEDLINES
+import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.detail.SavedDetailViewModel
+import com.hyden.ext.onlyNumber
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
-import com.hyden.util.LogUtil.LogE
 import com.hyden.util.RecyclerItemDecoration
 import com.hyden.util.toPx
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
-
-//    private val firestore by lazy { FirebaseFirestore.getInstance() }
-//    private val item by lazy { mutableListOf<BookEntity>() }
-//    lateinit var documents: List<DocumentSnapshot>
 
     private val feedViewModel by viewModel<FeedViewModel>()
     private val savedDetailViewModel by viewModel<SavedDetailViewModel>()
@@ -78,6 +73,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         binding.apply {
             vm = feedViewModel
+            // 로딩바 표시
+            (activity as? MainActivity)?.showLoadingBar()
             rvBookFeed.apply {
                 addItemDecoration(RecyclerItemDecoration(5f.toPx(context)))
                 adapter = object : BaseRecyclerView.Adapter<Feed, RecyclerItemFeedBinding>(
@@ -90,32 +87,9 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         viewType: Int
                     ): BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding> {
                         val holder = super.onCreateViewHolder(parent, viewType)
-                        holder.binding?.apply {
-                            feedViewModel.feedItems.observe(this@FeedFragment,
-                                Observer {
-                                    ivLike?.setOnClickListener { view ->
-                                        view.isSelected = view.isSelected.not()
-                                        feedViewModel.pushLiked(
-                                            holder.adapterPosition,
-                                            view.isSelected
-                                        )
-                                        feedViewModel.isSharedUser.value?.let {
-                                            if (it) savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
-                                        }
-                                        when (view.isSelected) {
-                                            true -> tvLikeCount.text =
-                                                (tvLikeCount.text.toString().toInt() + 1).toString()
-                                            false -> tvLikeCount.text =
-                                                (tvLikeCount.text.toString().toInt() - 1).toString()
-                                        }
-                                    }
-                                }
-                            )
-
-                            ivComment?.setOnClickListener {
-                                Toast.makeText(context, "댓글", Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                        clickLike(holder)
+                        clickComment(holder)
+//                        holder.binding?.setVariable(BR.firestore,feedViewModel.getFireStore())
                         return holder
                     }
 
@@ -125,40 +99,10 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         position: Int
                     ) {
                         super.onBindViewHolder(holder, position)
-
-//                        holder.binding?.tvExpandable?.viewTreeObserver?.addOnGlobalLayoutListener {
-//                            LogE("position : ${holder.adapterPosition}")
-//                            LogE("line count : ${holder.binding?.tvExpandable?.lineCount}")
-//                            LogE("title : ${holder.binding?.tvTitle?.text}")
-//                            LogE("content : ${holder.binding?.tvExpandable?.text}")
-//                            LogE("----------------------------------------------------------")
-//                            if (holder.binding?.tvExpandable?.lineCount!! < DEFAULT_COLLAPSEDLINES)
-//                                holder.binding?.tvShowMore?.visibility = View.INVISIBLE
-//                        }
-//                        LogE("position : ${holder.adapterPosition}")
-//                        LogE("line count : ${holder.binding?.tvExpandable?.lineCount}")
-//                        LogE("title : ${holder.binding?.tvTitle?.text}")
-//                        LogE("content : ${holder.binding?.tvExpandable?.text}")
-//                        LogE("----------------------------------------------------------")
-//                        holder.binding?.tvExpandable?.viewTreeObserver?.addOnGlobalLayoutListener(
-//                            object : ViewTreeObserver.OnGlobalLayoutListener {
-//                                override fun onGlobalLayout() {
-////                                    LogE("test : ${holder.binding?.tvExpandable?.height}")
-////                                    LogE("position : ${holder.adapterPosition}")
-////                                    LogE("line count : ${holder.binding?.tvExpandable?.lineCount}")
-////                                    LogE("title : ${holder.binding?.tvTitle?.text}")
-////                                    LogE("content : ${holder.binding?.tvExpandable?.text}")
-////                                    LogE("----------------------------------------------------------")
-//                                    if (holder.binding?.tvExpandable?.lineCount!! > DEFAULT_COLLAPSEDLINES)
-//                                        holder.binding?.tvShowMore?.visibility = View.VISIBLE
-//                                    holder.binding?.tvExpandable?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
-//                                }
-//                            }
-//                        )
                         feedViewModel.feedItems.value?.let { feedItems ->
-                            //                            holder.binding?.ivLike?.isSelected = it[position].likesInfo.users?.contains(User(LOGIN_ID, LOGIN_NAME)) ?: false
-                            holder.binding?.ivLike?.isSelected =
-                                feedItems[position].likesInfo.users?.let {
+                            // 게시글마다 로그인한 유저가 좋아요를 클릭한 유저인지 검사.
+                            // 좋아요를 클릭한 유저라면 heart를 빨간색으로 표시
+                            holder.binding?.ivLike?.isSelected = feedItems[position].likesInfo.users?.let {
                                     feedViewModel.isContainsUser(it)
                                 } ?: false
                         }
@@ -178,6 +122,50 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
             }
         }
 
+    }
+
+    /**
+     * 좋아요 클릭 이벤트
+     */
+    private fun clickLike(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
+        holder.binding?.apply {
+            feedViewModel.feedItems.observe(this@FeedFragment,
+                Observer {
+                    ivLike?.setOnClickListener { view ->
+                        view.isSelected = view.isSelected.not()
+                        feedViewModel.pushLiked(
+                            holder.adapterPosition,
+                            view.isSelected
+                        )
+                        feedViewModel.isSharedUser.value?.let {
+                            if (it) savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
+                        }
+
+                        when (view.isSelected) {
+                            true -> tvLikeCount.text =
+                                String.format(getString(R.string.like_count),tvLikeCount.text.toString().onlyNumber().toInt() + 1)
+                            false -> tvLikeCount.text =
+                                String.format(getString(R.string.like_count),tvLikeCount.text.toString().onlyNumber().toInt() - 1)
+                        }
+                    }
+                    // 로딩바 취소
+                    (activity as? MainActivity)?.hideLoadingBar()
+                }
+            )
+
+
+        }
+    }
+
+    /**
+     * 댓글 클릭 이벤트
+     */
+    private fun clickComment(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
+        holder.binding?.apply {
+            ivComment?.setOnClickListener {
+                Toast.makeText(context, "댓글기능을 준비중입니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {

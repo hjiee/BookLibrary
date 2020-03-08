@@ -13,7 +13,10 @@ import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 import com.hyden.booklibrary.util.ConstUtil.Companion.FEED_LIMIT
+import com.hyden.util.LogUtil.LogE
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class FeedViewModel(
     private val firebaseDataSource: FirebaseDataSource
@@ -32,7 +35,16 @@ class FeedViewModel(
     private val _isSharedUser = MutableLiveData<Boolean>()
     val isSharedUser: LiveData<Boolean> get() = _isSharedUser
 
+    private val _userProfile = MutableLiveData<String>()
+    val userProfile : LiveData<String> get() = _userProfile
+
+    private val _userNickname = MutableLiveData<String>()
+    val userNickname : LiveData<String> get() = _userNickname
+
     // 좋아요 클릭 이벤트 처리
+    /**
+     * 좋아요
+     */
     fun pushLiked(position: Int, isLiked: Boolean) {
         _feedItems.value?.let {
             val documentId =
@@ -51,32 +63,43 @@ class FeedViewModel(
         return firebaseDataSource.isExsitUser(users)
     }
 
-    fun getUser() {
-        firestore.collection(DATABASENAME).document(firebaseDataSource.getLoginEmail()).get()
-            .addOnCompleteListener {
-                val email = it.result?.get("email").toString()
-                val name = it.result?.get("name").toString()
-                val nickName = it.result?.get("nickName").toString()
-                val profile = it.result?.get("profile").toString()
-                _userInfo.value = User(
-                    email = email,
-                    name = name,
-                    nickName = nickName,
-                    profile = profile
-                )
-            }
-    }
+//    fun getUser() {
+//        firestore.collection(DATABASENAME).document(firebaseDataSource.getLoginEmail()).get()
+//            .addOnCompleteListener {
+//                val email = it.result?.get("email").toString()
+//                val name = it.result?.get("name").toString()
+//                val nickName = it.result?.get("nickName").toString()
+//                val profile = it.result?.get("profile").toString()
+//                _userInfo.value = User(
+//                    email = email,
+//                    name = name,
+//                    nickName = nickName,
+//                    profile = profile
+//                )
+//            }
+//    }
 
-    // 파이어베이스 디비에서 데이터 가져오기
+    /**
+     * 피드에 등록된 책정보를 가져온다.
+     * 공유된 시간순으로 정렬
+     * 페이징 처리
+     */
     fun getFireStore() {
         firestore.collection(DATABASENAME)
             .orderBy("sharedInfo.sharedDate", Query.Direction.DESCENDING)
             .limit(FEED_LIMIT)
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                lastVisible = documentSnapshot.documents[documentSnapshot.size() - 1]
+                // 파이어베이스 페이징
+                if(documentSnapshot.size() >= 1) {
+                    lastVisible = documentSnapshot.documents[documentSnapshot.size() - 1]
+                }
                 val temp = mutableListOf<Feed>()
                 for (i in documentSnapshot.documents.indices) {
+//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["email"]
+//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
+//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
+//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
                     temp.add(feed(documentSnapshot.documents[i].data))
                 }
                 _feedItems.value = temp
@@ -116,8 +139,7 @@ class FeedViewModel(
                 get("commentsCount").toString().toLong(),
                 get("commentsInfo").toComment(),
                 get("likesCount").toString().toLong(),
-                get("likesInfo").toLike(),
-                get("usersInfo").toUser()
+                get("likesInfo").toLike()
             )
         }?.toFeed()!!
     }

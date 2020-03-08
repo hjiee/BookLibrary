@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -72,7 +73,8 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/profile_iamge_margin_top"
-            android:onClick="@{() -> vm.changeProfile()}"
+            tools:background="@drawable/sample"
+            android:onClick="@{() -> vm.clickProfile()}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -141,19 +143,20 @@
             app:layout_constraintTop_toBottomOf="@+id/til_name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tv_nickname"
                 style="@style/TextHintStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10"
                 android:background="@null"
-                android:backgroundTint="@color/colorLightBlack3"
-                android:hint="@string/string_nickname"
                 android:clickable="false"
                 android:focusable="false"
+                android:backgroundTint="@color/colorLightBlack3"
+                android:hint="@string/string_nickname"
                 android:cursorVisible="false"
                 android:drawableEnd="@drawable/ic_modify"
-                android:onClick="@{() -> vm.changeNickName()}"
-                android:text="@{firebase.getNickName()}" />
+                android:onClick="@{() -> vm.clickNickName()}"
+                android:text="@{vm.userNickName}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
