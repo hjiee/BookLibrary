@@ -22,17 +22,22 @@ interface FirebaseDataSource {
 
     // User
     fun saveUser()
-    fun updateUser()
+    fun updateUser(user : User)
     fun deleteUser(id : String)
     fun isExsitUser(users : List<User>) : Boolean
+    fun updateProfile(user : User,success : () -> Unit?)
 
     fun login()
     fun googleSignIn()
     fun googleSignOut()
+
+    fun uploadProfile()
+
 
     // getter
     fun getLoginEmail() : String
     fun getLoginName() : String
     fun getLoginProfile() : String
     fun getLoginNickname() : String
+
 }
