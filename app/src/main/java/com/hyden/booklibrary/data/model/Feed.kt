@@ -1,7 +1,6 @@
 package com.hyden.booklibrary.data.model
 
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.util.LogUtil.LogW
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -11,8 +10,8 @@ data class Feed(
     var commentsCount: Long,
     val commentsInfo: Comment,
     var likesCount: Long,
-    val likesInfo: Like,
-    val usersInfo: User
+    val likesInfo: Like
+//    val usersInfo: User
 )
 
 data class SharedInfo(
@@ -32,7 +31,8 @@ data class User(
     val email: String,
     val name: String,
     val nickName: String = "",
-    val profile: String = ""
+    val profile: String = "",
+    val updateAt : Date
 )
 
 fun Feed.toFeed(): Feed {
@@ -42,16 +42,16 @@ fun Feed.toFeed(): Feed {
         commentsCount,
         commentsInfo,
         likesCount,
-        likesInfo,
-        usersInfo
+        likesInfo
+//        usersInfo
     )
 }
 
 
-fun <T> T.toSharedInfo(): SharedInfo = SharedInfo(getDate(), getSaredUser() ?: User("", ""))
+fun <T> T.toSharedInfo(): SharedInfo = SharedInfo(getDate(), getSaredUser() ?: User("", "",updateAt = Date()))
 fun <T> T.toComment(): Comment = Comment(getUser())
 fun <T> T.toLike(): Like = Like(getUser())
-fun <T> T.toUser(): User = getUser()[0] ?: User("", "")
+fun <T> T.toUser(): User = getUser()[0] ?: User("", "",updateAt = Date())
 fun <T> T.getUser(): List<User> {
     val temp = mutableListOf<User>()
     when (this) {
@@ -63,7 +63,8 @@ fun <T> T.getUser(): List<User> {
                             email = get(i)["email"].toString(),
                             name = get(i)["name"].toString(),
                             nickName = get(i)["nickName"].toString(),
-                            profile = get(i)["profile"].toString()
+                            profile = get(i)["profile"].toString(),
+                            updateAt = Date()
                         )
                     )
                 }
@@ -72,7 +73,8 @@ fun <T> T.getUser(): List<User> {
                     email = this["email"].toString(),
                     name = this["name"].toString(),
                     nickName = this["nickName"].toString(),
-                    profile = this["profile"].toString()
+                    profile = this["profile"].toString(),
+                    updateAt = Date()
                 )
             )
         }
@@ -88,7 +90,6 @@ fun <T> T.getDate(): Date {
             val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
             val netDate = Date(milliseconds)
             val date = sdf.format(netDate).toString()
-            LogW(date)
             return netDate
         }
     }
@@ -96,14 +97,15 @@ fun <T> T.getDate(): Date {
 }
 
 fun <T> T.getSaredUser(): User {
-    var user = User("", "")
+    var user = User("", "",updateAt = Date())
     when (this) {
         is HashMap<*, *> -> {
             user = User(
                 email = (this["users"] as HashMap<*, *>)["email"].toString(),
                 name = (this["users"] as HashMap<*, *>)["name"].toString(),
                 nickName = (this["users"] as HashMap<*, *>)["nickName"].toString(),
-                profile = (this["users"] as HashMap<*, *>)["profile"].toString()
+                profile = (this["users"] as HashMap<*, *>)["profile"].toString(),
+                updateAt = Date()
             )
         }
     }
