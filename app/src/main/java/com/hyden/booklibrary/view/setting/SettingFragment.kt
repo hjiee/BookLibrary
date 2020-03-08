@@ -17,6 +17,7 @@ import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
 import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
+import com.hyden.ext.dialogSimple
 import com.hyden.ext.moveToActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
