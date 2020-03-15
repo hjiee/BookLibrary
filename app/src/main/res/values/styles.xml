@@ -8,12 +8,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ImageCropTheme" parent="Theme.AppCompat">
+        <item name="colorPrimaryDark">@color/colorLightBlack2</item>
+        <item name="colorPrimary">@color/colorLightBlack2</item>
+        <item name="android:windowBackground">@color/colorLightBlack2</item>
+        <item name="android:navigationBarColor">@color/colorLightBlack2</item>
+        <item name="bottomNavigationStyle">@style/NavigationBarInActiveStyle</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/scdream4_regular</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
     <!--기본 배경 테마-->
     <style name="NoActionBarThemeDark" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/colorLightBlack3</item>
-        <item name="android:windowBackground">@color/colorLightBlack3</item>
-        <item name="bottomNavigationStyle">@color/colorLightBlack3</item>
+        <item name="colorPrimaryDark">@color/colorLightBlack2</item>
+        <item name="android:windowBackground">@color/colorLightBlack2</item>
+        <item name="android:navigationBarColor">@color/colorLightBlack2</item>
+        <item name="bottomNavigationStyle">@style/NavigationBarInActiveStyle</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/scdream4_regular</item>
+        <item name="android:lineSpacingExtra">4sp</item>
     </style>
 
     <style name="NoActionBarThemeWhite" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -32,9 +46,10 @@
 
     <style name="TextTitleStyle">
         <item name="android:textColorSecondary">@color/colorWhite</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/scdream6_bold</item>
         <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
         <item name="android:padding">5dp</item>
     </style>
 
@@ -59,7 +74,8 @@
 
     <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
         <item name="android:colorAccent">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorPaltte5</item>
+        <item name="android:textColorSecondary">@color/colorGray</item>
+
     </style>
 
     <style name="TextHintStyle">
@@ -67,5 +83,29 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="BookImageStyle">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_width">@dimen/book_image_width</item>
+        <item name="android:layout_height">@dimen/book_image_height</item>
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+    </style>
+
+    <style name="NavigationBarInActiveStyle">
+        <item name="android:fontFamily">@font/scdream2_extra_light</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="NavigationBarActiveStyle">
+        <item name="android:fontFamily">@font/scdream3_light</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextInputEditTextStyle">
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorHighlight">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>

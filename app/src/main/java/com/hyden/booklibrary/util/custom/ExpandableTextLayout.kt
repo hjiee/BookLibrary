@@ -3,7 +3,13 @@ package com.hyden.booklibrary.util.custom
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Typeface
 import android.opengl.Visibility
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -78,7 +84,7 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         tvShowMore.id = tvShowMoreId
         tvShowMore.layoutParams = LayoutParams(MATCH_PARENT,WRAP_CONTENT)
         tvShowMore.text = "자세히보기"
-        tvShowMore.visibility = View.INVISIBLE
+        tvShowMore.visibility = View.GONE
         tvShowMore.setTextColor(Color.GRAY)
         addView(tvShowMore)
         typeArrary.recycle()
@@ -141,20 +147,22 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
     }
 
     fun setText(text : String) {
-        LogW("height : ${tvContents.height}")
-        tvContents.text = text
-        LogW("text : ${tvContents.text}")
-        LogW("height : ${tvContents.height}")
-        LogW("lineCount : ${tvContents.lineCount}")
-        LogW("DEFAULT_COLLAPSEDLINES : ${DEFAULT_COLLAPSEDLINES}")
-        LogW("collapsedLines : ${collapsedLines}")
-        LogW("---------------------------------------")
-        if(tvContents.lineCount > collapsedLines) {
+        val sb = SpannableStringBuilder().append(text)
+        sb.setSpan(StyleSpan(Typeface.BOLD),0,text.split(" ")[0].count(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        sb.setSpan(ForegroundColorSpan(Color.GRAY),0,text.split(" ")[0].count(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        tvContents.text = sb
+//        LogW("text : ${tvContents.text}")
+//        LogW("height : ${tvContents.height}")
+//        LogW("lineCount : ${tvContents.lineCount}")
+//        LogW("DEFAULT_COLLAPSEDLINES : ${DEFAULT_COLLAPSEDLINES}")
+//        LogW("collapsedLines : ${collapsedLines}")
+//        LogW("---------------------------------------")
+
+        if(!isExpanded && tvContents.lineCount > collapsedLines) {
             tvShowMore.visibility = View.VISIBLE
         } else {
             tvShowMore.visibility = View.INVISIBLE
         }
-//        LogW("content : $text")
-
     }
 }

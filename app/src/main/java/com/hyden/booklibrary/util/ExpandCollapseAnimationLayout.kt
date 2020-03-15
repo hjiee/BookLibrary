@@ -44,6 +44,7 @@ class ExpandCollapseAnimationLayout(
 
     override fun onAnimationEnd(animation: Animation?) {
         isAnimating = false
-        tvView.requestLayout()
+        view.clearAnimation()
+//        tvView.requestLayout()
     }
 }

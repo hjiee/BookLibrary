@@ -21,7 +21,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorLightBlack3"
+                android:backgroundTint="@color/colorLightBlack2"
                 android:layout_margin="10dp"
                 android:hint="@string/string_email"
                 android:inputType="textEmailAddress"
@@ -39,7 +39,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorLightBlack3"
+                android:backgroundTint="@color/colorLightBlack2"
                 android:layout_margin="10dp"
                 android:hint="@string/string_passward"
                 android:inputType="textPassword"

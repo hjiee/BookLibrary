@@ -60,7 +60,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation 'androidx.preference:preference:1.1.0'
 
-    // koin
+//     koin
     def koin_version = '2.0.1'
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
@@ -100,14 +100,23 @@ dependencies {
     implementation "com.google.firebase:firebase-auth:$firebase_version"
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
+    //FirebaseStorage
+    def firebase_firestorage = "19.1.1"
+    implementation "com.google.firebase:firebase-storage:$firebase_firestorage"
+
+    // Lottie
+    def lottie_version = "3.3.1"
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
     // Stetho
     def stetho_version = '1.5.1'
     implementation "com.facebook.stetho:stetho:$stetho_version"
 
-    // Lottie
-    def lottie_version = "3.3.1"
-    implementation "com.airbnb.android:lottie:$lottie_version"
+    // Image Cropping Library
+    // https://github.com/ArthurHub/Android-Image-Cropper
+    implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
+
+
 
 }
 

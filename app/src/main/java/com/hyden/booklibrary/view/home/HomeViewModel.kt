@@ -79,6 +79,7 @@ class HomeViewModel(
 
     private fun bookBlogBest(data: List<BookItems>) {
         _bookBlogBest.value = data
+
     }
 
     private fun bookBestSeller(data: List<BookItems>) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="com.hyden.ext.ImageViewExtKt"/>
@@ -14,18 +15,23 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/book_image_width"
+        android:layout_height="@dimen/book_image_height"
         android:layout_margin="2dp">
 
 
         <ImageView
             android:id="@+id/img_book_cover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             loadUrl="@{response.cover}"
-            tranformType="@{type.FIT}"
-            android:layout_gravity="center" />
+            tranformType="@{type.ROUND}"
+            radius="@{@integer/book_image_radius}"
+            style="@style/BookImageStyle"
+            tools:background="@drawable/book_sample_cover"
+            android:layout_gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 <!--        <ImageView-->
 <!--            android:id="@+id/iv_saved"-->

@@ -26,7 +26,6 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/colorLightBlack1">
 
@@ -58,11 +57,12 @@
             <ImageView
                 android:id="@+id/img_book_cover"
                 loadUrl="@{response.bookEntity.cover}"
-                tranformType="@{type.FIT}"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
+                tranformType="@{type.ROUND}"
+                radius="@{@integer/book_image_radius}"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
+                tools:background="@drawable/book_sample_cover"
+                style="@style/BookImageStyle"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_profile" />

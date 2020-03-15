@@ -59,7 +59,7 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
                 }
             }
             ibBack.setOnClickListener { finish() }
-            ivBookCover.loadUrl(item?.cover,ImageTransformType.FIT)
+            ivBookCover.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
             tvTitle.text = item?.title!!.split(" - ")[0] ?: ""
             if(item?.title!!.split(" - ").size > 1)
                 tvSubtitle.text = item?.title!!.split(" - ")[1] ?: ""

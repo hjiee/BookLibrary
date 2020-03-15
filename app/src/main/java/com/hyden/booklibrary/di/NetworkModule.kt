@@ -29,7 +29,16 @@ val networkModule = module {
                 } else {
                     HttpLoggingInterceptor.Level.NONE
                 }
-            }).build()
+
+            })
+//            .addInterceptor { chain ->
+//                val request = chain.request().newBuilder()
+//                    .addHeader("Authorization", "4f08d01d093bac36db0e4f8ae1fdc52a")
+//                    .addHeader("Content-Type", "application/json")
+//                    .build()
+//                chain.proceed(request)
+//            }
+            .build()
     }
 
     single<Converter.Factory> {
