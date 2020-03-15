@@ -3,13 +3,13 @@ package com.hyden.booklibrary.view.home
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyojin.util.EndlessRecyclerViewScrollListener
+import com.google.firebase.Timestamp
+import com.google.firebase.database.ServerValue
 import com.hyden.base.BaseFragment
 import com.hyden.base.BaseRecyclerView
 import com.hyden.booklibrary.R
@@ -29,11 +29,9 @@ import com.hyden.ext.moveToActivity
 import com.hyden.util.ImageTransformType
 import com.hyden.util.ItemClickListener
 import com.hyden.util.LogUtil.LogE
-import com.hyden.util.LogUtil.LogW
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 import kotlin.random.Random
@@ -65,6 +63,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
+
+        LogE(Timestamp.now().toDate().toString())
+        LogE(ServerValue.TIMESTAMP.get("timestamp").toString())
+
         binding.ivBookCover.apply {
             homeViewModel.bookBlogBest.observe(
                 this@HomeFragment,

@@ -1,20 +1,23 @@
 package com.hyden.booklibrary.view
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityMainBinding
 import com.hyden.booklibrary.util.getPreferenceStartView
 import com.hyden.booklibrary.util.getPreferenceTheme
+import com.hyden.booklibrary.view.common.LoadingViewModel
 import com.hyden.booklibrary.view.feed.FeedFragment
 import com.hyden.booklibrary.view.home.HomeFragment
 import com.hyden.booklibrary.view.library.LibraryFragment
 import com.hyden.booklibrary.view.search.SearchFragment
 import com.hyden.booklibrary.view.setting.SettingFragment
 import com.hyden.ext.replaceFragment
-import org.koin.android.ext.android.inject
+import kotlinx.android.synthetic.main.view_loading.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -24,6 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var toast: Toast
 
     private val mainViewModel by viewModel<MainViewModel>()
+    private val loadingViewModel by viewModel<LoadingViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initTheme(getPreferenceTheme())
@@ -51,6 +55,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 }
             }
         }
+        loadingViewModel.hide()
+//        hideLoadingBar()
     }
 
     override fun onBackPressed() {
@@ -89,6 +95,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun initBind() {
         binding.apply {
+            loadingVM = loadingViewModel
             bnvMenu.apply {
                 setOnNavigationItemSelectedListener {
                     if (currentNavigationView != it.itemId) {
@@ -119,6 +126,31 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     true
                 }
             }
+        }
+    }
+
+    private val runnable by lazy {
+        Runnable {
+            binding.viewLoading.lottieLoading.run {
+                visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private val handler by lazy {
+        Handler()
+    }
+
+    fun showLoadingBar() {
+        binding.viewLoading.lottieLoading.playAnimation()
+        handler.postDelayed({runnable},300)
+    }
+
+    fun hideLoadingBar() {
+        handler.removeCallbacks(runnable)
+        binding.viewLoading.lottieLoading.run {
+            visibility = View.GONE
+            cancelAnimation()
         }
     }
 

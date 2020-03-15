@@ -1,6 +1,7 @@
 package com.hyden.booklibrary.data.repository
 
 import android.content.Context
+import android.net.Uri
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -14,7 +15,12 @@ import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 import com.hyden.booklibrary.util.ConstUtil.Companion.FIRESTORE_USERS
 import com.hyden.booklibrary.util.getUserNickName
+import com.hyden.booklibrary.util.getUserProfile
 import com.hyden.booklibrary.util.setUserNickName
+import com.hyden.booklibrary.util.setUserProfile
+import com.hyden.util.LogUtil.LogE
+import com.hyden.util.LogUtil.LogW
+import com.hyden.util.Result
 import java.util.*
 
 
@@ -23,7 +29,7 @@ class FirebaseRepository(
     val context: Context
 ) : FirebaseDataSource {
 
-    private val firebaseFireStorage by lazy { FirebaseStorage.getInstance() }
+    private val firebaseStorage by lazy { FirebaseStorage.getInstance() }
     private val firebaseFireStore by lazy { FirebaseFirestore.getInstance() }
     private val googleSignInOptions by lazy {
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -33,10 +39,7 @@ class FirebaseRepository(
     }
     private val googleSignInClient by lazy { GoogleSignIn.getClient(context, googleSignInOptions) }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
-    private val currentUser by lazy {
-        User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
-    }
-
+    private var currentUser = User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
 
 
 
@@ -128,6 +131,7 @@ class FirebaseRepository(
 
         }
         context.setUserNickName(currentUser.nickName)
+        context.setUserProfile(currentUser.profile)
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail())
             .set(currentUser, SetOptions.merge())
     }
@@ -139,8 +143,8 @@ class FirebaseRepository(
     }
 
     override fun updateProfile(user: User, success: () -> Unit?) {
+        currentUser = user
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail()).set(user)
-        context.setUserNickName(user.nickName)
         firebaseFireStore.collection(DATABASENAME)
             .whereEqualTo("sharedInfo.users.email", getLoginEmail())
             .get()
@@ -157,11 +161,53 @@ class FirebaseRepository(
                         .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
 //                    LogW(documentSnapshot.documents[i].data.toString())
                 }
+                saveUser()
                 success.invoke()
+            }
+            .addOnFailureListener {
+                LogE("Error [Update User Profile] : $it")
             }
     }
 
-    override fun uploadProfile() {
+    override fun uploadProfile(profile: Uri, result: (Result, String) -> Unit) {
+        firebaseStorage.getReferenceFromUrl("gs://booksroom-4107a.appspot.com/")
+            .let { storageReference ->
+                val childPath = "images/${getLoginEmail()}/profile.png"
+                storageReference.child(childPath).putFile(profile)
+                    .addOnSuccessListener { taskSanpshot ->
+                        storageReference.child(childPath).downloadUrl
+                            .addOnSuccessListener {
+                                LogW("Success : download url = $it")
+                                context.setUserProfile(it.toString())
+                                result.invoke(Result.SUCCESS, it.toString())
+                            }
+                            .addOnFailureListener {
+                                LogW("Error : fail = $it")
+                            }
+                    }
+                    .addOnFailureListener {
+                        result.invoke(Result.FAILURE, it.message.toString())
+                    }
+                    .addOnProgressListener { taskSnapshot ->
+                        val progress =
+                            (100 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
+                        LogW(progress.toString())
+                    }
+//            storageReference.putFile(profile)
+//                .addOnSuccessListener { taskSanpshot ->
+//                    storageReference.downloadUrl.addOnSuccessListener {
+//                        result.invoke(Result.SUCCESS,it.toString())
+//                    }
+//                }
+//                .addOnFailureListener {
+//                    LogW("왜 실패냐고")
+//                    result.invoke(Result.FAILURE,it.message.toString())
+//                }
+//                .addOnProgressListener { taskSnapshot ->
+//                    val progress = (100 * taskSnapshot.bytesTransferred) /  taskSnapshot.totalByteCount
+//                    LogW(progress.toString())
+//                }
+            }
     }
 
     override fun deleteUser(id: String) {
@@ -197,7 +243,7 @@ class FirebaseRepository(
 
     override fun getLoginName(): String = googleAuth.currentUser?.displayName?.trim() ?: ""
 
-    override fun getLoginProfile(): String = googleAuth.currentUser?.photoUrl.toString() ?: ""
+    override fun getLoginProfile(): String = context.getUserProfile()
 
     override fun getLoginNickname(): String {
         val userNickName = context.getUserNickName()

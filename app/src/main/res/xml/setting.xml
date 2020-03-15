@@ -30,6 +30,12 @@
             app:iconSpaceReserved="true" />
 
         <Preference
+            android:summary="@string/setting_summary_my_feed_book"
+            android:title="@string/setting_title_my_feed_book"
+            android:key="@string/setting_key_my_feed_book"
+            app:iconSpaceReserved="true" />
+
+        <Preference
             android:summary="@string/setting_summary_profile"
             android:title="@string/setting_state_profile"
             android:key="@string/setting_key_profile"
@@ -50,7 +56,7 @@
 
     <!--도움말-->
     <PreferenceCategory
-        android:title="@string/setting_category_contact"
+        android:title="@string/setting_category_help"
         android:key="@string/setting_category_key2"
         app:iconSpaceReserved="true">
         <Preference

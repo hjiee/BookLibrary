@@ -12,6 +12,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityLoginBinding
+import com.hyden.booklibrary.util.setUserNickName
 import com.hyden.booklibrary.view.MainActivity
 import com.hyden.ext.moveToActivity
 import com.hyden.util.LogUtil.LogD

@@ -17,6 +17,7 @@ import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
 import com.hyden.booklibrary.view.MainActivity
+import com.hyden.booklibrary.view.common.LoadingViewModel
 import com.hyden.booklibrary.view.detail.SavedDetailViewModel
 import com.hyden.ext.onlyNumber
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
@@ -29,6 +30,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
     private val feedViewModel by viewModel<FeedViewModel>()
     private val savedDetailViewModel by viewModel<SavedDetailViewModel>()
+    private val loadingViewModel by viewModel<LoadingViewModel>()
 
 
     private val itemClickListener by lazy {
@@ -74,6 +76,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
         binding.apply {
             vm = feedViewModel
             // 로딩바 표시
+//            loadingViewModel.show()
             (activity as? MainActivity)?.showLoadingBar()
             rvBookFeed.apply {
                 addItemDecoration(RecyclerItemDecoration(5f.toPx(context)))
@@ -149,6 +152,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         }
                     }
                     // 로딩바 취소
+//                    loadingViewModel.hide()
                     (activity as? MainActivity)?.hideLoadingBar()
                 }
             )

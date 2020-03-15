@@ -17,9 +17,8 @@ import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
 import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
-import com.hyden.ext.dialogSimple
+import com.hyden.ext.showSimpleDialog
 import com.hyden.ext.moveToActivity
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingFragment : PreferenceFragmentCompat() {
@@ -38,6 +37,7 @@ class SettingFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting, rootKey)
         changeTheme()
+        changeMyFeedBook()
         changeStartView()
         changeLoginState()
         changeProfile()
@@ -90,11 +90,21 @@ class SettingFragment : PreferenceFragmentCompat() {
             }
         }
     }
+    
+    // 내가 공유한 책 정보
+    private fun changeMyFeedBook() {
+        findPreference<Preference>(getString(R.string.setting_key_my_feed_book))?.apply {
+            setOnPreferenceClickListener {
+                true
+            }
+        }
+    }
 
     // 시작 화면 변경
     private fun changeStartView() {
         findPreference<ListPreference>(getString(R.string.setting_key_start_view))?.apply {
             summary = getPreferenceStartView()
+
             setOnPreferenceClickListener {
                 true
             }
@@ -124,7 +134,7 @@ class SettingFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
 
                 FirebaseAuth.getInstance().apply {
-                    context.dialogSimple("로그아웃 하시겠습니까?") {
+                    context.showSimpleDialog("로그아웃 하시겠습니까?") {
                         settingViewModel.signOut()
                         moveToActivity(Intent(activity,LoginActivity::class.java))
                         activity?.finish()

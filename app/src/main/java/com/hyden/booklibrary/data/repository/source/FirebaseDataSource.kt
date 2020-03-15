@@ -1,8 +1,11 @@
 package com.hyden.booklibrary.data.repository.source
 
+import android.net.Uri
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.data.model.User
+import com.hyden.util.Result
+import java.io.InputStream
 
 interface FirebaseDataSource {
 
@@ -31,7 +34,7 @@ interface FirebaseDataSource {
     fun googleSignIn()
     fun googleSignOut()
 
-    fun uploadProfile()
+    fun uploadProfile(profile : Uri, result : (Result, String) -> Unit)
 
 
     // getter

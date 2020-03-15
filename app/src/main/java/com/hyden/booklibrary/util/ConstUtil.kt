@@ -11,28 +11,19 @@ import kotlinx.android.synthetic.main.dialog_book_info.view.*
 class ConstUtil {
     companion object {
         const val DATABASENAME = "book"
-        const val USER_FIRESTORE_NAME = "users"
+        const val FIRESTORE_USERS = "users"
+        const val FIRESTORE_PERSONAL = "personal"
         const val DATABASELIMIT = 30
+        const val FEED_LIMIT = 6L
         const val BOOK_BLOGBEST = "BLOGBEST"
         const val BOOK_BESTSELLER = "BESTSELLER"
         const val BOOK_ITEMNEW = "ITEMNEWSPECIAL"
         const val BOOK_ITEMNEWALL = "ITEMNEWALL"
         const val BOOK_NOTE_REQUEST_CODE = 1224
+        const val DEFAULT_COLLAPSEDLINES = 3
 //        const val LOGIN_ID = "hjiee"
 //        const val LOGIN_NAME = "hyojin"
     }
-}
-
-fun Context.deleteBook(result: () -> Unit) {
-    AlertDialog.Builder(this, R.style.DeleteDialog).apply {
-        setTitle(getString(R.string.app_name))
-        setMessage("책에 저장된 정보가 삭제됩니다.\n정말 삭제하시겠습니까?")
-        setPositiveButton("삭제") { _, _ ->
-            result.invoke()
-        }
-        setNegativeButton("취소") { _, _ ->
-        }
-    }.show()
 }
 
 fun Context.dialogBookInfo(info: BookEntity?) {
@@ -51,17 +42,3 @@ fun Context.dialogBookInfo(info: BookEntity?) {
     }.show()
 }
 
-fun Context.dialogSimple(
-    message: String,
-    result: () -> Unit
-) {
-    AlertDialog.Builder(this, R.style.DeleteDialog).apply {
-        setTitle(getString(R.string.app_name))
-        setMessage("$message")
-        setPositiveButton("확인") { _, _ ->
-            result.invoke()
-        }
-        setNegativeButton("취소") { _, _ ->
-        }
-    }.show()
-}

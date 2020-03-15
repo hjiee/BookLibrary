@@ -3,9 +3,7 @@ package com.hyden.booklibrary.view.library
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.library.baseAdapters.BR
-import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.base.BaseFragment
 import com.hyden.base.BaseRecyclerView
 import com.hyden.booklibrary.R
@@ -13,15 +11,13 @@ import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import com.hyden.booklibrary.databinding.FragmentLibraryBinding
 import com.hyden.booklibrary.databinding.RecyclerItemLibraryBinding
-import com.hyden.booklibrary.util.deleteBook
 import com.hyden.booklibrary.util.longClickVibrate
 import com.hyden.booklibrary.view.detail.SavedDetailActivity
-import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
+import com.hyden.ext.showSimpleDialog
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.ItemLongClickListener
 import com.hyden.util.RecyclerItemDecoration
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -43,7 +39,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
                 when (item) {
                     is BookEntity -> {
                         longClickVibrate()
-                        context?.deleteBook { deleteBook(item.isbn13) }
+                        context?.showSimpleDialog(getString(R.string.are_you_delete_book_info)) { deleteBook(item.isbn13) }
                     }
                 }
                 return true

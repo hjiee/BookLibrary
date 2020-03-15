@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -45,7 +46,8 @@
                             android:layout_height="500dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"/>
+                            android:layout_marginEnd="5dp"
+                            android:scaleType="centerCrop"/>
 
                         <ImageView
                             android:id="@+id/iv_book_cover"
@@ -53,7 +55,8 @@
                             android:layout_height="500dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"/>
+                            android:layout_marginEnd="5dp"
+                            android:scaleType="centerCrop"/>
                     </FrameLayout>
 
                     <TextView
@@ -72,6 +75,8 @@
                         android:scrollbarStyle="outsideInset"
                         android:scrollbarThumbVertical="@color/colorWhite"
                         android:scrollbars="vertical"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/recycler_item_home"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1" />
 
@@ -91,6 +96,8 @@
                         android:scrollbarStyle="outsideInset"
                         android:scrollbarThumbVertical="@color/colorWhite"
                         android:scrollbars="vertical"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/recycler_item_home"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1" />
 

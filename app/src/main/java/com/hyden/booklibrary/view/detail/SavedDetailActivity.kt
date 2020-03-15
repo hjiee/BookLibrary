@@ -4,17 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.databinding.ActivityDetailSavedBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
-import com.hyden.booklibrary.util.deleteBook
 import com.hyden.booklibrary.util.dialogBookInfo
-import com.hyden.booklibrary.util.dialogSimple
 import com.hyden.booklibrary.view.feed.FeedViewModel
 import com.hyden.booklibrary.view.note.NoteActivity
+import com.hyden.ext.showSimpleDialog
+import com.hyden.ext.isTimeAutomatic
 import com.hyden.ext.loadUrl
 import com.hyden.ext.moveToActivityForResult
 import com.hyden.util.ImageTransformType
@@ -79,7 +78,7 @@ class SavedDetailActivity :
             vm = savedDetailViewModel
             ibDelete.apply {
                 setOnClickListener {
-                    deleteBook { savedDetailViewModel.deleteBook(item?.isbn13!!) }
+                    showSimpleDialog(getString(R.string.are_you_delete_book_info)) { savedDetailViewModel.deleteBook(item?.isbn13!!) }
                 }
             }
             ibBack.setOnClickListener { finish() }
@@ -94,7 +93,7 @@ class SavedDetailActivity :
                     this.isSelected = this.isSelected.not()
                     item?.isLiked = this.isSelected
                     savedDetailViewModel.bookUpdate(item!!)
-                    savedDetailViewModel.pushLike(this.isSelected,item!!)
+                    savedDetailViewModel.pushLike(this.isSelected, item!!)
                 }
             }
             ivComment.apply {
@@ -110,13 +109,28 @@ class SavedDetailActivity :
                 this.isSelected = item?.isShared ?: false
                 setOnClickListener {
                     if (!isSelected) {
-                        dialogSimple("감상노트를 공유 하시겠습니까?") {
-                            this.isSelected = this.isSelected.not()
-                            sharedCheck(isSelected = isSelected)
-                            item?.let { savedDetailViewModel.pushShare(it) }
+                        isTimeAutomatic {
+                            showSimpleDialog("감상노트를 공유 하시겠습니까?") {
+                                this.isSelected = this.isSelected.not()
+                                sharedCheck(isSelected = isSelected)
+                                item?.let { savedDetailViewModel.pushShare(it) }
+                            }
                         }
+//                        if (isTimeAutomatic()) {
+//                            dialogSimple("시스템시간을 네트워크시간으로 설정하겠습니까?") {
+//                                startActivity(Intent(Settings.ACTION_DATE_SETTINGS))
+//                            }
+//                            Toast.makeText(context, "시간설정을 네트워크 자동 시간으로 설정해주세요", Toast.LENGTH_SHORT).show()
+//
+//                        } else {
+//                            dialogSimple("감상노트를 공유 하시겠습니까?") {
+//                                this.isSelected = this.isSelected.not()
+//                                sharedCheck(isSelected = isSelected)
+//                                item?.let { savedDetailViewModel.pushShare(it) }
+//                            }
+//                        }
                     } else {
-                        dialogSimple("공유한 책정보를 해제하시겠습니까?") {
+                        showSimpleDialog("공유한 책정보를 해제하시겠습니까?") {
                             this.isSelected = this.isSelected.not()
                             sharedCheck(isSelected = this.isSelected)
                             item?.let { savedDetailViewModel.pushDelete(it.isbn13) }
@@ -134,7 +148,7 @@ class SavedDetailActivity :
                 }
             }
             tvTitle.text = item?.title!!.split(" - ")[0]
-            ivBookCover.loadUrl(item?.cover, ImageTransformType.FIT)
+            ivBookCover.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
 
         }
     }

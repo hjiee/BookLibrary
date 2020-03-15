@@ -9,8 +9,11 @@
 
         <variable
             name="firebase"
-            type="com.hyden.booklibrary.view.common.FirebaseViewModel" />
+            type="com.hyden.booklibrary.view.common.FirebaseModule" />
 
+        <variable
+            name="loadingVM"
+            type="com.hyden.booklibrary.view.common.LoadingViewModel" />
         <variable
             name="vm"
             type="com.hyden.booklibrary.view.profile.ProfileViewModel" />
@@ -68,8 +71,7 @@
 
         <ImageView
             android:id="@+id/iv_profile"
-            loadUrl="@{firebase.getProfile()}"
-            tranformType="@{ImageTransformType.CIRCLE}"
+
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/profile_iamge_margin_top"
@@ -104,11 +106,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10"
                 android:background="@null"
-                android:backgroundTint="@color/colorLightBlack3"
+                android:backgroundTint="@color/colorLightBlack2"
                 android:clickable="false"
                 android:focusable="false"
                 android:cursorVisible="false"
                 android:hint="@string/string_email_kr"
+                android:textSize="12sp"
                 android:text="@{firebase.getEmail()}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,8 +129,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_10"
                 android:background="@null"
-                android:backgroundTint="@color/colorLightBlack3"
+                android:backgroundTint="@color/colorLightBlack2"
                 android:hint="@string/string_name"
+                android:textSize="12sp"
                 android:clickable="false"
                 android:focusable="false"
                 android:cursorVisible="false"
@@ -151,14 +155,26 @@
                 android:background="@null"
                 android:clickable="false"
                 android:focusable="false"
-                android:backgroundTint="@color/colorLightBlack3"
+                android:backgroundTint="@color/colorLightBlack2"
                 android:hint="@string/string_nickname"
+                android:textSize="12sp"
                 android:cursorVisible="false"
                 android:drawableEnd="@drawable/ic_modify"
                 android:onClick="@{() -> vm.clickNickName()}"
                 android:text="@{vm.userNickName}" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <include
+            android:id="@+id/view_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/view_loading"
+            loadingVM="@{loadingVM}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
