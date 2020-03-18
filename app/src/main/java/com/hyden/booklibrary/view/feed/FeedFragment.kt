@@ -85,6 +85,24 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                     bindingVariableId = BR.response,
                     clickItemEvent = itemClickListener
                 ) {
+                    override fun onViewRecycled(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
+                        super.onViewRecycled(holder)
+
+                        if(holder is BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
+                            holder.binding?.tvNoteContent?.isEnabled = false
+                            holder.binding?.tvNoteContent?.showMore()
+                        }
+                    }
+
+                    override fun onViewDetachedFromWindow(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
+                        super.onViewDetachedFromWindow(holder)
+//                        if(holder is BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
+//                            holder.binding?.tvNoteContent?.isEnabled = false
+//                            holder.binding?.tvNoteContent?.showMore()
+//                        }
+                    }
+
+
                     override fun onCreateViewHolder(
                         parent: ViewGroup,
                         viewType: Int
@@ -105,9 +123,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         feedViewModel.feedItems.value?.let { feedItems ->
                             // 게시글마다 로그인한 유저가 좋아요를 클릭한 유저인지 검사.
                             // 좋아요를 클릭한 유저라면 heart를 빨간색으로 표시
+//                            holder.binding?.tvNoteContent?.showMore()
+
                             holder.binding?.ivLike?.isSelected = feedItems[position].likesInfo.users?.let {
-                                    feedViewModel.isContainsUser(it)
-                                } ?: false
+                                feedViewModel.isContainsUser(it)
+                            } ?: false
+
                         }
                     }
                 }
