@@ -17,6 +17,7 @@ import com.hyden.booklibrary.view.library.LibraryFragment
 import com.hyden.booklibrary.view.search.SearchFragment
 import com.hyden.booklibrary.view.setting.SettingFragment
 import com.hyden.ext.replaceFragment
+import com.hyden.ext.replaceFragmentStack
 import kotlinx.android.synthetic.main.view_loading.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -60,12 +61,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     override fun onBackPressed() {
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-            backKeyPressedTime = System.currentTimeMillis()
-            toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT)
-            toast.show()
-            return
+        if(!supportFragmentManager.popBackStackImmediate()){
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis()
+                toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT)
+                toast.show()
+                return
+            }
         }
+
         // 마지막으로 뒤로가기 버튼을 눌렀던 시간에 2초를 더해 현재시간과 비교 후
         // 마지막으로 뒤로가기 버튼을 눌렀던 시간이 2초가 지나지 않았으면 종료
         // 현재 표시된 Toast 취소

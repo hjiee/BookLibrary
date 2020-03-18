@@ -18,6 +18,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isEmpty
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.util.ConstUtil.Companion.DEFAULT_COLLAPSEDLINES
@@ -30,7 +31,7 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
     private var collapsedLines = DEFAULT_COLLAPSEDLINES
     private var isExpanded = false
     private var collapsedHeight = 0
-    private var expanedHeight = 0
+    private var expanedHeight = 150
 
     private var tvExPandableId = R.id.tv_expandable
     private var tvShowMoreId = R.id.tv_show_more
@@ -78,7 +79,8 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         // enforces vertical orientation
         orientation = VERTICAL
         tvContents.id = tvExPandableId
-        tvContents.layoutParams = LayoutParams(MATCH_PARENT,WRAP_CONTENT)
+        tvContents.background = resources.getDrawable(R.color.colorPrimary,null)
+        tvContents.layoutParams = LayoutParams(MATCH_PARENT,150)
         addView(tvContents)
 
         tvShowMore.id = tvShowMoreId
@@ -105,7 +107,7 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id) {
             R.id.tv_expandable -> {
-                Toast.makeText(context, "ㅆ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "내용", Toast.LENGTH_SHORT).show()
             }
             R.id.tv_show_more -> {
                 showMore()
@@ -113,7 +115,7 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         }
 
     }
-    private fun showMore() {
+    fun showMore() {
         var animation: ExpandCollapseAnimationLayout
 
         when (isExpanded) {
@@ -124,6 +126,7 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
                     tvContents.height,
                     collapsedHeight
                 )
+
             }
             false -> {
                 animation = ExpandCollapseAnimationLayout(
@@ -132,13 +135,21 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
                     tvContents.height,
                     expanedHeight
                 )
+
             }
         }
-        tvShowMore.visibility = View.INVISIBLE
+
+        if(isExpanded && tvContents.lineCount > collapsedLines) {
+            tvShowMore.visibility = View.VISIBLE
+        } else {
+            tvShowMore.visibility = View.INVISIBLE
+        }
         isExpanded = isExpanded.not()
-        animation.duration = 500
+        animation.duration = 0
         clearAnimation()
         startAnimation(animation)
+
+
     }
     private fun findViews() {
         tvContents.maxLines = collapsedLines
@@ -159,10 +170,14 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
 //        LogW("collapsedLines : ${collapsedLines}")
 //        LogW("---------------------------------------")
 
-        if(!isExpanded && tvContents.lineCount > collapsedLines) {
-            tvShowMore.visibility = View.VISIBLE
-        } else {
-            tvShowMore.visibility = View.INVISIBLE
-        }
+
+//
+
+
+        postDelayed(Runnable {
+            isExpanded=true
+            showMore()
+        },500)
+
     }
 }

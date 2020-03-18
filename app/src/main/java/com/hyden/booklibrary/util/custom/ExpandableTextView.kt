@@ -56,8 +56,8 @@ class ExpandableTextView : TextView, View.OnClickListener {
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        expanedHeight = lineHeight * lineCount + 10
-        collapsedHeight = lineHeight * collapsedLines + 10
+//        expanedHeight = lineHeight * lineCount + 10
+//        collapsedHeight = lineHeight * collapsedLines + 10
 
     }
 

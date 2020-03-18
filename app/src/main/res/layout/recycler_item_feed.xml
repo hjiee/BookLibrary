@@ -144,6 +144,7 @@
                 android:layout_height="wrap_content"
                 app:maxCollapsedLines="3"
                 android:layout_marginTop="10dp"
+                android:background="@color/colorAccent"
                 textBinding="@{(response.bookEntity.bookNote == `null` || response.bookEntity.bookNote == null) ? response.sharedInfo.users.nickName + `   ..` : response.sharedInfo.users.nickName + `   ` + response.bookEntity.bookNote }"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_like"
                 app:layout_constraintRight_toRightOf="parent"
