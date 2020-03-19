@@ -2,6 +2,7 @@ package com.hyden.booklibrary.data.repository
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -39,8 +40,8 @@ class FirebaseRepository(
     }
     private val googleSignInClient by lazy { GoogleSignIn.getClient(context, googleSignInOptions) }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
-    private var currentUser = User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
-
+    private var currentUser =
+        User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
 
 
     // Book
@@ -132,8 +133,12 @@ class FirebaseRepository(
         }
         context.setUserNickName(currentUser.nickName)
         context.setUserProfile(currentUser.profile)
-        firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail())
-            .set(currentUser, SetOptions.merge())
+            firebaseFireStore.collection(FIRESTORE_USERS).document()
+                .set(currentUser, SetOptions.merge())
+                .addOnFailureListener {
+                    Log.e("saveUser", "${it.localizedMessage}")
+                }
+
     }
 
     override fun updateUser(user: User) {
@@ -239,9 +244,9 @@ class FirebaseRepository(
     }
 
     // Getter
-    override fun getLoginEmail(): String = googleAuth.currentUser?.email?.trim() ?: ""
+    override fun getLoginEmail(): String = googleAuth.currentUser?.email?.trim() ?: "Not Exist Email"
 
-    override fun getLoginName(): String = googleAuth.currentUser?.displayName?.trim() ?: ""
+    override fun getLoginName(): String = googleAuth.currentUser?.displayName?.trim() ?: "Not Exist UserName"
 
     override fun getLoginProfile(): String = context.getUserProfile()
 

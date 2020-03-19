@@ -26,8 +26,7 @@ class FeedViewModel(
     //    lateinit var documents: List<DocumentSnapshot>
     lateinit var lastVisible: DocumentSnapshot
 
-    private val _feedItems = MutableLiveData<List<Feed>>()
-    val feedItems: LiveData<List<Feed>> get() = _feedItems
+    var _feedItems = MutableLiveData<List<Feed>>()
 
     private val _userInfo = MutableLiveData<User>()
     val userInfo: LiveData<User> get() = _userInfo
@@ -36,10 +35,10 @@ class FeedViewModel(
     val isSharedUser: LiveData<Boolean> get() = _isSharedUser
 
     private val _userProfile = MutableLiveData<String>()
-    val userProfile : LiveData<String> get() = _userProfile
+    val userProfile: LiveData<String> get() = _userProfile
 
     private val _userNickname = MutableLiveData<String>()
-    val userNickname : LiveData<String> get() = _userNickname
+    val userNickname: LiveData<String> get() = _userNickname
 
     // 좋아요 클릭 이벤트 처리
     /**
@@ -60,7 +59,17 @@ class FeedViewModel(
     }
 
     fun isContainsUser(users: List<User>): Boolean {
+
         return firebaseDataSource.isExsitUser(users)
+    }
+
+    fun isContainsUser(pos: Int): Boolean {
+        getFeedItem(pos)?.let {
+            it.likesInfo.users?.let {
+                return isContainsUser(it)
+            }
+        }
+        return false
     }
 
 //    fun getUser() {
@@ -91,7 +100,7 @@ class FeedViewModel(
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 // 파이어베이스 페이징
-                if(documentSnapshot.size() >= 1) {
+                if (documentSnapshot.size() >= 1) {
                     lastVisible = documentSnapshot.documents[documentSnapshot.size() - 1]
                 }
                 val temp = mutableListOf<Feed>()
@@ -177,6 +186,30 @@ class FeedViewModel(
                 get("bestRank").toString()
             )
         }.toBookEntity()
+    }
+
+
+    fun getFeedItem(pos: Int): Feed? {
+        _feedItems.value?.let {
+            return it[pos]
+        }
+        return null
+    }
+
+    fun toggleStateFeedMoreOption(pos : Int, state:Boolean):Boolean{
+        getFeedItem(pos)?.let {
+             it.expandableState= state.not()
+            return it.expandableState
+        }
+        return false
+    }
+
+
+    fun getStateExpandableState(pos : Int):Boolean{
+        getFeedItem(pos)?.let {
+         return it.expandableState
+        }
+        return true
     }
 
 }

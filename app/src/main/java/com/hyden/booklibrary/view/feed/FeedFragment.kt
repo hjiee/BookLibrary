@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
@@ -85,12 +86,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                     bindingVariableId = BR.response,
                     clickItemEvent = itemClickListener
                 ) {
+
                     override fun onViewRecycled(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
                         super.onViewRecycled(holder)
 
                         if(holder is BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
-                            holder.binding?.tvNoteContent?.isEnabled = false
-                            holder.binding?.tvNoteContent?.showMore()
+                          //  holder.binding?.tvNoteContent?.showMore()
                         }
                     }
 
@@ -120,7 +121,10 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         position: Int
                     ) {
                         super.onBindViewHolder(holder, position)
-                        feedViewModel.feedItems.value?.let { feedItems ->
+
+                        holder.binding?.viewmodel= feedViewModel
+                        holder.binding?.pos= position
+                 /*       feedViewModel._feedItems.value?.let { feedItems ->
                             // 게시글마다 로그인한 유저가 좋아요를 클릭한 유저인지 검사.
                             // 좋아요를 클릭한 유저라면 heart를 빨간색으로 표시
 //                            holder.binding?.tvNoteContent?.showMore()
@@ -129,7 +133,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                                 feedViewModel.isContainsUser(it)
                             } ?: false
 
-                        }
+                        }*/
                     }
                 }
                 addOnScrollListener(endlessListener)
@@ -140,7 +144,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                 setOnRefreshListener {
                     feedViewModel.getFireStore()
                     endlessListener.resetState()
-                    feedViewModel.feedItems.observe(this@FeedFragment,
+                    feedViewModel._feedItems.observe(this@FeedFragment,
                         Observer { isRefreshing = false })
                 }
             }
@@ -153,7 +157,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
      */
     private fun clickLike(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
         holder.binding?.apply {
-            feedViewModel.feedItems.observe(this@FeedFragment,
+            feedViewModel._feedItems.observe(this@FeedFragment,
                 Observer {
                     ivLike?.setOnClickListener { view ->
                         view.isSelected = view.isSelected.not()
@@ -162,7 +166,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                             view.isSelected
                         )
                         feedViewModel.isSharedUser.value?.let {
-                            if (it) savedDetailViewModel.bookUpdate(feedViewModel.feedItems.value!![holder.adapterPosition].bookEntity)
+                            if (it) savedDetailViewModel.bookUpdate(feedViewModel._feedItems.value!![holder.adapterPosition].bookEntity)
                         }
 
                         when (view.isSelected) {

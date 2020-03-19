@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="com.hyden.ext.ImageViewExtKt" />
+
         <import type="com.hyden.ext.DateExtKt" />
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
 
         <variable
             name="type"
@@ -21,13 +24,20 @@
             name="firestore"
             type="com.hyden.booklibrary.data.repository.FirebaseRepository" />
 
+        <variable
+            name="viewmodel"
+            type="com.hyden.booklibrary.view.feed.FeedViewModel" />
+
+        <variable
+            name="pos"
+            type="Integer" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        android:backgroundTint="@color/colorLightBlack1">
+        android:backgroundTint="@color/colorLightBlack1"
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -36,43 +46,43 @@
 
             <ImageView
                 android:id="@+id/iv_profile"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                tools:background="@drawable/sample"
                 loadUrl="@{response.sharedInfo.users.profile}"
                 tranformType="@{type.CIRCLE}"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/sample" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                tools:text="구글"
                 android:text="@{response.sharedInfo.users.nickName}"
-                app:layout_constraintTop_toTopOf="@id/iv_profile"
                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-                app:layout_constraintLeft_toRightOf="@id/iv_profile"/>
+                app:layout_constraintLeft_toRightOf="@id/iv_profile"
+                app:layout_constraintTop_toTopOf="@id/iv_profile"
+                tools:text="구글" />
 
             <ImageView
                 android:id="@+id/img_book_cover"
+                style="@style/BookImageStyle"
                 loadUrl="@{response.bookEntity.cover}"
-                tranformType="@{type.ROUND}"
                 radius="@{@integer/book_image_radius}"
+                tranformType="@{type.ROUND}"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                tools:background="@drawable/book_sample_cover"
-                style="@style/BookImageStyle"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_profile" />
+                app:layout_constraintTop_toBottomOf="@id/iv_profile"
+                tools:background="@drawable/book_sample_cover" />
 
             <TextView
                 android:id="@+id/tv_title"
+                style="@style/TextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{(response.bookEntity.title.split(` - `)[0] == null || response.bookEntity.title.split(` - `)[0] == `null`) ? `책정보가 없습니다.` : response.bookEntity.title.split(` - `)[0]}"
-                style="@style/TextStyle"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_book_cover" />
@@ -82,15 +92,15 @@
                 android:id="@+id/iv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_like"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
+                android:background="@drawable/selector_like"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/iv_comment" />
-
+                app:layout_constraintRight_toLeftOf="@id/iv_comment"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+               />
 
 
             <ImageView
@@ -98,70 +108,72 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_chat"
-                app:layout_constraintTop_toTopOf="@id/iv_like"
                 app:layout_constraintBottom_toBottomOf="@id/iv_like"
                 app:layout_constraintLeft_toRightOf="@id/iv_like"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_like" />
 
             <TextView
                 android:id="@+id/tv_like_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="좋아요 10개"
-                android:textStyle="bold"
                 android:layout_marginTop="10dp"
                 android:text="@{@string/like_count(response.likesCount)}"
+                android:textStyle="bold"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_like"
-                app:layout_constraintTop_toBottomOf="@+id/iv_like"/>
+                app:layout_constraintTop_toBottomOf="@+id/iv_like"
+                tools:text="좋아요 10개" />
 
 
             <TextView
                 android:id="@+id/tv_date"
+                elapsedTimeFormat="@{response.sharedInfo.sharedDate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="52초전"
-                elapsedTimeFormat="@{response.sharedInfo.sharedDate}"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comment"
-                app:layout_constraintTop_toTopOf="@+id/iv_comment"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_comment"
+                tools:text="52초전" />
 
 
-<!--            <TextView-->
-<!--                android:id="@+id/tv_nickname"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                tools:text="구글"-->
-<!--                android:text="@{response.sharedInfo.users.nickName}"-->
-<!--                app:layout_constraintLeft_toLeftOf="@+id/iv_like"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tv_comment_count"-->
-<!--                app:layout_constraintRight_toLeftOf="@+id/tv_note_content"/>-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_nickname"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="20dp"-->
+            <!--                tools:text="구글"-->
+            <!--                android:text="@{response.sharedInfo.users.nickName}"-->
+            <!--                app:layout_constraintLeft_toLeftOf="@+id/iv_like"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_comment_count"-->
+            <!--                app:layout_constraintRight_toLeftOf="@+id/tv_note_content"/>-->
 
             <com.hyden.booklibrary.util.custom.ExpandableTextLayout
                 android:id="@+id/tv_note_content"
+                textBinding="@{(response.bookEntity.bookNote == `null` || response.bookEntity.bookNote == null) ? response.sharedInfo.users.nickName + `   ..` : response.sharedInfo.users.nickName + `   ` + response.bookEntity.bookNote }"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:maxCollapsedLines="3"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAccent"
-                textBinding="@{(response.bookEntity.bookNote == `null` || response.bookEntity.bookNote == null) ? response.sharedInfo.users.nickName + `   ..` : response.sharedInfo.users.nickName + `   ` + response.bookEntity.bookNote }"
                 app:layout_constraintLeft_toLeftOf="@+id/iv_like"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_like_count"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_like_count"
+                app:maxCollapsedLines="3"
+                bind:onClickMoreOption="@{viewmodel}"
+                bind:pos="@{pos}" />
 
             <TextView
                 android:id="@+id/tv_comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold"
-                tools:text="댓글 10개"
-                android:visibility="@{response.commentsCount > 0 ? View.VISIBLE : View.GONE}"
                 android:text="@{@string/comment_count(response.commentsCount)}"
+                android:textStyle="bold"
+                android:visibility="@{response.commentsCount > 0 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintLeft_toLeftOf="@+id/tv_like_count"
-                app:layout_constraintTop_toBottomOf="@+id/tv_note_content"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_note_content"
+                tools:text="댓글 10개" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

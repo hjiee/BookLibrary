@@ -10,7 +10,8 @@ data class Feed(
     var commentsCount: Long,
     val commentsInfo: Comment,
     var likesCount: Long,
-    val likesInfo: Like
+    val likesInfo: Like,
+    var expandableState:Boolean=false
 //    val usersInfo: User
 )
 

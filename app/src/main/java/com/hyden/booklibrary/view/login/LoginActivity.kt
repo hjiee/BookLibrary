@@ -2,6 +2,7 @@ package com.hyden.booklibrary.view.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -63,6 +64,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
                     LogW("Google sign in failed")
+                    Log.e("Signin Exception","${e.localizedMessage}")
                     // ...
                 }
             }

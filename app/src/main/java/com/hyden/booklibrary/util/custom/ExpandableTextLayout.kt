@@ -29,7 +29,7 @@ import com.hyden.util.LogUtil.LogW
 class ExpandableTextLayout : LinearLayout, View.OnClickListener {
 
     private var collapsedLines = DEFAULT_COLLAPSEDLINES
-    private var isExpanded = false
+    //private var isExpanded = false
     private var collapsedHeight = 0
     private var expanedHeight = 150
 
@@ -86,10 +86,14 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         tvShowMore.id = tvShowMoreId
         tvShowMore.layoutParams = LayoutParams(MATCH_PARENT,WRAP_CONTENT)
         tvShowMore.text = "자세히보기"
-        tvShowMore.visibility = View.GONE
+        
         tvShowMore.setTextColor(Color.GRAY)
         addView(tvShowMore)
         typeArrary.recycle()
+
+    }
+
+    fun initialMemberField(){
 
     }
 
@@ -110,13 +114,13 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
                 Toast.makeText(context, "내용", Toast.LENGTH_SHORT).show()
             }
             R.id.tv_show_more -> {
-                showMore()
+                //showMore()
             }
         }
 
     }
     fun showMore() {
-        var animation: ExpandCollapseAnimationLayout
+      /*  var animation: ExpandCollapseAnimationLayout
 
         when (isExpanded) {
             true -> {
@@ -148,13 +152,52 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         animation.duration = 0
         clearAnimation()
         startAnimation(animation)
+*/
+
+    }
+
+    fun showMore(boolean: Boolean) :Boolean{
+        var animation: ExpandCollapseAnimationLayout
+        when (boolean) {
+            true -> {
+                animation = ExpandCollapseAnimationLayout(
+                    this,
+                    tvContents,
+                    tvContents.height,
+                    expanedHeight
+                )
+            }
+            false -> {
+
+                animation = ExpandCollapseAnimationLayout(
+                    this,
+                    tvContents,
+                    tvContents.height,
+                    collapsedHeight
+                )
+            }
+        }
+
+        if(!boolean) {
+            tvShowMore.text="자세히 보기"
+        } else {
+            tvShowMore.text="간략히 보"
+        }
+
+        animation.duration = 0
+        clearAnimation()
+        startAnimation(animation)
+        return boolean
 
 
     }
+
+
+
     private fun findViews() {
         tvContents.maxLines = collapsedLines
         tvContents.setOnClickListener(this)
-        tvShowMore.setOnClickListener(this)
+      //  tvShowMore.setOnClickListener(this)
     }
 
     fun setText(text : String) {
@@ -174,10 +217,10 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
 //
 
 
-        postDelayed(Runnable {
+     /*   postDelayed(Runnable {
             isExpanded=true
             showMore()
         },500)
-
+*/
     }
 }
