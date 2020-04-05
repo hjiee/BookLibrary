@@ -28,8 +28,8 @@
     <string name="opensource">OpenSource License</string>
     <string name="profile">프로필 설정</string>
     <string name="complete">완료</string>
-    <string name="like_count">좋아요 %d개</string>
-    <string name="comment_count">댓글 %d개</string>
+    <string name="like_count">좋아요 %,d개</string>
+    <string name="comment_count">댓글 %,d개</string>
     <string name="check_update_profile">프로필을 바꾸시겠습니까?\n변경하는데 다소 시간이 소요될 수 있습니다.</string>
     <string name="check_update_profile_success">변경이 완료되었습니다.</string>
     <string name="check_update_profile_cancel">변경된 정보가 없습니다.</string>

@@ -18,6 +18,7 @@
     <declare-styleable name="ExpandableTextLayout">
         <attr name="maxCollapsedLinesText" format="integer"/>
         <attr name="tvExpandableId" format="reference"/>
+        <attr name="tvCommentsId" format="reference"/>
         <attr name="ibExpandCollapseToggleId" format="reference"/>
     </declare-styleable>
 

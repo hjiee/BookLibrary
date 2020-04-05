@@ -1,8 +1,10 @@
 package com.hyden.booklibrary.view.feed
 
+import android.util.Range
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.hyden.base.BaseViewModel
@@ -13,7 +15,11 @@ import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
 import com.hyden.booklibrary.util.ConstUtil.Companion.FEED_LIMIT
+import com.hyden.booklibrary.view.feed.model.FeedData
 import com.hyden.util.LogUtil.LogE
+import com.hyden.util.LogUtil.LogW
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -26,8 +32,8 @@ class FeedViewModel(
     //    lateinit var documents: List<DocumentSnapshot>
     lateinit var lastVisible: DocumentSnapshot
 
-    private val _feedItems = MutableLiveData<List<Feed>>()
-    val feedItems: LiveData<List<Feed>> get() = _feedItems
+    private val _feedItems = MutableLiveData<List<FeedData>>()
+    val feedItems: LiveData<List<FeedData>> get() = _feedItems
 
     private val _userInfo = MutableLiveData<User>()
     val userInfo: LiveData<User> get() = _userInfo
@@ -41,6 +47,9 @@ class FeedViewModel(
     private val _userNickname = MutableLiveData<String>()
     val userNickname : LiveData<String> get() = _userNickname
 
+//    private val _isContainsUser = MutableLiveData<Boolean>()
+//    val isContainsUser : LiveData<Boolean> get() = _isContainsUser
+
     // 좋아요 클릭 이벤트 처리
     /**
      * 좋아요
@@ -48,36 +57,62 @@ class FeedViewModel(
     fun pushLiked(position: Int, isLiked: Boolean) {
         _feedItems.value?.let {
             val documentId =
-                it[position].sharedInfo.users.email + "-" + it[position].bookEntity.isbn13
+                it[position].feed?.sharedInfo?.users?.email + "-" + it[position].feed?.bookEntity?.isbn13
             firebaseDataSource.pushLike(isLiked, documentId)
-            if (it[position].sharedInfo.users.email == firebaseDataSource.getLoginEmail()) {
-                it[position].bookEntity.isLiked = isLiked
+            if (it[position].feed?.sharedInfo?.users?.email == firebaseDataSource.getLoginEmail()) {
+                it[position].feed?.bookEntity?.isLiked = isLiked
                 _isSharedUser.value = true
             } else {
                 _isSharedUser.value = false
             }
         }
     }
+    fun postLike(feed: Feed?,isSelected: Boolean) {
+        _feedItems.value?.let {
+            val documentId = feed?.sharedInfo?.users?.email + "-" + feed?.bookEntity?.isbn13
+            firebaseDataSource.pushLike(isSelected, documentId)
+            feed?.bookEntity?.isLiked = isSelected
+            if (isSelected) {
+                feed?.likesInfo?.users = feed?.likesInfo?.users?.toMutableList()?.apply {
+                    add(firebaseDataSource.currentUser)
+                }
+            } else {
 
-    fun isContainsUser(users: List<User>): Boolean {
-        return firebaseDataSource.isExsitUser(users)
+                compositeDisposable.add(
+                    Observable.range(0,feed?.likesInfo?.users?.size ?: 0)
+                        .subscribeOn(Schedulers.computation())
+                        .filter { feed?.likesInfo?.users?.get(it)?.email == firebaseDataSource.getLoginEmail() }
+                        .subscribe(
+                            {
+                                feed?.likesInfo?.users = feed?.likesInfo?.users?.toMutableList()?.apply {
+                                    removeAt(it)
+                                }
+                            },
+                            {}
+                        )
+                )
+            }
+        }
     }
 
-//    fun getUser() {
-//        firestore.collection(DATABASENAME).document(firebaseDataSource.getLoginEmail()).get()
-//            .addOnCompleteListener {
-//                val email = it.result?.get("email").toString()
-//                val name = it.result?.get("name").toString()
-//                val nickName = it.result?.get("nickName").toString()
-//                val profile = it.result?.get("profile").toString()
-//                _userInfo.value = User(
-//                    email = email,
-//                    name = name,
-//                    nickName = nickName,
-//                    profile = profile
-//                )
-//            }
-//    }
+    fun isContainsUser(users: List<User>): Boolean {
+        return firebaseDataSource.isExistUser(users)
+    }
+
+    fun isLiked(users: List<User>?, like : () -> Unit) {
+        compositeDisposable.add(
+            Observable.fromIterable(users)
+                .subscribeOn(Schedulers.computation())
+                .filter {
+                    LogW("${it}")
+                    it.email == firebaseDataSource.getLoginEmail()
+                }
+                .subscribe(
+                    { like.invoke() },
+                    {}
+                )
+        )
+    }
 
     /**
      * 피드에 등록된 책정보를 가져온다.
@@ -94,13 +129,13 @@ class FeedViewModel(
                 if(documentSnapshot.size() >= 1) {
                     lastVisible = documentSnapshot.documents[documentSnapshot.size() - 1]
                 }
-                val temp = mutableListOf<Feed>()
+                val temp = mutableListOf<FeedData>()
                 for (i in documentSnapshot.documents.indices) {
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["email"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
-                    temp.add(feed(documentSnapshot.documents[i].data))
+                    temp.add(FeedData(feed(documentSnapshot.documents[i].data), false))
                 }
                 _feedItems.value = temp
             }
@@ -116,9 +151,9 @@ class FeedViewModel(
                 if (documentSnapshot.size() > 0) {
                     lastVisible = documentSnapshot.documents[documentSnapshot.size() - 1]
 
-                    val temp = mutableListOf<Feed>()
+                    val temp = mutableListOf<FeedData>()
                     for (i in documentSnapshot.documents.indices) {
-                        temp.add(feed(documentSnapshot.documents[i].data))
+                        temp.add(FeedData(feed(documentSnapshot.documents[i].data),false))
                     }
                     _feedItems.value = _feedItems.value?.let {
                         it.toMutableList().apply {

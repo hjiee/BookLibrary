@@ -21,6 +21,8 @@ import com.hyden.booklibrary.util.setUserProfile
 import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import com.hyden.util.Result
+import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 
@@ -39,8 +41,8 @@ class FirebaseRepository(
     }
     private val googleSignInClient by lazy { GoogleSignIn.getClient(context, googleSignInOptions) }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
-    private var currentUser = User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
-
+    override var currentUser = User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
+    private var userInfo = UserInfo(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile())
 
 
     // Book
@@ -52,12 +54,12 @@ class FirebaseRepository(
             firebaseFireStore.collection(DATABASENAME).document(documentId)
                 .update("likesCount", FieldValue.increment(1))
             firebaseFireStore.collection(DATABASENAME).document(documentId)
-                .update("likesInfo.users", FieldValue.arrayUnion((currentUser)))
+                .update("likesInfo.users", FieldValue.arrayUnion((userInfo)))
         } else {
             firebaseFireStore.collection(DATABASENAME).document(documentId)
                 .update("likesCount", FieldValue.increment(-1))
             firebaseFireStore.collection(DATABASENAME).document(documentId)
-                .update("likesInfo.users", FieldValue.arrayRemove(((currentUser))))
+                .update("likesInfo.users", FieldValue.arrayRemove(((userInfo))))
         }
     }
 
@@ -96,8 +98,7 @@ class FirebaseRepository(
      */
     override fun pushShare(item: BookEntity) {
         firebaseFireStore.collection(DATABASENAME).document(getLoginEmail() + "-" + item.isbn13)
-            .set(
-                Feed(
+            .set(Feed(
                     bookEntity = item,
                     sharedInfo = SharedInfo(getDate(), currentUser),
                     likesCount = if (item.isLiked == true) 1 else 0,
@@ -127,9 +128,6 @@ class FirebaseRepository(
 
     // User
     override fun saveUser() {
-        if (currentUser.nickName.isNullOrEmpty()) {
-
-        }
         context.setUserNickName(currentUser.nickName)
         context.setUserProfile(currentUser.profile)
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail())
@@ -159,7 +157,6 @@ class FirebaseRepository(
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["updateAt"]
                     firebaseFireStore.collection(DATABASENAME)
                         .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
-//                    LogW(documentSnapshot.documents[i].data.toString())
                 }
                 saveUser()
                 success.invoke()
@@ -193,20 +190,6 @@ class FirebaseRepository(
                             (100 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
                         LogW(progress.toString())
                     }
-//            storageReference.putFile(profile)
-//                .addOnSuccessListener { taskSanpshot ->
-//                    storageReference.downloadUrl.addOnSuccessListener {
-//                        result.invoke(Result.SUCCESS,it.toString())
-//                    }
-//                }
-//                .addOnFailureListener {
-//                    LogW("왜 실패냐고")
-//                    result.invoke(Result.FAILURE,it.message.toString())
-//                }
-//                .addOnProgressListener { taskSnapshot ->
-//                    val progress = (100 * taskSnapshot.bytesTransferred) /  taskSnapshot.totalByteCount
-//                    LogW(progress.toString())
-//                }
             }
     }
 
@@ -220,7 +203,7 @@ class FirebaseRepository(
      * true 좋아요를 클릭한 유저
      * false 좋아요를 클릭하지 않은 유저
      */
-    override fun isExsitUser(users: List<User>): Boolean {
+    override fun isExistUser(users: List<User>): Boolean {
         return users.contains(currentUser)
     }
 

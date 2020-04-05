@@ -6,10 +6,11 @@ import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.data.model.User
 import com.hyden.util.Result
 import java.io.InputStream
+import java.util.*
 
 interface FirebaseDataSource {
 
-
+    var currentUser : User
 
     // Book
     fun saveBook()
@@ -27,7 +28,7 @@ interface FirebaseDataSource {
     fun saveUser()
     fun updateUser(user : User)
     fun deleteUser(id : String)
-    fun isExsitUser(users : List<User>) : Boolean
+    fun isExistUser(users : List<User>) : Boolean
     fun updateProfile(user : User,success : () -> Unit?)
 
     fun login()

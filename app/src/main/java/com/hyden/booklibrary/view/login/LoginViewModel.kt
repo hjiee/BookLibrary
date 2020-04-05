@@ -15,6 +15,7 @@ class LoginViewModel(
     val auth: LiveData<FirebaseAuth> get() = _auth
 
 
+
     fun loing() {
         firebaseDataSource.login()
 //        _auth.value?.createUserWithEmailAndPassword("", "")

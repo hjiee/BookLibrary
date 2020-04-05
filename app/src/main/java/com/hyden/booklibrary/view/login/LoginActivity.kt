@@ -2,6 +2,7 @@ package com.hyden.booklibrary.view.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -16,6 +17,7 @@ import com.hyden.booklibrary.util.setUserNickName
 import com.hyden.booklibrary.view.MainActivity
 import com.hyden.ext.moveToActivity
 import com.hyden.util.LogUtil.LogD
+import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,8 +44,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         if(googleAuth.currentUser != null) { goMain() }
         binding.apply {
             btnLogin.setOnClickListener {
+                Toast.makeText(this@LoginActivity, "아직 지원하지 않습니다.", Toast.LENGTH_SHORT).show()
 //                loginViewModel.loing()
-                goMain()
+//                goMain()
             }
             btnGoogleLogin.setOnClickListener {
                 startActivityForResult(googleSignInClient.signInIntent,RC_SIGN_IN)
@@ -62,7 +65,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     googleAuthWithGoogle(account!!)
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    LogW("Google sign in failed")
+                    LogW("Google sign in failed : $e")
+                    Toast.makeText(this@LoginActivity, "google sign fail", Toast.LENGTH_SHORT).show()
                     // ...
                 }
             }
@@ -82,10 +86,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     goMain()
                     LogD("signInWithCredential:success")
                 } else {
-                    // If sign in fails, display a message to the user.
-                    LogW("signInWithCredential:failure")
-//                    Snackbar.make(main_layout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show()
-//                    updateUI(null)
+                    LogE("signInWithCredential:failure")
                 }
 
                 // ...
