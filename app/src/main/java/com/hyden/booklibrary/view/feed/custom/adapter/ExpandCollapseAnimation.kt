@@ -1,4 +1,4 @@
-package com.hyden.booklibrary.util
+package com.hyden.booklibrary.view.feed.custom.adapter
 
 import android.view.View
 import android.view.animation.Animation
@@ -12,7 +12,6 @@ class ExpandCollapseAnimation(
 ) : Animation(), Animation.AnimationListener {
     private var initialHeight = 0
     private var targetHeight = 0
-    private var isAnimating = false
 
     init {
         setAnimationListener(this)
@@ -25,16 +24,6 @@ class ExpandCollapseAnimation(
         tvView.maxHeight = newHeight
         tvView.layoutParams.height = newHeight
         tvView.requestLayout()
-
-        if (isAnimating) {
-//            val newHeight = ((endHeight - startHeight) * interpolatedTime + startHeight).toInt()
-//            tvView.maxHeight = newHeight
-//            tvView.layoutParams.height = newHeight
-//            tvView.requestLayout()
-//            view.layoutParams.height =
-//                (((targetHeight - initialHeight) * interpolatedTime) + initialHeight).toInt()
-//            view.requestLayout()
-        }
     }
 
     override fun onAnimationStart(animation: Animation?) {
@@ -44,7 +33,6 @@ class ExpandCollapseAnimation(
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         )
         targetHeight = tvView.measuredHeight
-        isAnimating = true
     }
 
     override fun onAnimationRepeat(animation: Animation?) {
@@ -52,7 +40,6 @@ class ExpandCollapseAnimation(
     }
 
     override fun onAnimationEnd(animation: Animation?) {
-        isAnimating = false
         tvView.requestLayout()
     }
 }

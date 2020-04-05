@@ -15,11 +15,11 @@
 
         <variable
             name="response"
-            type="com.hyden.booklibrary.data.model.Feed" />
+            type="com.hyden.booklibrary.view.feed.model.FeedData" />
 
         <variable
-            name="firestore"
-            type="com.hyden.booklibrary.data.repository.FirebaseRepository" />
+            name="feedVm"
+            type="com.hyden.booklibrary.view.feed.FeedViewModel" />
 
     </data>
 
@@ -39,7 +39,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 tools:background="@drawable/sample"
-                loadUrl="@{response.sharedInfo.users.profile}"
+                loadUrl="@{response.feed.sharedInfo.users.profile}"
                 tranformType="@{type.CIRCLE}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -49,14 +49,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 tools:text="구글"
-                android:text="@{response.sharedInfo.users.nickName}"
+                android:text="@{response.feed.sharedInfo.users.nickName}"
                 app:layout_constraintTop_toTopOf="@id/iv_profile"
                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
                 app:layout_constraintLeft_toRightOf="@id/iv_profile"/>
 
             <ImageView
                 android:id="@+id/img_book_cover"
-                loadUrl="@{response.bookEntity.cover}"
+                loadUrl="@{response.feed.bookEntity.cover}"
                 tranformType="@{type.ROUND}"
                 radius="@{@integer/book_image_radius}"
                 android:layout_gravity="center"
@@ -71,26 +71,46 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{(response.bookEntity.title.split(` - `)[0] == null || response.bookEntity.title.split(` - `)[0] == `null`) ? `책정보가 없습니다.` : response.bookEntity.title.split(` - `)[0]}"
+                android:text="@{(response.feed.bookEntity.title.split(` - `)[0] == null || response.feed.bookEntity.title.split(` - `)[0] == `null`) ? `책정보가 없습니다.` : response.feed.bookEntity.title.split(` - `)[0]}"
                 style="@style/TextStyle"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/img_book_cover" />
 
 
-            <ImageView
-                android:id="@+id/iv_like"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/flv_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_like"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
+                bindFeedVm="@{feedVm}"
+                bindFeed="@{response.feed}"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintTop_toBottomOf="@id/tv_title"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/iv_comment" />
+                app:layout_constraintRight_toLeftOf="@id/iv_comment">
 
+                <ImageView
+                    android:id="@+id/iv_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@{feedVm.isContainsUser(response.feed.likesInfo.users) ? @drawable/ic_like_on : @drawable/ic_like_off}"
+                    tools:background="@drawable/ic_like_on"/>
+
+                <TextView
+                    android:id="@+id/tv_like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="좋아요 10개"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:text="@{@string/like_count(response.feed.likesCount)}"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_like"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_like"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <ImageView
@@ -98,22 +118,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/selector_chat"
-                app:layout_constraintTop_toTopOf="@id/iv_like"
-                app:layout_constraintBottom_toBottomOf="@id/iv_like"
-                app:layout_constraintLeft_toRightOf="@id/iv_like"
+                android:layout_marginStart="10dp"
+                app:layout_constraintTop_toTopOf="@id/flv_like"
+                app:layout_constraintLeft_toRightOf="@id/flv_like"
                 app:layout_constraintRight_toRightOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_like_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="좋아요 10개"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:text="@{@string/like_count(response.likesCount)}"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintLeft_toLeftOf="@+id/iv_like"
-                app:layout_constraintTop_toBottomOf="@+id/iv_like"/>
 
 
             <TextView
@@ -121,34 +129,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="52초전"
-                elapsedTimeFormat="@{response.sharedInfo.sharedDate}"
+                android:textSize="10sp"
+                android:textColor="@color/colorWhite"
+                elapsedTimeFormat="@{response.feed.sharedInfo.sharedDate}"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_comment"
                 app:layout_constraintTop_toTopOf="@+id/iv_comment"/>
 
-
-<!--            <TextView-->
-<!--                android:id="@+id/tv_nickname"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                tools:text="구글"-->
-<!--                android:text="@{response.sharedInfo.users.nickName}"-->
-<!--                app:layout_constraintLeft_toLeftOf="@+id/iv_like"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tv_comment_count"-->
-<!--                app:layout_constraintRight_toLeftOf="@+id/tv_note_content"/>-->
-
-            <com.hyden.booklibrary.util.custom.ExpandableTextLayout
-                android:id="@+id/tv_note_content"
+            <com.hyden.booklibrary.view.feed.custom.ExpandableTextLayout
+                android:id="@+id/etl_note_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:maxCollapsedLines="3"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
-                textBinding="@{(response.bookEntity.bookNote == `null` || response.bookEntity.bookNote == null) ? response.sharedInfo.users.nickName + `   ..` : response.sharedInfo.users.nickName + `   ` + response.bookEntity.bookNote }"
-                app:layout_constraintLeft_toLeftOf="@+id/iv_like"
+                app:maxCollapsedLines="3"
+                bindFeedVm="@{feedVm}"
+                bindFeedData="@{response.feed}"
+                bindUserName="@{response.feed.sharedInfo.users.nickName}"
+                bindText="@{(response.feed.bookEntity.bookNote == null) ? null : response.feed.bookEntity.bookNote }"
+                app:layout_constraintLeft_toLeftOf="@+id/flv_like"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_like_count"/>
+                app:layout_constraintTop_toBottomOf="@+id/flv_like"/>
 
             <TextView
                 android:id="@+id/tv_comment_count"
@@ -157,11 +157,11 @@
                 android:layout_marginTop="10dp"
                 android:textStyle="bold"
                 tools:text="댓글 10개"
-                android:visibility="@{response.commentsCount > 0 ? View.VISIBLE : View.GONE}"
-                android:text="@{@string/comment_count(response.commentsCount)}"
+                android:visibility="@{response.feed.commentsCount > 0 ? View.VISIBLE : View.GONE}"
+                android:text="@{@string/comment_count(response.feed.commentsCount)}"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintLeft_toLeftOf="@+id/tv_like_count"
-                app:layout_constraintTop_toBottomOf="@+id/tv_note_content"/>
+                app:layout_constraintLeft_toLeftOf="@+id/flv_like"
+                app:layout_constraintTop_toBottomOf="@+id/etl_note_content"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -24,7 +24,7 @@ data class Comment(
 )
 
 data class Like(
-    val users: List<User>?
+    var users: List<User>?
 )
 
 data class User(
@@ -43,7 +43,6 @@ fun Feed.toFeed(): Feed {
         commentsInfo,
         likesCount,
         likesInfo
-//        usersInfo
     )
 }
 
