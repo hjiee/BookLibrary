@@ -1,18 +1,14 @@
-package com.hyden.booklibrary.util.custom
+package com.hyden.booklibrary.view.feed.custom
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.view.marginBottom
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.util.ConstUtil.Companion.DEFAULT_COLLAPSEDLINES
-import com.hyden.booklibrary.util.ExpandCollapseAnimation
+import com.hyden.booklibrary.view.feed.custom.adapter.ExpandCollapseAnimation
 
-class ExpandableTextView : TextView, View.OnClickListener {
+class ExpandableTextView : TextView {
 
 
     private var collapsedLines = DEFAULT_COLLAPSEDLINES
@@ -43,7 +39,7 @@ class ExpandableTextView : TextView, View.OnClickListener {
 
 
 
-        setOnClickListener(this)
+//        setOnClickListener(this)
         typeArrary.recycle()
     }
 
@@ -61,24 +57,34 @@ class ExpandableTextView : TextView, View.OnClickListener {
 
     }
 
-    override fun onClick(view: View?) {
-
-        var animation: ExpandCollapseAnimation
-        when (isExpanded) {
-            true -> {
-                animation = ExpandCollapseAnimation(this, height, collapsedHeight)
-//                maxLines = collapsedLines
-            }
-            false -> {
-                animation = ExpandCollapseAnimation(this, height, expanedHeight)
-//                maxLines = lineCount
-            }
-        }
-        isExpanded = isExpanded.not()
-        animation.duration = 500
-        clearAnimation()
-        startAnimation(animation)
-    }
+//    override fun onClick(view: View?) {
+//
+//        var animation: ExpandCollapseAnimation
+//        when (isExpanded) {
+//            true -> {
+//                animation =
+//                    ExpandCollapseAnimation(
+//                        this,
+//                        height,
+//                        collapsedHeight
+//                    )
+////                maxLines = collapsedLines
+//            }
+//            false -> {
+//                animation =
+//                    ExpandCollapseAnimation(
+//                        this,
+//                        height,
+//                        expanedHeight
+//                    )
+////                maxLines = lineCount
+//            }
+//        }
+//        isExpanded = isExpanded.not()
+//        animation.duration = 300
+//        clearAnimation()
+//        startAnimation(animation)
+//    }
 
     private fun findViews() {
         maxLines = collapsedLines
