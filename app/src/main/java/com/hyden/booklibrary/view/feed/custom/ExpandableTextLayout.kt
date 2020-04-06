@@ -185,7 +185,6 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         startAnimation(animation)
     }
 
-//    @RequiresApi(Build.VERSION_CODES.P)
     fun setText(userName: String?, text: String?, feedVm: FeedViewModel, feedData: Feed?) {
         val bold = Typeface.createFromAsset(resources.assets, "scdream9_black.otf")
         val sb = SpannableStringBuilder("$userName $text").apply {
@@ -193,6 +192,7 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 setSpan(TypefaceSpan(bold),0,userName?.length ?: 0 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             } else {
+                //TODO 텍스트 폰트 적용
                 setSpan(bold,0,userName?.length ?: 0 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
         }
@@ -234,6 +234,9 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         if (isExpanded && tvContents.lineCount > collapsedLines) {
             tvShowMore.visibility = View.VISIBLE
             tvShowMore.text = "자세히보기"
+        } else if(!isExpanded) {
+            tvShowMore.visibility = View.VISIBLE
+            tvShowMore.text = "접기"
         } else {
             tvShowMore.visibility = View.GONE
         }
