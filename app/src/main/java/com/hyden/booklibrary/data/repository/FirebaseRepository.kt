@@ -12,7 +12,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
-import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
+import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_BOOK
 import com.hyden.booklibrary.util.ConstUtil.Companion.FIRESTORE_USERS
 import com.hyden.booklibrary.util.getUserNickName
 import com.hyden.booklibrary.util.getUserProfile
@@ -21,8 +21,6 @@ import com.hyden.booklibrary.util.setUserProfile
 import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import com.hyden.util.Result
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 
@@ -51,14 +49,14 @@ class FirebaseRepository(
      */
     override fun pushLike(isSelected: Boolean, documentId: String) {
         if (isSelected) {
-            firebaseFireStore.collection(DATABASENAME).document(documentId)
+            firebaseFireStore.collection(DATABASENAME_BOOK).document(documentId)
                 .update("likesCount", FieldValue.increment(1))
-            firebaseFireStore.collection(DATABASENAME).document(documentId)
+            firebaseFireStore.collection(DATABASENAME_BOOK).document(documentId)
                 .update("likesInfo.users", FieldValue.arrayUnion((userInfo)))
         } else {
-            firebaseFireStore.collection(DATABASENAME).document(documentId)
+            firebaseFireStore.collection(DATABASENAME_BOOK).document(documentId)
                 .update("likesCount", FieldValue.increment(-1))
-            firebaseFireStore.collection(DATABASENAME).document(documentId)
+            firebaseFireStore.collection(DATABASENAME_BOOK).document(documentId)
                 .update("likesInfo.users", FieldValue.arrayRemove(((userInfo))))
         }
     }
@@ -69,7 +67,7 @@ class FirebaseRepository(
      */
     override fun getLikeCount(documentId: String, complete: (Long) -> Unit) {
         var count = 0L
-        firebaseFireStore.collection(DATABASENAME).document(documentId).get()
+        firebaseFireStore.collection(DATABASENAME_BOOK).document(documentId).get()
             .addOnCompleteListener {
                 count = it.result?.get("likesCount") as Long
                 complete.invoke(count)
@@ -81,7 +79,7 @@ class FirebaseRepository(
      */
     override fun getCommentCount(documentId: String, complete: (Long) -> Unit) {
         var count = 0L
-        firebaseFireStore.collection(DATABASENAME).document(documentId).get()
+        firebaseFireStore.collection(DATABASENAME_BOOK).document(documentId).get()
             .addOnCompleteListener {
                 count = it.result?.get("commentsCount") as Long
                 complete.invoke(count)
@@ -97,7 +95,7 @@ class FirebaseRepository(
      * 책정보 피드에 등록
      */
     override fun pushShare(item: BookEntity) {
-        firebaseFireStore.collection(DATABASENAME).document(getLoginEmail() + "-" + item.isbn13)
+        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + item.isbn13)
             .set(Feed(
                     bookEntity = item,
                     sharedInfo = SharedInfo(getDate(), currentUser),
@@ -115,12 +113,12 @@ class FirebaseRepository(
 
 
     override fun updateBook(item: BookEntity) {
-        firebaseFireStore.collection(DATABASENAME).document(getLoginEmail() + "-" + item.isbn13)
+        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + item.isbn13)
             .update("bookEntity", item)
     }
 
     override fun deleteBook(isbn13: String) {
-        firebaseFireStore.collection(DATABASENAME).document(getLoginEmail() + "-" + isbn13).delete()
+        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + isbn13).delete()
     }
 
     override fun saveBook() {
@@ -143,7 +141,7 @@ class FirebaseRepository(
     override fun updateProfile(user: User, success: () -> Unit?) {
         currentUser = user
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail()).set(user)
-        firebaseFireStore.collection(DATABASENAME)
+        firebaseFireStore.collection(DATABASENAME_BOOK)
             .whereEqualTo("sharedInfo.users.email", getLoginEmail())
             .get()
             .addOnSuccessListener { documentSnapshot ->
@@ -155,7 +153,7 @@ class FirebaseRepository(
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["updateAt"]
-                    firebaseFireStore.collection(DATABASENAME)
+                    firebaseFireStore.collection(DATABASENAME_BOOK)
                         .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
                 }
                 saveUser()
