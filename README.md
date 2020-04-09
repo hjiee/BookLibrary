@@ -3,17 +3,22 @@
 <img src="https://user-images.githubusercontent.com/39892463/78905817-8230dc00-7ab9-11ea-884c-ec90da5db993.png" width="20%"/>
 
 ### Google Play Link
-- not yet
+ - not yet
+
+### Features
+ - Searching for Books
+ - Save Books
+ - Book Feed
 
 ### Tech stack & Open-source libraries
  - Jetpack
    - Live Data
-   - ROOM
+   - Room
  - Architecture 
    - MVVM
    - Repository Pattern
-   - Koin - Dependency Injection
+   - Koin : Dependency Injection
  - Glide
  - Retrofit2 & Gson
  - OkHttp3
- - 
+ - Aladin API
