@@ -2,8 +2,10 @@ package com.hyden.booklibrary.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASE_VERSION
+import com.hyden.booklibrary.view.myshared.MySharedBook
 
-@Database(entities = [BookEntity::class,SharedBookEntity::class], version = 1)
+@Database(entities = [BookEntity::class,SharedBookEntity::class], version = DATABASE_VERSION)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun getBookDao() : BookDao
     abstract fun getUserDao() : UserDao
