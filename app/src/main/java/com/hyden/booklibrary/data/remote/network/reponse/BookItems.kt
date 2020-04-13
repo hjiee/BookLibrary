@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class BookItems(
-    var isSavaed: Boolean? = false,
-    var isLiked: Boolean? = false,
-    var isShared: Boolean? = false,
-    var isChated: Boolean? = false,
+    var isSavaed: Boolean = false,
+    var isLiked: Boolean = false,
+    var isShared: Boolean = false,
+    var isChated: Boolean = false,
     var bookNote: String?,
     var bookReviews: String?,
     val title: String?,
