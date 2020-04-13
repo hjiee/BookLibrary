@@ -43,11 +43,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     override fun initBind() {
         if(googleAuth.currentUser != null) { goMain() }
         binding.apply {
-            btnLogin.setOnClickListener {
-                Toast.makeText(this@LoginActivity, "아직 지원하지 않습니다.", Toast.LENGTH_SHORT).show()
-//                loginViewModel.loing()
-//                goMain()
-            }
             btnGoogleLogin.setOnClickListener {
                 startActivityForResult(googleSignInClient.signInIntent,RC_SIGN_IN)
             }
