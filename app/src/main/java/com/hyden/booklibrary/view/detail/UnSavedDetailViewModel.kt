@@ -75,7 +75,3 @@ class UnSavedDetailViewModel(
         )
     }
 }
-
-
-
-
