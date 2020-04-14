@@ -1,4 +1,4 @@
-package com.hyden.booklibrary.view.detail
+package com.hyden.booklibrary.view.detail.mysaved
 
 import android.content.Intent
 import android.os.Bundle
@@ -64,6 +64,8 @@ class SavedDetailActivity :
                     ).show()
                 }
             })
+
+        item = intent?.getParcelableExtra(getString(R.string.book_info))
     }
 
     override fun onResume() {
@@ -72,7 +74,6 @@ class SavedDetailActivity :
     }
 
     override fun initBind() {
-        item = intent?.getParcelableExtra(getString(R.string.book_info))
         savedDetailViewModel.bookInfo(item)
         binding.apply {
             vm = savedDetailViewModel
@@ -158,7 +159,6 @@ class SavedDetailActivity :
         when (requestCode) {
             BOOK_NOTE_REQUEST_CODE -> {
                 item = data?.getParcelableExtra("data") as? BookEntity
-                binding.tvNoteContent.text = item?.bookNote
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.hyden.booklibrary.view.detail
+package com.hyden.booklibrary.view.detail.mysaved
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

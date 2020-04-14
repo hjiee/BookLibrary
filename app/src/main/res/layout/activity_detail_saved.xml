@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.hyden.booklibrary.view.detail.SavedDetailViewModel" />
+            type="com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel" />
 
     </data>
 
@@ -29,19 +29,23 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="@style/TextStyle"
-                    app:layout_constraintTop_toTopOf="@id/ib_back"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="@id/ib_back"
                     app:layout_constraintLeft_toRightOf="@id/ib_back"
-                    app:layout_constraintRight_toLeftOf="@id/ib_info"/>
+                    app:layout_constraintRight_toLeftOf="@id/ib_info"
+                    app:layout_constraintTop_toTopOf="@id/ib_back" />
+
                 <ImageButton
                     android:id="@+id/ib_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -76,24 +80,23 @@
 
         <ImageView
             android:id="@+id/iv_book_cover"
-            android:layout_margin="10dp"
-            tools:background="@drawable/book_sample_cover"
             style="@style/BookImageStyle"
+            android:layout_margin="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_chainStyle="packed" />
-
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:background="@drawable/book_sample_cover" />
 
 
         <View
             android:id="@+id/view_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:background="@color/colorWhite"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/colorWhite"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_like" />
@@ -103,84 +106,83 @@
             android:id="@+id/iv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_like"
             android:layout_marginTop="20dp"
+            android:background="@drawable/selector_like"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintTop_toBottomOf="@id/iv_book_cover"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/iv_shared"
-            />
+            app:layout_constraintTop_toBottomOf="@id/iv_book_cover" />
 
         <ImageView
             android:id="@+id/iv_shared"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_shared"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/iv_book_cover"
+            android:background="@drawable/selector_shared"
             app:layout_constraintLeft_toRightOf="@id/iv_like"
             app:layout_constraintRight_toLeftOf="@id/iv_comment"
-            />
+            app:layout_constraintTop_toBottomOf="@id/iv_book_cover" />
 
 
         <ImageView
             android:id="@+id/iv_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_chat"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/iv_book_cover"
+            android:background="@drawable/selector_chat"
             app:layout_constraintLeft_toRightOf="@id/iv_shared"
             app:layout_constraintRight_toRightOf="parent"
-            />
+            app:layout_constraintTop_toBottomOf="@id/iv_book_cover" />
 
 
         <TextView
             android:id="@+id/tv_note"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="감상노트"
             android:gravity="center_vertical"
-            app:layout_constraintRight_toLeftOf="@id/ib_edit"
+            android:text="감상노트"
+            app:layout_constraintBottom_toBottomOf="@id/ib_edit"
             app:layout_constraintLeft_toLeftOf="@id/view_line"
-            app:layout_constraintTop_toTopOf="@id/ib_edit"
-            app:layout_constraintBottom_toBottomOf="@id/ib_edit"/>
+            app:layout_constraintRight_toLeftOf="@id/ib_edit"
+            app:layout_constraintTop_toTopOf="@id/ib_edit" />
 
         <ImageButton
             android:id="@+id/ib_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_edit"
-            android:layout_marginTop="20dp"
-            app:layout_constraintRight_toRightOf="@id/view_line"
             app:layout_constraintLeft_toRightOf="@id/tv_note"
-            app:layout_constraintTop_toBottomOf="@id/view_line"/>
-
-        <TextView
-            android:id="@+id/tv_note_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@null"
-            android:text="@{(vm.detailInfo.bookNote == `null` || vm.detailInfo.bookNote == null) ? `` : vm.detailInfo.bookNote}"
-            android:textColor="@color/colorWhite"
             app:layout_constraintRight_toRightOf="@id/view_line"
+            app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/view_line"
-            app:layout_constraintTop_toBottomOf="@id/tv_note"
-            />
-<!--        <include-->
-<!--            android:id="@+id/include_additinal"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="20dp"-->
-<!--            layout="@layout/include_additinal"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/view_line"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"/>-->
+            app:layout_constraintRight_toRightOf="@id/view_line"
+            app:layout_constraintTop_toBottomOf="@id/tv_note" >
 
-
-
+            <TextView
+                android:id="@+id/tv_note_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="@{(vm.detailInfo.bookNote == `null` || vm.detailInfo.bookNote == null) ? `` : vm.detailInfo.bookNote}"
+                android:textColor="@color/colorWhite" />
+        </ScrollView>
+        <!--        <include-->
+        <!--            android:id="@+id/include_additinal"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            layout="@layout/include_additinal"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/view_line"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"/>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
