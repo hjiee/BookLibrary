@@ -1,10 +1,8 @@
 package com.hyden.booklibrary.view.feed
 
-import android.util.Range
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.hyden.base.BaseViewModel
@@ -13,15 +11,12 @@ import com.hyden.booklibrary.data.model.*
 import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
-import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME
+import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_BOOK
 import com.hyden.booklibrary.util.ConstUtil.Companion.FEED_LIMIT
 import com.hyden.booklibrary.view.feed.model.FeedData
-import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class FeedViewModel(
@@ -120,7 +115,7 @@ class FeedViewModel(
      * 페이징 처리
      */
     fun getFireStore() {
-        firestore.collection(DATABASENAME)
+        firestore.collection(DATABASENAME_BOOK)
             .orderBy("sharedInfo.sharedDate", Query.Direction.DESCENDING)
             .limit(FEED_LIMIT)
             .get()
@@ -142,7 +137,7 @@ class FeedViewModel(
     }
 
     fun loadMore() {
-        firestore.collection(DATABASENAME)
+        firestore.collection(DATABASENAME_BOOK)
             .orderBy("sharedInfo.sharedDate", Query.Direction.DESCENDING)
             .limit(FEED_LIMIT)
             .startAfter(lastVisible)

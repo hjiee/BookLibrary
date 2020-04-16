@@ -145,7 +145,7 @@
                 bindFeedVm="@{feedVm}"
                 bindFeedData="@{response.feed}"
                 bindUserName="@{response.feed.sharedInfo.users.nickName}"
-                bindText="@{(response.feed.bookEntity.bookNote == null) ? null : response.feed.bookEntity.bookNote }"
+                bindText="@{response.feed.bookEntity.bookNote}"
                 app:layout_constraintLeft_toLeftOf="@+id/flv_like"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flv_like"/>

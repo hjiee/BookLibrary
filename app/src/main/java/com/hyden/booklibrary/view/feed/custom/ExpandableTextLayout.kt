@@ -1,6 +1,7 @@
 package com.hyden.booklibrary.view.feed.custom
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
@@ -15,13 +16,15 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.util.ConstUtil.Companion.DEFAULT_COLLAPSEDLINES
+import com.hyden.booklibrary.view.detail.feed.FeedDetailActivity
+import com.hyden.booklibrary.view.feed.FeedFragment
 import com.hyden.booklibrary.view.feed.custom.adapter.ExpandCollapseAnimationLayout
 import com.hyden.booklibrary.view.feed.FeedViewModel
 import com.hyden.booklibrary.view.feed.model.FeedData
+import com.hyden.ext.moveToActivity
 import kotlin.math.max
 
 class ExpandableTextLayout : LinearLayout, View.OnClickListener {
@@ -47,9 +50,9 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
     private val ibToggle by lazy { this.findViewById<ImageButton>(R.id.ib_expand_collapse) }
     //    private val tvContents by lazy { this.findViewById<TextView>(R.id.tv_expandable) }
 //    private val tvShowMore by lazy { this.findViewById<TextView>(R.id.tv_show_more) }
-    private val tvContents by lazy { ExpandableTextView(context) }
-    private val tvShowMore by lazy { TextView(context) }
-    private val tvComments by lazy { TextView(context) }
+    val tvContents by lazy { ExpandableTextView(context) }
+    val tvShowMore by lazy { TextView(context) }
+    val tvComments by lazy { TextView(context) }
 
 
     constructor(context: Context) : super(context) {}
@@ -131,7 +134,11 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.tv_expandable -> {
+
                 Toast.makeText(context, "내용", Toast.LENGTH_SHORT).show()
+//                FeedDetailFragment.newInstance().run {
+//                    replaceFragmentStack(this, rootView?.fl_container?.id!!)
+//                }
             }
             R.id.tv_show_more -> {
                 showMore(feedVm.feedItems.value!![index].isExpanded)

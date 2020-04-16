@@ -12,7 +12,7 @@ import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import com.hyden.booklibrary.databinding.FragmentLibraryBinding
 import com.hyden.booklibrary.databinding.RecyclerItemLibraryBinding
 import com.hyden.booklibrary.util.longClickVibrate
-import com.hyden.booklibrary.view.detail.SavedDetailActivity
+import com.hyden.booklibrary.view.detail.mysaved.SavedDetailActivity
 import com.hyden.ext.showSimpleDialog
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener

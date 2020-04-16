@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.view.feed
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,13 +18,15 @@ import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
 import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.common.LoadingViewModel
-import com.hyden.booklibrary.view.detail.SavedDetailViewModel
+import com.hyden.booklibrary.view.detail.feed.FeedDetailActivity
+import com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel
 import com.hyden.booklibrary.view.feed.model.FeedData
-import com.hyden.ext.onlyNumber
+import com.hyden.ext.moveToActivity
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.RecyclerItemDecoration
 import com.hyden.util.toPx
+import kotlinx.android.synthetic.main.recycler_item_feed.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
@@ -90,28 +93,16 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         viewType: Int
                     ): BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding> {
                         val holder = super.onCreateViewHolder(parent, viewType)
-//                        clickLike(holder)
-                        clickComment(holder)
                         holder.binding?.setVariable(BR.feedVm,feedViewModel)
+                        holder.itemView.etl_note_content.tvContents.setOnClickListener {
+//                            Toast.makeText(context, "${holder.adapterPosition}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "${feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity?.title}", Toast.LENGTH_SHORT).show()
+                            Intent(activity,FeedDetailActivity::class.java).run {
+                                putExtra(getString(R.string.key_feed_data),feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity)
+                                moveToActivity(this)
+                            }
+                        }
                         return holder
-                    }
-
-                    // 좋아요 기능
-                    override fun onBindViewHolder(
-                        holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>,
-                        position: Int
-                    ) {
-                        super.onBindViewHolder(holder, position)
-//                        feedViewModel.feedItems.value?.let { feedItems ->
-//                            // 게시글마다 로그인한 유저가 좋아요를 클릭한 유저인지 검사.
-//                            // 좋아요를 클릭한 유저라면 heart를 빨간색으로 표시
-////                            holder.binding?.tvNoteContent?.showMore()
-//
-//                            holder.binding?.ivLike?.isSelected = feedItems[position].likesInfo.users?.let {
-//                                feedViewModel.isContainsUser(it)
-//                            } ?: false
-//
-//                        }
                     }
                 }
                 addOnScrollListener(endlessListener)
@@ -128,56 +119,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
             }
         }
 
-    }
-
-    /**
-     * 좋아요 클릭 이벤트
-     */
-//    private fun clickLike(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
-//        holder.binding?.apply {
-//            feedViewModel.feedItems.observe(this@FeedFragment,
-//                Observer {
-//                    ivLike?.setOnClickListener { view ->
-//                        view.isSelected = view.isSelected.not()
-//                        feedViewModel.pushLiked(
-//                            holder.adapterPosition,
-//                            view.isSelected
-//                        )
-//
-//                        feedViewModel.isSharedUser.value?.let {
-//                            if (it) {
-//                                feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity?.let { data ->
-//                                    savedDetailViewModel.bookUpdate(data)
-//                                }
-//                            }
-//                        }
-//
-//                        when (view.isSelected) {
-//                            true -> tvLikeCount.text =
-//                                String.format(getString(R.string.like_count),tvLikeCount.text.onlyNumber().toInt() + 1)
-//                            false -> tvLikeCount.text =
-//                                String.format(getString(R.string.like_count),tvLikeCount.text.onlyNumber().toInt() - 1)
-//                        }
-//                    }
-//                    // 로딩바 취소
-////                    loadingViewModel.hide()
-//                    (activity as? MainActivity)?.hideLoadingBar()
-//                }
-//            )
-//
-//
-//        }
-//    }
-
-    /**
-     * 댓글 클릭 이벤트
-     */
-    private fun clickComment(holder: BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding>) {
-        holder.binding?.apply {
-            ivComment?.setOnClickListener {
-                Toast.makeText(context, "댓글기능을 준비중입니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     companion object {

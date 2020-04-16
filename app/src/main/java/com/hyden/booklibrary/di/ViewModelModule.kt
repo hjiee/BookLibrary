@@ -3,7 +3,7 @@ package com.hyden.booklibrary.di
 import com.hyden.booklibrary.view.MainViewModel
 import com.hyden.booklibrary.view.comment.CommentViewModel
 import com.hyden.booklibrary.view.common.LoadingViewModel
-import com.hyden.booklibrary.view.detail.SavedDetailViewModel
+import com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel
 import com.hyden.booklibrary.view.detail.UnSavedDetailViewModel
 import com.hyden.booklibrary.view.feed.FeedViewModel
 import com.hyden.booklibrary.view.home.HomeViewModel
@@ -30,7 +30,12 @@ val viewModelModule = module {
 
     // sub
     viewModel { UnSavedDetailViewModel(get()) }
-    viewModel { SavedDetailViewModel(get(),get()) }
+    viewModel {
+        SavedDetailViewModel(
+            get(),
+            get()
+        )
+    }
     viewModel { NoteViewModel(get(),get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { CommentViewModel() }

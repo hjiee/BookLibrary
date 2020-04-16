@@ -8,5 +8,9 @@ import com.hyden.booklibrary.view.feed.FeedViewModel
 
 @BindingAdapter(value = ["bindUserName","bindText","bindFeedVm","bindFeedData"])
 fun ExpandableTextLayout.bindText(userName: String?, text: String?,feedVm : FeedViewModel, feedData : Feed?) {
-    setText(userName,text,feedVm,feedData)
+    if(text == "null" || text == null) {
+        setText(userName,"",feedVm,feedData)
+    } else {
+        setText(userName,text,feedVm,feedData)
+    }
 }
