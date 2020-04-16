@@ -40,7 +40,7 @@
         <activity android:name=".view.detail.UnSavedDetailActivity" />
         <activity android:name=".view.note.NoteActivity" />
         <activity android:name=".view.comment.CommentActivity" />
-        <activity android:name=".view.detail.SavedDetailActivity" />
+        <activity android:name=".view.detail.mysaved.SavedDetailActivity" />
         <activity
             android:name=".view.profile.ProfileActivity"
             android:windowSoftInputMode="adjustPan"/>
@@ -53,6 +53,8 @@
                 <action android:name="view" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.detail.feed.FeedDetailActivity"/>
 
     </application>
 

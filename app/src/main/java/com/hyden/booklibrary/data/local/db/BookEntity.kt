@@ -37,25 +37,3 @@ data class BookEntity(
     val customerReviewRank: String? =null,
     val bestRank : String? =null
 ) : Parcelable
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -33,19 +33,4 @@ fun ConstraintLayout.bindLike(feedVm: FeedViewModel, feed: Feed) {
             feed.likesCount = feed.likesCount.minus(1)
         }
     }
-//    feedVm?.isLiked(feed?.likesInfo?.users) {
-//        isSelected = true
-//        setBackgroundResource(R.drawable.ic_like_on)
-//    }
-//    setOnClickListener {
-//        feedVm?.postLike(feed,isSelected)
-//        isSelected = isSelected.not()
-//        if(isSelected) {
-//            setBackgroundResource(R.drawable.ic_like_on)
-//            feed?.likesCount?.plus(1)
-//        } else {
-//            setBackgroundResource(R.drawable.ic_like_off)
-//            feed?.likesCount?.minus(1)
-//        }
-//    }
 }

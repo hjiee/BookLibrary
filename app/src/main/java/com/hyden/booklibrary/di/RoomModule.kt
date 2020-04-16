@@ -10,7 +10,6 @@ import org.koin.dsl.module
 val roomModule = module {
     single {
         Room.databaseBuilder(androidContext(),AppDataBase::class.java,"${DATABASENAME_BOOK}.db")
-            .addMigrations(MIGRATION_1_2)
             .build()
     }
     single { get<AppDataBase>().getBookDao() }

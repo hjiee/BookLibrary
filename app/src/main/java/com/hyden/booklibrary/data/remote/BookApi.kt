@@ -3,8 +3,7 @@ package com.hyden.booklibrary.data.remote
 import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
 import com.hyden.booklibrary.data.remote.network.reponse.SearchResponse
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -29,7 +28,6 @@ interface BookApi {
      */
     @GET("ItemSearch.aspx")
     fun bookSearch(@QueryMap map : HashMap<String,Any>) : Single<SearchResponse>
-
 }
 
 

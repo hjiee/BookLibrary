@@ -9,8 +9,8 @@ object Migrations {
         override fun migrate(database: SupportSQLiteDatabase) {
             database.execSQL(
                 """CREATE TABLE sharedbook (isLiked INTEGER NOT null DEFAULT 0,
-                            isShared INTEGER NOT null DEFAULT 0 ,
-                            isReviews INTEGER NOT null DEFAULT 0 ,
+                            isShared INTEGER NOT null DEFAULT 0,
+                            isReviews INTEGER NOT null DEFAULT 0,
                             bookNote TEXT DEFAULT null,
                             bookReviews TEXT DEFAULT null,
                             title TEXT DEFAULT null,

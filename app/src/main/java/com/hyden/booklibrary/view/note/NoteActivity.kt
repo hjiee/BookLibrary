@@ -8,9 +8,8 @@ import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.databinding.ActivityBookNoteBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
-import com.hyden.booklibrary.view.detail.SavedDetailActivity
+import com.hyden.booklibrary.view.detail.mysaved.SavedDetailActivity
 import com.hyden.ext.showKeyboard
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_book_note) {
@@ -60,6 +59,6 @@ class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_boo
 //            noteViewModel.remoteUpdateBook(this)
 //            firestore.collection(DATABASENAME).document(this.isbn13).set(this)
         }
-        setResult(BOOK_NOTE_REQUEST_CODE, Intent(this@NoteActivity,SavedDetailActivity::class.java).putExtra("data",item))
+        setResult(BOOK_NOTE_REQUEST_CODE, Intent(this@NoteActivity, SavedDetailActivity::class.java).putExtra("data",item))
     }
 }
