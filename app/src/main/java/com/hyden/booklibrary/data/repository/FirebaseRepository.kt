@@ -104,8 +104,7 @@ class FirebaseRepository(
                         emptyList()
                     ),
                     commentsCount = if (item.isReviews == true) 1 else 0,
-                    commentsInfo = if (item.isReviews == true) Comment(listOf(currentUser)) else Comment(
-                        emptyList()
+                    commentsInfo = if (item.isReviews == true) Comment(listOf(FeedItem(createAt = Date(), users = currentUser))) else Comment(emptyList()
                     )
                 ), SetOptions.merge()
             )

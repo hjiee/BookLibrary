@@ -5,6 +5,7 @@ import com.hyden.booklibrary.view.comment.CommentViewModel
 import com.hyden.booklibrary.view.common.LoadingViewModel
 import com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel
 import com.hyden.booklibrary.view.detail.UnSavedDetailViewModel
+import com.hyden.booklibrary.view.detail.feed.FeedDetailViewModel
 import com.hyden.booklibrary.view.feed.FeedViewModel
 import com.hyden.booklibrary.view.home.HomeViewModel
 import com.hyden.booklibrary.view.library.LibraryViewModel
@@ -40,4 +41,5 @@ val viewModelModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { CommentViewModel() }
     viewModel { LoadingViewModel() }
+    viewModel { FeedDetailViewModel() }
 }
