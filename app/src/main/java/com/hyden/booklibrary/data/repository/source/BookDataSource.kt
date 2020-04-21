@@ -1,9 +1,10 @@
 package com.hyden.booklibrary.data.repository.source
 
 import com.hyden.booklibrary.data.local.db.BookEntity
+import io.reactivex.Flowable
 import io.reactivex.disposables.Disposable
 
-interface RoomDataSource {
+interface BookDataSource {
 
     fun insert(
         bookEntity: BookEntity?,
@@ -28,6 +29,8 @@ interface RoomDataSource {
         success: (BookEntity?) -> Unit,
         failure: (String) -> Unit
     ): Disposable
+
+    fun getSharedBook() : Flowable<List<BookEntity>>
 
     fun getAll(
         success: (List<BookEntity>) -> Unit,

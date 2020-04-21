@@ -2,16 +2,17 @@ package com.hyden.booklibrary.data.repository
 
 import com.hyden.booklibrary.data.local.db.BookDao
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.booklibrary.data.repository.source.RoomDataSource
+import com.hyden.booklibrary.data.repository.source.BookDataSource
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class RoomRepository(
+class BookRepository(
     private val bookDao: BookDao
-) : RoomDataSource {
+) : BookDataSource {
 
 
     override fun insert(
@@ -66,6 +67,10 @@ class RoomRepository(
                 { failure.invoke(it.toString()) }
             )
 
+    }
+
+    override fun getSharedBook(): Flowable<List<BookEntity>> {
+        return bookDao.getSharedBook()
     }
 
     override fun getAll(

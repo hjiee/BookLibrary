@@ -7,8 +7,6 @@ import java.util.*
 data class Feed(
     val sharedInfo: SharedInfo,
     val bookEntity: BookEntity,
-    var commentsCount: Long,
-    val commentsInfo: Comment,
     var likesCount: Long,
     val likesInfo: Like
 //    val usersInfo: User
@@ -17,16 +15,6 @@ data class Feed(
 data class SharedInfo(
     val sharedDate: Date,
     val users: User
-)
-
-data class FeedItem(
-    val createAt : Date,
-    val contents : String? = null,
-    val users : User
-)
-
-data class Comment(
-    val users: List<FeedItem>?
 )
 
 data class Like(
@@ -45,8 +33,6 @@ fun Feed.toFeed(): Feed {
     return Feed(
         sharedInfo,
         bookEntity,
-        commentsCount,
-        commentsInfo,
         likesCount,
         likesInfo
     )
@@ -54,7 +40,6 @@ fun Feed.toFeed(): Feed {
 
 
 fun <T> T.toSharedInfo(): SharedInfo = SharedInfo(getDate(), getSaredUser() ?: User("", "",updateAt = Date()))
-fun <T> T.toComment(): Comment = Comment(getComment())
 fun <T> T.toLike(): Like = Like(getUser())
 fun <T> T.toUser(): User = getUser()[0] ?: User("", "",updateAt = Date())
 fun <T> T.getUser(): List<User> {
@@ -82,36 +67,6 @@ fun <T> T.getUser(): List<User> {
                     updateAt = Date()
                 )
             )
-        }
-    }
-    return temp
-}
-
-fun <T> T.getComment() : List<FeedItem> {
-    val temp = mutableListOf<FeedItem>()
-    when (this) {
-        is HashMap<*, *> -> {
-            (this["users"] as? ArrayList<HashMap<*, *>>)?.run {
-                for (i in indices) {
-                    temp.add(FeedItem(createAt = get(i)["createAt"] as Date,
-                        users = User(
-                            email = get(i)["email"].toString(),
-                            name = get(i)["name"].toString(),
-                            nickName = get(i)["nickName"].toString(),
-                            profile = get(i)["profile"].toString(),
-                            updateAt = Date()
-                        )
-                    ))
-                }
-            } ?: temp.add(FeedItem(createAt = Date(),
-                users = User(
-                    email = this["email"].toString(),
-                    name = this["name"].toString(),
-                    nickName = this["nickName"].toString(),
-                    profile = this["profile"].toString(),
-                    updateAt = Date()
-                )
-            ))
         }
     }
     return temp

@@ -9,8 +9,7 @@ import org.koin.dsl.module
 
 val roomModule = module {
     single {
-        Room.databaseBuilder(androidContext(),AppDataBase::class.java,"${DATABASENAME_BOOK}.db")
-            .build()
+        Room.databaseBuilder(androidContext(),AppDataBase::class.java,"${DATABASENAME_BOOK}.db").build()
     }
     single { get<AppDataBase>().getBookDao() }
 }

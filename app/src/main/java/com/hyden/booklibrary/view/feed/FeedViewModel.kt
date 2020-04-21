@@ -166,8 +166,6 @@ class FeedViewModel(
             Feed(
                 get("sharedInfo").toSharedInfo(),
                 book(get("bookEntity") as HashMap<*, *>),
-                get("commentsCount").toString().toLong(),
-                get("commentsInfo").toComment(),
                 get("likesCount").toString().toLong(),
                 get("likesInfo").toLike()
             )
