@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.booklibrary.data.repository.RoomRepository
-import com.hyden.booklibrary.data.repository.source.RoomDataSource
+import com.hyden.booklibrary.data.repository.source.BookDataSource
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
 
 class UnSavedDetailViewModel(
-    private val roomDataSource: RoomDataSource
+    private val bookDataSource: BookDataSource
 ) : BaseViewModel() {
 
     private val _detailInfo = MutableLiveData<BookEntity>()
@@ -29,7 +28,7 @@ class UnSavedDetailViewModel(
 
     fun bookInsert() {
         compositeDisposable.add(
-            roomDataSource.insert(
+            bookDataSource.insert(
                 bookEntity = _detailInfo.value,
                 success = {
                     _isContain.value = true
@@ -46,7 +45,7 @@ class UnSavedDetailViewModel(
         isbn13 : String
     ) {
         compositeDisposable.add(
-            roomDataSource.deleteBook(
+            bookDataSource.deleteBook(
                 isbn13 = isbn13,
                 success = {
                     _isDelete.value = true
@@ -63,7 +62,7 @@ class UnSavedDetailViewModel(
         isbn13 : String
     ) {
         compositeDisposable.add(
-            roomDataSource.isContains(
+            bookDataSource.isContains(
                 isbn13 = isbn13,
                 success = {
                     _isContain.value = it

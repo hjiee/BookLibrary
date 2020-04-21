@@ -102,10 +102,6 @@ class FirebaseRepository(
                     likesCount = if (item.isLiked == true) 1 else 0,
                     likesInfo = if (item.isLiked == true) Like(listOf(currentUser)) else Like(
                         emptyList()
-                    ),
-                    commentsCount = if (item.isReviews == true) 1 else 0,
-                    commentsInfo = if (item.isReviews == true) Comment(listOf(currentUser)) else Comment(
-                        emptyList()
                     )
                 ), SetOptions.merge()
             )

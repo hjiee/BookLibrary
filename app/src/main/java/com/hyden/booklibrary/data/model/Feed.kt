@@ -7,8 +7,6 @@ import java.util.*
 data class Feed(
     val sharedInfo: SharedInfo,
     val bookEntity: BookEntity,
-    var commentsCount: Long,
-    val commentsInfo: Comment,
     var likesCount: Long,
     val likesInfo: Like
 //    val usersInfo: User
@@ -17,10 +15,6 @@ data class Feed(
 data class SharedInfo(
     val sharedDate: Date,
     val users: User
-)
-
-data class Comment(
-    val users: List<User>?
 )
 
 data class Like(
@@ -39,8 +33,6 @@ fun Feed.toFeed(): Feed {
     return Feed(
         sharedInfo,
         bookEntity,
-        commentsCount,
-        commentsInfo,
         likesCount,
         likesInfo
     )
@@ -48,7 +40,6 @@ fun Feed.toFeed(): Feed {
 
 
 fun <T> T.toSharedInfo(): SharedInfo = SharedInfo(getDate(), getSaredUser() ?: User("", "",updateAt = Date()))
-fun <T> T.toComment(): Comment = Comment(getUser())
 fun <T> T.toLike(): Like = Like(getUser())
 fun <T> T.toUser(): User = getUser()[0] ?: User("", "",updateAt = Date())
 fun <T> T.getUser(): List<User> {

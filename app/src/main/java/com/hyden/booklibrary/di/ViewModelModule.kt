@@ -5,10 +5,12 @@ import com.hyden.booklibrary.view.comment.CommentViewModel
 import com.hyden.booklibrary.view.common.LoadingViewModel
 import com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel
 import com.hyden.booklibrary.view.detail.UnSavedDetailViewModel
+import com.hyden.booklibrary.view.detail.feed.FeedDetailViewModel
 import com.hyden.booklibrary.view.feed.FeedViewModel
 import com.hyden.booklibrary.view.home.HomeViewModel
 import com.hyden.booklibrary.view.library.LibraryViewModel
 import com.hyden.booklibrary.view.login.LoginViewModel
+import com.hyden.booklibrary.view.myshared.MySharedBookViewMiodel
 import com.hyden.booklibrary.view.note.NoteViewModel
 import com.hyden.booklibrary.view.profile.ProfileViewModel
 import com.hyden.booklibrary.view.search.SearchViewModel
@@ -27,6 +29,7 @@ val viewModelModule = module {
     viewModel { FeedViewModel(get()) }
     viewModel { LibraryViewModel(get()) }
     viewModel { SettingViewModel(get()) }
+    viewModel { MySharedBookViewMiodel(get()) }
 
     // sub
     viewModel { UnSavedDetailViewModel(get()) }
@@ -40,4 +43,6 @@ val viewModelModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { CommentViewModel() }
     viewModel { LoadingViewModel() }
+    viewModel { FeedDetailViewModel() }
+
 }

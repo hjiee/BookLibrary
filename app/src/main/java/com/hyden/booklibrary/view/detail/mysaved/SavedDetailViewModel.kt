@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
-import com.hyden.booklibrary.data.repository.source.RoomDataSource
+import com.hyden.booklibrary.data.repository.source.BookDataSource
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
 
 class SavedDetailViewModel(
-    private val roomDatasource: RoomDataSource,
+    private val bookDatasource: BookDataSource,
     private val firebaseDataSource: FirebaseDataSource
 ) : BaseViewModel() {
 
@@ -30,9 +30,8 @@ class SavedDetailViewModel(
 
     fun bookReLoad(isbn13: String) {
         compositeDisposable.add(
-            roomDatasource.getBook(
-                isbn13 = isbn13
-                ,
+            bookDatasource.getBook(
+                isbn13 = isbn13,
                 success = {
                     _detailInfo.value = it
                 },
@@ -44,7 +43,7 @@ class SavedDetailViewModel(
 
     fun bookInsert() {
         compositeDisposable.add(
-            roomDatasource.insert(
+            bookDatasource.insert(
                 bookEntity = _detailInfo.value,
                 success = {
                     _isContain.value = true
@@ -62,7 +61,7 @@ class SavedDetailViewModel(
         isbn13: String
     ) {
         compositeDisposable.add(
-            roomDatasource.deleteBook(
+            bookDatasource.deleteBook(
                 isbn13 = isbn13,
                 success = {
                     _isDelete.value = true
@@ -76,7 +75,7 @@ class SavedDetailViewModel(
     }
 
     fun bookUpdate(bookEntity: BookEntity) {
-        compositeDisposable.add(roomDatasource.updateBook(bookEntity = bookEntity))
+        compositeDisposable.add(bookDatasource.updateBook(bookEntity = bookEntity))
     }
 
     fun pushLike(isSelected: Boolean, bookEntity: BookEntity) {
@@ -102,7 +101,7 @@ class SavedDetailViewModel(
         isbn13: String
     ) {
         compositeDisposable.add(
-            roomDatasource.isContains(
+            bookDatasource.isContains(
                 isbn13 = isbn13,
                 success = {
                     _isContain.value = it

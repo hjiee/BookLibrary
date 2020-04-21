@@ -1,10 +1,12 @@
 package com.hyden.booklibrary.data.local.db
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_SHARED
-import java.util.*
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = DATABASENAME_SHARED)
 data class SharedBookEntity(
     var isLiked : Boolean = false,
@@ -34,4 +36,4 @@ data class SharedBookEntity(
     val fixedPrice: String? =null,
     val customerReviewRank: String? =null,
     val bestRank : String? =null
-)
+) : Parcelable

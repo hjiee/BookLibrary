@@ -94,14 +94,13 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                     ): BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding> {
                         val holder = super.onCreateViewHolder(parent, viewType)
                         holder.binding?.setVariable(BR.feedVm,feedViewModel)
-                        holder.itemView.etl_note_content.tvContents.setOnClickListener {
-//                            Toast.makeText(context, "${holder.adapterPosition}", Toast.LENGTH_SHORT).show()
-                            Toast.makeText(context, "${feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity?.title}", Toast.LENGTH_SHORT).show()
-                            Intent(activity,FeedDetailActivity::class.java).run {
-                                putExtra(getString(R.string.key_feed_data),feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity)
-                                moveToActivity(this)
-                            }
-                        }
+
+//                        holder.itemView.etl_note_content.tvContents.setOnClickListener {
+//                            Intent(activity,FeedDetailActivity::class.java).run {
+//                                putExtra(getString(R.string.key_feed_data),feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity)
+//                                moveToActivity(this)
+//                            }
+//                        }
                         return holder
                     }
                 }

@@ -7,6 +7,7 @@ import androidx.room.Update
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASELIMIT
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_BOOK
 import io.reactivex.Completable
+import io.reactivex.Flowable
 
 @Dao
 interface BookDao {
@@ -31,6 +32,9 @@ interface BookDao {
     fun getBook(
         isbn13: String
     ): BookEntity
+
+    @Query("SELECT * FROM $DATABASENAME_BOOK WHERE isShared = 1")
+    fun getSharedBook() : Flowable<List<BookEntity>>
 
     @Query("SELECT * FROM $DATABASENAME_BOOK LIMIT $DATABASELIMIT")
     fun getAll(): List<BookEntity>

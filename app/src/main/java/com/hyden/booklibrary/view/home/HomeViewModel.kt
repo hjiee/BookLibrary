@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.reponse.BookItems
 import com.hyden.booklibrary.data.repository.source.HomeDataSource
-import com.hyden.booklibrary.data.repository.source.RoomDataSource
+import com.hyden.booklibrary.data.repository.source.BookDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BESTSELLER
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BLOGBEST
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW
@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel(
     private val homeDataSource: HomeDataSource,
-    private val roomDataSource: RoomDataSource
+    private val bookDataSource: BookDataSource
 ) : BaseViewModel() {
 
     private val _bookBlogBest = MutableLiveData<List<BookItems>>()
@@ -124,7 +124,7 @@ class HomeViewModel(
     fun isContains(isbn13: String): Boolean {
         var result = false
         compositeDisposable.add(
-            roomDataSource.isContains(
+            bookDataSource.isContains(
                 isbn13 = isbn13,
                 success = { result = it },
                 failure = { result = it }

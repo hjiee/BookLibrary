@@ -5,10 +5,8 @@
 
     <data>
         <import type="com.hyden.ext.ImageViewExtKt"/>
+        <import type="com.hyden.util.ImageTransformType"/>
 
-        <variable
-            name="type"
-            type="com.hyden.util.ImageTransformType" />
         <variable
             name="response"
             type="com.hyden.booklibrary.data.local.db.BookEntity" />
@@ -24,7 +22,7 @@
             tools:background="@drawable/book_sample_cover"
             style="@style/BookImageStyle"
             loadUrl="@{response.cover}"
-            tranformType="@{type.ROUND}"
+            tranformType="@{ImageTransformType.ROUND}"
             radius="@{@integer/book_image_radius}"
              />
 
