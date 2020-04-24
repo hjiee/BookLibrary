@@ -8,6 +8,8 @@ import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.repository.source.BookDataSource
+import com.hyden.booklibrary.util.SingleLiveEvent
+import com.hyden.util.ItemClickListener
 import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,10 +19,16 @@ class MySharedBookViewMiodel(
     private val bookDataSource: BookDataSource
 ): BaseViewModel() {
 
-    val adapter = BaseItemsApdater(R.layout.recycler_item_library, BR.response)
-
     private val _sharedItems = MutableLiveData<List<BookEntity>>()
     val sharedItems : LiveData<List<BookEntity>> get() = _sharedItems
+    val singleLiveEvent =  SingleLiveEvent<Any>()
+
+
+    val clickListener = object : ItemClickListener {
+        override fun <T> onItemClick(item: T) {
+            singleLiveEvent.call(item)
+        }
+    }
 
     fun loadBook() {
         compositeDisposable.add(

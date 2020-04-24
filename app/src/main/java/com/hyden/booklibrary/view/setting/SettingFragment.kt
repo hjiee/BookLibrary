@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.library.BuildConfig
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -18,10 +17,9 @@ import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
 import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
-import com.hyden.booklibrary.view.myshared.MySharedBook
+import com.hyden.booklibrary.view.myshared.MySharedBookFragment
 import com.hyden.ext.showSimpleDialog
 import com.hyden.ext.moveToActivity
-import com.hyden.ext.replaceFragment
 import com.hyden.ext.replaceFragmentStack
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -100,7 +98,7 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun changeMyFeedBook() {
         findPreference<Preference>(getString(R.string.setting_key_my_feed_book))?.apply {
             setOnPreferenceClickListener {
-                replaceFragmentStack(MySharedBook.newInstance(),activity?.fl_container?.id!!)
+                replaceFragmentStack(MySharedBookFragment.newInstance(),activity?.fl_container?.id!!)
                 true
             }
         }
