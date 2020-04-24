@@ -148,8 +148,8 @@ class SavedDetailActivity :
 //                    Toast.makeText(context, "감상글을 수정합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
-            tvTitle.text = item?.title!!.split(" - ")[0]
-            ivBookCover.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
+            tvTitle?.text = item?.title!!.split(" - ")[0]
+            ivBookCover?.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
 
         }
     }

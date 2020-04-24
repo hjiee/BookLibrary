@@ -8,6 +8,11 @@
         <variable
             name="vm"
             type="com.hyden.booklibrary.view.myshared.MySharedBookViewMiodel" />
+
+        <variable
+            name="adapter"
+            type="com.hyden.base.BaseItemsApdater" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,11 +26,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adapter="@{vm.adapter}"
                 android:scrollbars="vertical"
                 bindItems="@{vm.sharedItems}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
+                app:adapter="@{adapter}"
                 tools:listitem="@layout/recycler_item_library"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
