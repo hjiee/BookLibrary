@@ -21,6 +21,7 @@ import com.hyden.booklibrary.view.myshared.MySharedBookFragment
 import com.hyden.ext.showSimpleDialog
 import com.hyden.ext.moveToActivity
 import com.hyden.ext.replaceFragmentStack
+import com.hyden.ext.versionName
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,14 +40,12 @@ class SettingFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting, rootKey)
-        changeTheme()
         changeMyFeedBook()
         changeStartView()
         changeLoginState()
         changeProfile()
         sendToMail()
         sendToEvaluation()
-        sendToDonate()
         infoAppVersion()
         infoOpenSourceLicense()
         preferenceManager.context.setTheme(R.style.PreferenceTheme)
@@ -64,31 +63,11 @@ class SettingFragment : PreferenceFragmentCompat() {
                         Intent.EXTRA_TEXT,
                         "모델명 : ${Build.MODEL}\n" +
                                 "OS버전 : ${Build.VERSION.RELEASE}\n" +
-                                "앱버전 : ${BuildConfig.VERSION_NAME}\n " +
+                                "앱버전 : ${context.versionName()}\n " +
                                 "-----------------------------------------\n\n"
                     )
                     startActivity(this)
                 }
-                true
-            }
-        }
-    }
-
-    // 색상 테마 변경
-    private fun changeTheme() {
-        findPreference<ListPreference>(getString(R.string.setting_key_theme))?.apply {
-            summary = getPreferenceTheme()
-            setOnPreferenceClickListener {
-                true
-            }
-            setOnPreferenceChangeListener { preference, newValue ->
-                preference.summary = newValue.toString()
-                setPreferenceTheme(newValue.toString())
-                Intent(activity,MainActivity::class.java).apply {
-                    putExtra("theme",true)
-                    moveToActivity(this)
-                }
-                activity?.finish()
                 true
             }
         }
@@ -152,17 +131,9 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun sendToEvaluation() {
     }
 
-    private fun sendToDonate() {
-        findPreference<Preference>(getString(R.string.setting_key_donate))?.apply {
-            setOnPreferenceClickListener {
-                true
-            }
-        }
-    }
-
     private fun infoAppVersion() {
         findPreference<Preference>(getString(R.string.setting_key_version))?.apply {
-            summary = "앱 버전 : ${BuildConfig.VERSION_NAME}"
+            summary = "앱 버전 : ${context.versionName()}"
             this.context.setTheme(R.style.PreferenceTheme)
         }
     }

@@ -106,12 +106,6 @@
     <string name="setting_summary_evaluation">플레이스토어에 평점 및 리뷰 남겨주세요!</string>
     <string name="setting_key_evaluation">evaluation</string>
 
-    <!--후원하기-->
-    <string name="setting_title_donate">후원하기</string>
-    <string name="setting_summary_donate">개발자를 응원합니다!</string>
-    <string name="setting_key_donate">donate</string>
-
-
     <string name="title_license_retrofit">Retrofit</string>
     <string name="content_license_retrofit">Copyright 2013 Square, Inc.
 Licensed under the Apache License, Version 2.0 (the "License");

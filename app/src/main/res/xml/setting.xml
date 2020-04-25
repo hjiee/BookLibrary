@@ -13,13 +13,6 @@
         android:title="@string/setting_category_base_setting"
         android:key="@string/setting_category_key1"
         app:iconSpaceReserved="true">
-        <ListPreference
-            android:summary="@string/setting_summary_theme"
-            android:title="@string/setting_title_theme"
-            android:entries="@array/theme"
-            android:entryValues="@array/theme"
-            android:key="@string/setting_key_theme"
-            app:iconSpaceReserved="true"/>
 
         <ListPreference
             android:summary="@string/setting_summary_start_view"
@@ -74,12 +67,6 @@
                 android:action="android.intent.action.VIEW"
                 android:data="market://details?id=com.hyden.booklibrary"/>
         </PreferenceScreen>
-
-        <Preference
-            android:summary="@string/setting_summary_donate"
-            android:title="@string/setting_title_donate"
-            app:iconSpaceReserved="true"
-            android:key="@string/setting_key_donate"/>
     </PreferenceCategory>
 
     <!--정보-->
