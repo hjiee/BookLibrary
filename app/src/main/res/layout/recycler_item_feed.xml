@@ -68,30 +68,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_nickname"
                 tools:text="52초전" />
 
-            <ImageView
-                android:id="@+id/img_book_cover"
-                style="@style/BookImageStyle"
-                loadUrl="@{response.feed.bookEntity.cover}"
-                radius="@{@integer/book_image_radius}"
-                tranformType="@{type.ROUND}"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_profile"
-                tools:background="@drawable/book_sample_cover" />
-
             <TextView
                 android:id="@+id/tv_title"
                 style="@style/TextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="20dp"
                 android:text="@{(response.feed.bookEntity.title.split(` - `)[0] == null || response.feed.bookEntity.title.split(` - `)[0] == `null`) ? `책정보가 없습니다.` : response.feed.bookEntity.title.split(` - `)[0]}"
-                app:layout_constraintLeft_toLeftOf="@+id/img_book_cover"
-                app:layout_constraintRight_toRightOf="@+id/img_book_cover"
-                app:layout_constraintTop_toBottomOf="@+id/img_book_cover"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile"
                 tools:text="코틀린 인 액션" />
+
+            <ImageView
+                android:id="@+id/iv_book_cover"
+                style="@style/BookImageStyle"
+                loadUrl="@{response.feed.bookEntity.cover}"
+                radius="@{@integer/book_image_radius}"
+                tranformType="@{type.ROUND}"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                tools:background="@drawable/book_sample_cover" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,7 +104,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_title">
+                app:layout_constraintTop_toBottomOf="@id/iv_book_cover">
 
                 <ImageView
                     android:id="@+id/iv_like"

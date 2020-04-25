@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.library.BuildConfig
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -21,6 +22,7 @@ import com.hyden.booklibrary.view.myshared.MySharedBookFragment
 import com.hyden.ext.showSimpleDialog
 import com.hyden.ext.moveToActivity
 import com.hyden.ext.replaceFragmentStack
+import com.hyden.ext.versionName
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -64,7 +66,7 @@ class SettingFragment : PreferenceFragmentCompat() {
                         Intent.EXTRA_TEXT,
                         "모델명 : ${Build.MODEL}\n" +
                                 "OS버전 : ${Build.VERSION.RELEASE}\n" +
-                                "앱버전 : ${BuildConfig.VERSION_NAME}\n " +
+                                "앱버전 : ${context.versionName()}\n " +
                                 "-----------------------------------------\n\n"
                     )
                     startActivity(this)
@@ -152,9 +154,11 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun sendToEvaluation() {
     }
 
+    // 후원하기
     private fun sendToDonate() {
         findPreference<Preference>(getString(R.string.setting_key_donate))?.apply {
             setOnPreferenceClickListener {
+                settingViewModel.donation()
                 true
             }
         }
@@ -162,7 +166,8 @@ class SettingFragment : PreferenceFragmentCompat() {
 
     private fun infoAppVersion() {
         findPreference<Preference>(getString(R.string.setting_key_version))?.apply {
-            summary = "앱 버전 : ${BuildConfig.VERSION_NAME}"
+//            summary = "앱 버전 : ${BuildConfig.VERSION_NAME}"
+            summary = "앱 버전 : ${context.versionName()}"
             this.context.setTheme(R.style.PreferenceTheme)
         }
     }

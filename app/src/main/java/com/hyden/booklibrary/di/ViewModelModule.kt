@@ -28,7 +28,7 @@ val viewModelModule = module {
     viewModel { SearchViewModel(get()) }
     viewModel { FeedViewModel(get()) }
     viewModel { LibraryViewModel(get()) }
-    viewModel { SettingViewModel(get()) }
+    viewModel { SettingViewModel(get(),get()) }
     viewModel { MySharedBookViewMiodel(get()) }
 
     // sub

@@ -116,6 +116,9 @@ dependencies {
     // https://github.com/ArthurHub/Android-Image-Cropper
     implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
 
+    // billing
+    implementation 'com.android.billingclient:billing:2.2.0'
+
 
 
 }

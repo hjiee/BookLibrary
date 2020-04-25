@@ -1,10 +1,7 @@
 package com.hyden.booklibrary.di
 
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.repository.FirebaseRepository
-import com.hyden.booklibrary.data.repository.HomeRepository
-import com.hyden.booklibrary.data.repository.BookRepository
-import com.hyden.booklibrary.data.repository.SearchRepository
+import com.hyden.booklibrary.data.repository.*
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.data.repository.source.HomeDataSource
 import com.hyden.booklibrary.data.repository.source.BookDataSource
@@ -19,5 +16,6 @@ val appModule = module {
     single<BookDataSource> { BookRepository(get()) }
     single<FirebaseDataSource> { FirebaseRepository(androidContext().getString(R.string.default_web_client_id),androidContext()) }
     single { FirebaseModule(get()) }
+    factory { BillingRepository(get()) }
 
 }
