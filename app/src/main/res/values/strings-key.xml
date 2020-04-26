@@ -1,3 +1,5 @@
 <resources>
    <string name="key_feed_data">feed</string>
+
+   <string name="title_logo_transition_name">title_logo</string>
 </resources>
