@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.library.BuildConfig
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.util.*
-import com.hyden.booklibrary.view.MainActivity
 import com.hyden.booklibrary.view.OpenSourceActivity
 import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity

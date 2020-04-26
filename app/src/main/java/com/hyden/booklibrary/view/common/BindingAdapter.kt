@@ -8,10 +8,12 @@ import com.airbnb.lottie.LottieAnimationView
 fun LottieAnimationView.animation(isShowing : Boolean) {
     when(isShowing) {
         true -> {
+            visibility = View.VISIBLE
             playAnimation()
 
         }
         false-> {
+            visibility = View.GONE
             cancelAnimation()
         }
     }

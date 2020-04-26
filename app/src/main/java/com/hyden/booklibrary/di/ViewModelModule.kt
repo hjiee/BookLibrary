@@ -1,8 +1,7 @@
 package com.hyden.booklibrary.di
 
-import com.hyden.booklibrary.view.MainViewModel
+import com.hyden.booklibrary.view.main.MainViewModel
 import com.hyden.booklibrary.view.comment.CommentViewModel
-import com.hyden.booklibrary.view.common.LoadingViewModel
 import com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel
 import com.hyden.booklibrary.view.detail.UnSavedDetailViewModel
 import com.hyden.booklibrary.view.detail.feed.FeedDetailViewModel
@@ -15,6 +14,7 @@ import com.hyden.booklibrary.view.note.NoteViewModel
 import com.hyden.booklibrary.view.profile.ProfileViewModel
 import com.hyden.booklibrary.view.search.SearchViewModel
 import com.hyden.booklibrary.view.setting.SettingViewModel
+import com.hyden.booklibrary.view.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -22,6 +22,7 @@ val viewModelModule = module {
     // start
     viewModel { MainViewModel() }
     viewModel { LoginViewModel(get()) }
+    viewModel { SplashViewModel() }
 
     // main view
     viewModel { HomeViewModel(get(),get()) }
@@ -42,7 +43,6 @@ val viewModelModule = module {
     viewModel { NoteViewModel(get(),get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { CommentViewModel() }
-    viewModel { LoadingViewModel() }
     viewModel { FeedDetailViewModel() }
 
 }
