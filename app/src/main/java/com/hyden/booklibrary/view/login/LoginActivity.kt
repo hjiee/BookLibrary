@@ -7,19 +7,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityLoginBinding
-import com.hyden.booklibrary.util.setUserNickName
-import com.hyden.booklibrary.view.MainActivity
+import com.hyden.booklibrary.view.main.MainActivity
+import com.hyden.booklibrary.view.splash.SplashActivity.Companion.LOGIN_START
 import com.hyden.ext.moveToActivity
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
-import com.hyden.util.LogUtil.LogW
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -43,11 +40,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     override fun initBind() {
         if(googleAuth.currentUser != null) { goMain() }
         binding.apply {
-            btnGoogleLogin.setOnClickListener {
+            vm = loginViewModel
+            btnLoginGoogle.setOnClickListener {
                 startActivityForResult(googleSignInClient.signInIntent,RC_SIGN_IN)
             }
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -58,21 +57,18 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)
                     googleAuthWithGoogle(account!!)
+//                    loginViewModel.mysharedBook()
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
-                    LogW("Google sign in failed : $e")
-                    Toast.makeText(this@LoginActivity, "google sign fail", Toast.LENGTH_SHORT).show()
-                    // ...
+                    LogE("Google sign in failed : $e")
+                    Toast.makeText(this@LoginActivity, String.format(getString(R.string.login_fail),getString(R.string.google)), Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
     private fun googleAuthWithGoogle(acct: GoogleSignInAccount) {
-        LogD("googleAuthWithGoogle:" + acct.id!!)
-
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-
         googleAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -83,14 +79,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 } else {
                     LogE("signInWithCredential:failure")
                 }
-
-                // ...
             }
     }
 
     private fun goMain() {
         loginViewModel.saveUser()
-        moveToActivity(Intent(this@LoginActivity,MainActivity::class.java))
+        moveToActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        setResult(LOGIN_START)
         finish()
     }
 }
