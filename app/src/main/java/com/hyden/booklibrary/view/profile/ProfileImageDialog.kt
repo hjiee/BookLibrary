@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.view.profile
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -36,15 +37,19 @@ class ProfileImageDialog(
         }
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+    }
+
     override fun initBind() {
         binding.apply {
             ibGallery.setOnClickListener {
-                gallery.invoke()
                 dismiss()
+                gallery.invoke()
             }
             ibCamera.setOnClickListener {
-                camera.invoke()
                 dismiss()
+                camera.invoke()
             }
         }
     }

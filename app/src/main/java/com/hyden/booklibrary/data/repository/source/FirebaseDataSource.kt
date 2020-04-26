@@ -1,6 +1,7 @@
 package com.hyden.booklibrary.data.repository.source
 
 import android.net.Uri
+import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.data.model.User

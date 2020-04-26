@@ -12,7 +12,6 @@ import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityProfileBinding
 import com.hyden.booklibrary.view.common.FirebaseModule
-import com.hyden.booklibrary.view.common.LoadingViewModel
 import com.hyden.ext.*
 import com.hyden.util.ImageTransformType
 import com.hyden.util.LogUtil.LogE
@@ -27,7 +26,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
     private val profileViewModel by viewModel<ProfileViewModel>()
-    private val loadingViewModel by viewModel<LoadingViewModel>()
     private val firebaseModule by inject<FirebaseModule>()
     private val REQUEST_GALLERY_CODE = 2000
     private val REQUEST_CAMERA_CODE = 2001
@@ -41,7 +39,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     override fun initBind() {
         binding.apply {
             vm = profileViewModel
-            loadingVM = loadingViewModel
             firebase = firebaseModule
             ivBack.setOnClickListener { finish() }
         }
@@ -113,9 +110,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                         }
                     }
                 ).show(supportFragmentManager, "")
-
-
-//                profileViewModel.setProfile("")
             })
 
             /**
@@ -136,7 +130,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                         isTimeAutomatic {
                             showSimpleDialog(getString(R.string.check_update_profile)) {
                                 // 이미지를 firebase storage에 저장한다.
-                                loadingViewModel.show()
+                                profileViewModel.showLoading()
                                 profileViewModel.saveStroageProfile()
                             }
                         }
@@ -148,7 +142,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                         showToast(getString(R.string.check_update_profile_cancel))
                     }
                     ProfileUpdateType.SUCCESS -> {
-                        loadingViewModel.hide()
+                        profileViewModel.hideLoading()
                         showToast(getString(R.string.check_update_profile_success))
                         finish()
                     }

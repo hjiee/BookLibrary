@@ -63,10 +63,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-
-        LogE(Timestamp.now().toDate().toString())
-        LogE(ServerValue.TIMESTAMP.get("timestamp").toString())
-
         binding.ivBookCover.apply {
             homeViewModel.bookBlogBest.observe(
                 this@HomeFragment,

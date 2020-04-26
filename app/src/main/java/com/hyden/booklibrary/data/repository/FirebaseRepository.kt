@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.data.repository
 
+import android.app.Application
 import android.content.Context
 import android.net.Uri
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -25,8 +26,8 @@ import java.util.*
 
 
 class FirebaseRepository(
-    val clientId: String,
-    val context: Context
+    private val clientId: String,
+    private val applicationContext: Context
 ) : FirebaseDataSource {
 
     private val firebaseStorage by lazy { FirebaseStorage.getInstance() }
@@ -37,13 +38,12 @@ class FirebaseRepository(
             .requestEmail()
             .build()
     }
-    private val googleSignInClient by lazy { GoogleSignIn.getClient(context, googleSignInOptions) }
+    private val googleSignInClient by lazy { GoogleSignIn.getClient(applicationContext, googleSignInOptions) }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
     override var currentUser = User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
     private var userInfo = UserInfo(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile())
 
-
-    // Book
+// Book
     /**
      * 좋아요 클릭
      */
@@ -122,8 +122,8 @@ class FirebaseRepository(
 
     // User
     override fun saveUser() {
-        context.setUserNickName(currentUser.nickName)
-        context.setUserProfile(currentUser.profile)
+        applicationContext.setUserNickName(currentUser.nickName)
+        applicationContext.setUserProfile(currentUser.profile)
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail())
             .set(currentUser, SetOptions.merge())
     }
@@ -142,15 +142,13 @@ class FirebaseRepository(
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 for (i in documentSnapshot.documents.indices) {
-                    val isbn13 =
-                        (documentSnapshot.documents[i].data?.get("bookEntity") as HashMap<*, *>)["isbn13"] as String
+                    val isbn13 = (documentSnapshot.documents[i].data?.get("bookEntity") as HashMap<*, *>)["isbn13"] as String
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["email"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["updateAt"]
-                    firebaseFireStore.collection(DATABASENAME_BOOK)
-                        .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
+                    firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
                 }
                 saveUser()
                 success.invoke()
@@ -169,7 +167,7 @@ class FirebaseRepository(
                         storageReference.child(childPath).downloadUrl
                             .addOnSuccessListener {
                                 LogW("Success : download url = $it")
-                                context.setUserProfile(it.toString())
+                                applicationContext.setUserProfile(it.toString())
                                 result.invoke(Result.SUCCESS, it.toString())
                             }
                             .addOnFailureListener {
@@ -220,10 +218,10 @@ class FirebaseRepository(
 
     override fun getLoginName(): String = googleAuth.currentUser?.displayName?.trim() ?: ""
 
-    override fun getLoginProfile(): String = context.getUserProfile()
+    override fun getLoginProfile(): String = applicationContext.getUserProfile()
 
     override fun getLoginNickname(): String {
-        val userNickName = context.getUserNickName()
+        val userNickName = applicationContext.getUserNickName()
         if (userNickName.isNullOrEmpty()) {
             return getLoginEmail().split("@")[0]
         }

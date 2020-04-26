@@ -24,6 +24,7 @@ class FeedViewModel(
 ) : BaseViewModel() {
 
     private val firestore by lazy { FirebaseFirestore.getInstance() }
+
     //    lateinit var documents: List<DocumentSnapshot>
     lateinit var lastVisible: DocumentSnapshot
 

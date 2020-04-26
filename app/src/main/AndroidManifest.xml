@@ -35,7 +35,7 @@
 
         <activity android:name=".view.login.LoginActivity" />
         <activity
-            android:name=".view.MainActivity"
+            android:name=".view.main.MainActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".view.detail.UnSavedDetailActivity" />
         <activity android:name=".view.note.NoteActivity" />

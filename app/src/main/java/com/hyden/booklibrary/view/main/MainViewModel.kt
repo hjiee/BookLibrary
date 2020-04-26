@@ -1,4 +1,4 @@
-package com.hyden.booklibrary.view
+package com.hyden.booklibrary.view.main
 
 import com.hyden.base.BaseViewModel
 

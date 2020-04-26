@@ -8,17 +8,14 @@
         <import type="com.hyden.ext.RecyclerViewExtKt" />
 
         <variable
-            name="loadingVM"
-            type="com.hyden.booklibrary.view.common.LoadingViewModel" />
-        <variable
             name="vm"
-            type="com.hyden.booklibrary.view.home.HomeViewModel" />
+            type="com.hyden.booklibrary.view.main.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.MainActivity">
+        tools:context=".view.main.MainActivity">
 
         <FrameLayout
             android:id="@+id/fl_container"
@@ -54,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout="@layout/view_loading"
-            loadingVM="@{loadingVM}"
+            app:isLoading="@{vm.loading}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

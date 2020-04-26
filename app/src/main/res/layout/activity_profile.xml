@@ -12,9 +12,6 @@
             type="com.hyden.booklibrary.view.common.FirebaseModule" />
 
         <variable
-            name="loadingVM"
-            type="com.hyden.booklibrary.view.common.LoadingViewModel" />
-        <variable
             name="vm"
             type="com.hyden.booklibrary.view.profile.ProfileViewModel" />
     </data>
@@ -170,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout="@layout/view_loading"
-            loadingVM="@{loadingVM}"
+            app:isLoading="@{vm.loading}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"

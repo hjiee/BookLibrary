@@ -1,6 +1,5 @@
 package com.hyden.booklibrary.view.feed
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,25 +15,16 @@ import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
-import com.hyden.booklibrary.view.MainActivity
-import com.hyden.booklibrary.view.common.LoadingViewModel
-import com.hyden.booklibrary.view.detail.feed.FeedDetailActivity
-import com.hyden.booklibrary.view.detail.mysaved.SavedDetailViewModel
 import com.hyden.booklibrary.view.feed.model.FeedData
-import com.hyden.ext.moveToActivity
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.RecyclerItemDecoration
 import com.hyden.util.toPx
-import kotlinx.android.synthetic.main.recycler_item_feed.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
     private val feedViewModel by viewModel<FeedViewModel>()
-    private val savedDetailViewModel by viewModel<SavedDetailViewModel>()
-    private val loadingViewModel by viewModel<LoadingViewModel>()
-
 
     private val itemClickListener by lazy {
         object : ItemClickListener {
@@ -79,8 +69,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
         binding.apply {
             vm = feedViewModel
             // 로딩바 표시
-//            loadingViewModel.show()
-            (activity as? MainActivity)?.showLoadingBar()
+            feedViewModel.showLoading()
             rvBookFeed.apply {
                 addItemDecoration(RecyclerItemDecoration(5f.toPx(context)))
                 adapter = object : BaseRecyclerView.Adapter<FeedData, RecyclerItemFeedBinding>(
@@ -95,12 +84,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                         val holder = super.onCreateViewHolder(parent, viewType)
                         holder.binding?.setVariable(BR.feedVm,feedViewModel)
 
-//                        holder.itemView.etl_note_content.tvContents.setOnClickListener {
-//                            Intent(activity,FeedDetailActivity::class.java).run {
-//                                putExtra(getString(R.string.key_feed_data),feedViewModel.feedItems.value!![holder.adapterPosition].feed?.bookEntity)
-//                                moveToActivity(this)
-//                            }
-//                        }
                         return holder
                     }
                 }
