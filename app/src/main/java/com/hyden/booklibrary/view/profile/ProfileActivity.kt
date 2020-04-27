@@ -29,6 +29,25 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     private val firebaseModule by inject<FirebaseModule>()
     private val REQUEST_GALLERY_CODE = 2000
     private val REQUEST_CAMERA_CODE = 2001
+
+    private val profileChoiceDialog = ProfileImageDialog(
+        // 사진 선택
+        gallery = {
+            Intent(Intent.ACTION_PICK).run {
+                type = MediaStore.Images.Media.CONTENT_TYPE
+                moveToActivityForResult(this, REQUEST_GALLERY_CODE)
+            }
+        },
+        // 카메라
+        camera = {
+            permissonsCheck(arrayOf(Manifest.permission.CAMERA)) {
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).run {
+                    moveToActivityForResult(this, REQUEST_CAMERA_CODE)
+                }
+            }
+        }
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.ivProfile.loadUrl(firebaseModule.getProfile(), ImageTransformType.CIRCLE)
@@ -42,10 +61,15 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
             firebase = firebaseModule
             ivBack.setOnClickListener { finish() }
         }
+        LogE("${supportFragmentManager.backStackEntryCount}")
+        supportFragmentManager.addOnBackStackChangedListener {
+            LogE("${supportFragmentManager.backStackEntryCount}")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        profileChoiceDialog.dismiss()
         when (requestCode) {
             REQUEST_GALLERY_CODE -> { startImageCropView(data) }
             REQUEST_CAMERA_CODE -> { startImageCropView(data) }
@@ -92,24 +116,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
              */
             eventProfile.observe(this@ProfileActivity, Observer {
                 // TODO: 2020-03-08 이미지 갤러리로 부터 사진 불러오기 로직 구현
-
-                ProfileImageDialog(
-                    // 사진 선택
-                    gallery = {
-                        Intent(Intent.ACTION_PICK).run {
-                            type = MediaStore.Images.Media.CONTENT_TYPE
-                            moveToActivityForResult(this, REQUEST_GALLERY_CODE)
-                        }
-                    },
-                    // 카메라
-                    camera = {
-                        permissonsCheck(arrayOf(Manifest.permission.CAMERA)) {
-                            Intent(MediaStore.ACTION_IMAGE_CAPTURE).run {
-                                moveToActivityForResult(this, REQUEST_CAMERA_CODE)
-                            }
-                        }
-                    }
-                ).show(supportFragmentManager, "")
+                profileChoiceDialog.show(supportFragmentManager, "")
             })
 
             /**

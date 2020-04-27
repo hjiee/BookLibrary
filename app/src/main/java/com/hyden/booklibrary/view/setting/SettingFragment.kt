@@ -1,11 +1,13 @@
 package com.hyden.booklibrary.view.setting
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -16,24 +18,32 @@ import com.hyden.booklibrary.view.OpenSourceActivity
 import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
 import com.hyden.booklibrary.view.myshared.MySharedBookFragment
-import com.hyden.ext.showSimpleDialog
-import com.hyden.ext.moveToActivity
-import com.hyden.ext.replaceFragmentStack
-import com.hyden.ext.versionName
+import com.hyden.ext.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingFragment : PreferenceFragmentCompat() {
 
     private val settingViewModel by viewModel<SettingViewModel>()
+    private val CONTACT_DIRECTELY = 22
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode) {
+            CONTACT_DIRECTELY -> {
+                if(resultCode == RESULT_OK){
+                    Toast.makeText(context, "문의메일 보내기에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -55,16 +65,18 @@ class SettingFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
                 Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
+                    setPackage("com.google.android.gm")
                     putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.developer_email))
                     putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
                     putExtra(
                         Intent.EXTRA_TEXT,
                         "모델명 : ${Build.MODEL}\n" +
                                 "OS버전 : ${Build.VERSION.RELEASE}\n" +
+                                "SDK버전 : ${Build.VERSION.SDK_INT}\n" +
                                 "앱버전 : ${context.versionName()}\n " +
                                 "-----------------------------------------\n\n"
                     )
-                    startActivity(this)
+                    moveToActivityForResult(this,CONTACT_DIRECTELY)
                 }
                 true
             }
