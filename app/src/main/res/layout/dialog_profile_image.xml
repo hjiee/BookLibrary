@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="vm"
-            type="com.hyden.booklibrary.view.profile.ProfileViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

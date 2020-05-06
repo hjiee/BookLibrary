@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import com.hyden.base.BaseDialogFragment
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.DialogProfileImageBinding
+import com.hyden.util.LogUtil.LogE
 
 class ProfileImageDialog(
     private val gallery : () -> Unit,
@@ -37,18 +39,27 @@ class ProfileImageDialog(
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        LogE("onDestroyView : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount}")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        LogE("onDestroy : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount}")
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
+        LogE("onDismiss : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount}")
     }
 
     override fun initBind() {
         binding.apply {
             ibGallery.setOnClickListener {
-                dismiss()
                 gallery.invoke()
             }
             ibCamera.setOnClickListener {
-                dismiss()
                 camera.invoke()
             }
         }

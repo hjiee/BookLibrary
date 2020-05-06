@@ -108,16 +108,16 @@ dependencies {
     def lottie_version = "3.3.1"
     implementation "com.airbnb.android:lottie:$lottie_version"
 
-    // Stetho
-    def stetho_version = '1.5.1'
-    implementation "com.facebook.stetho:stetho:$stetho_version"
-
     // Image Cropping Library
     // https://github.com/ArthurHub/Android-Image-Cropper
     implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
 
-
-
+    // Stetho
+    def stetho_version = '1.5.1'
+    debugImplementation "com.facebook.stetho:stetho:$stetho_version"
+    // Leakcanary
+    def leakcanary_version = '2.2'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -174,16 +174,6 @@
                 android:text="@{(vm.detailInfo.bookNote == `null` || vm.detailInfo.bookNote == null) ? `` : vm.detailInfo.bookNote}"
                 android:textColor="@color/colorWhite" />
         </ScrollView>
-        <!--        <include-->
-        <!--            android:id="@+id/include_additinal"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="20dp"-->
-        <!--            layout="@layout/include_additinal"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/view_line"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"/>-->
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
