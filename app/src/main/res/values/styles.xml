@@ -54,10 +54,16 @@
     </style>
 
 
-    <style name="TableTextLeftStyle">
+    <style name="TableTextLeftStyle_15">
         <item name="android:textColor">@color/colorPaltte4</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TableTextLeftStyle_13">
+        <item name="android:textColor">@color/colorPaltte4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="TableTextRightStyle">

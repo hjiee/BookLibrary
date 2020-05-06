@@ -17,12 +17,12 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
 
     private val detailViewModel by viewModel<UnSavedDetailViewModel>()
 
-    private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
+    private val book by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
     private val type by lazy { intent?.getStringExtra(getString(R.string.book_detail_type)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        detailViewModel.bookInfo(item)
+        detailViewModel.bookInfo(book)
         detailViewModel.isContain.observe(
             this@UnSavedDetailActivity,
             Observer {
@@ -51,22 +51,21 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
                 when(type) {
                     getString(R.string.book_detail_type_value) -> {
                         setBackgroundResource(R.drawable.ic_delete)
-                        setOnClickListener { detailViewModel.deleteBook(item?.isbn13!!) }
+                        setOnClickListener { detailViewModel.deleteBook(book?.isbn13!!) }
                     }
                     else -> {
                         setOnClickListener { detailViewModel.bookInsert() }
                     }
                 }
             }
+            book = this@UnSavedDetailActivity.book
             ibBack.setOnClickListener { finish() }
-            ivBookCover.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
-            tvTitle.text = item?.title!!.split(" - ")[0] ?: ""
-            if(item?.title!!.split(" - ").size > 1)
-                tvSubtitle.text = item?.title!!.split(" - ")[1] ?: ""
-            tvAuthor.text = getItem(item?.author!!.split(", "))
-            tvPublisher.text = item?.publisher
-            tvPrice.text = item?.priceSales?.numberFormatter()
-            tvDescription.text = item?.description
+//            ivBookCover.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
+//            tvTitle.text = item?.title!!.split(" - ")[0] ?: ""
+//            tvAuthor.text = getItem(item?.author!!.split(", "))
+//            tvPublisher.text = item?.publisher
+//            tvPrice.text = item?.priceSales?.numberFormatter()
+//            tvDescription.text = item?.description
         }
     }
 
