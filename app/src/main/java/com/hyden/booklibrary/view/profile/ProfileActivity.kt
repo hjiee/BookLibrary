@@ -21,6 +21,7 @@ import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR
 import com.theartofdev.edmodo.cropper.CropImageView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.Exception
 
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {

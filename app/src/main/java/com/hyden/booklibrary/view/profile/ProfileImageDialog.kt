@@ -39,19 +39,32 @@ class ProfileImageDialog(
         }
     }
 
+
     override fun onDestroyView() {
+        LogE("onDestroyView : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount} / ${activity?.supportFragmentManager?.fragments?.size}")
         super.onDestroyView()
-        LogE("onDestroyView : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount}")
+        checkFragment()
     }
 
     override fun onDestroy() {
+        LogE("onDestroy : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount} / ${activity?.supportFragmentManager?.fragments?.size}")
         super.onDestroy()
-        LogE("onDestroy : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount}")
+        checkFragment()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
+        LogE("onDismiss : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount} / ${activity?.supportFragmentManager?.fragments?.size}")
         super.onDismiss(dialog)
-        LogE("onDismiss : ${fragmentManager} / ${activity?.supportFragmentManager?.backStackEntryCount}")
+        checkFragment()
+    }
+
+    fun checkFragment() {
+        activity?.supportFragmentManager?.let {
+            it.findFragmentByTag(this::class.java.simpleName)?.let {
+                LogE("있음")
+            } ?: kotlin.run { LogE("없음") }
+        }
+
     }
 
     override fun initBind() {

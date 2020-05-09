@@ -10,8 +10,8 @@ import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
-import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
+import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
 import com.hyden.booklibrary.util.ConstUtil
 import com.hyden.booklibrary.view.feed.model.FeedData
 
@@ -81,7 +81,7 @@ class FeedDetailViewModel() : BaseViewModel() {
 
     private fun book(documents: HashMap<*, *>): BookEntity {
         return documents?.run {
-            BookItems(
+            BookItem(
                 get("savaed") as Boolean? ?: false,
                 get("liked") as Boolean? ?: false,
                 get("shared") as Boolean? ?: false,
@@ -111,7 +111,7 @@ class FeedDetailViewModel() : BaseViewModel() {
                 get("customerReviewRank").toString(),
                 get("bestRank").toString()
             )
-        }.toBookEntity()
+        }.convertToBookEntity()
     }
 
 

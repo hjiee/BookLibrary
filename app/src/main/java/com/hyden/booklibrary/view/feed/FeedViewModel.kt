@@ -8,8 +8,8 @@ import com.google.firebase.firestore.Query
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
-import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
+import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_BOOK
 import com.hyden.booklibrary.util.ConstUtil.Companion.FEED_LIMIT
@@ -175,7 +175,7 @@ class FeedViewModel(
 
     private fun book(documents: HashMap<*, *>): BookEntity {
         return documents?.run {
-            BookItems(
+            BookItem(
                 get("savaed") as Boolean? ?: false,
                 get("liked") as Boolean? ?: false,
                 get("shared") as Boolean? ?: false,
@@ -205,7 +205,7 @@ class FeedViewModel(
                 get("customerReviewRank").toString(),
                 get("bestRank").toString()
             )
-        }.toBookEntity()
+        }.convertToBookEntity()
     }
 
 }

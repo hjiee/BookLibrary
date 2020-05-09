@@ -5,19 +5,15 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.ActivityDetailUnsavedBinding
-import com.hyden.ext.loadUrl
-import com.hyden.ext.numberFormatter
-import com.hyden.util.ImageTransformType
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layout.activity_detail_unsaved) {
 
     private val detailViewModel by viewModel<UnSavedDetailViewModel>()
 
-    private val book by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
+    private val book by lazy { intent?.getParcelableExtra<BookItem>(getString(R.string.book_info)) }
     private val type by lazy { intent?.getStringExtra(getString(R.string.book_detail_type)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,12 +56,6 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
             }
             book = this@UnSavedDetailActivity.book
             ibBack.setOnClickListener { finish() }
-//            ivBookCover.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
-//            tvTitle.text = item?.title!!.split(" - ")[0] ?: ""
-//            tvAuthor.text = getItem(item?.author!!.split(", "))
-//            tvPublisher.text = item?.publisher
-//            tvPrice.text = item?.priceSales?.numberFormatter()
-//            tvDescription.text = item?.description
         }
     }
 

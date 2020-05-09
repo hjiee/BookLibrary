@@ -8,16 +8,11 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyojin.util.EndlessRecyclerViewScrollListener
-import com.google.firebase.Timestamp
-import com.google.firebase.database.ServerValue
 import com.hyden.base.BaseFragment
-import com.hyden.base.BaseRecyclerView
+import com.hyden.base.BaseItemsApdater
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
-import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.FragmentHomeBinding
-import com.hyden.booklibrary.databinding.RecyclerItemHomeBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BESTSELLER
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BLOGBEST
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW
@@ -28,7 +23,6 @@ import com.hyden.ext.loadUrl
 import com.hyden.ext.moveToActivity
 import com.hyden.util.ImageTransformType
 import com.hyden.util.ItemClickListener
-import com.hyden.util.LogUtil.LogE
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -45,9 +39,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         object : ItemClickListener {
             override fun <T> onItemClick(item: T) {
                 when (item) {
-                    is BookItems -> {
+                    is BookItem -> {
                         Intent(activity, UnSavedDetailActivity::class.java).apply {
-                            putExtra(getString(R.string.book_info), item.toBookEntity())
+                            putExtra(getString(R.string.book_info), item)
                             moveToActivity(this)
                         }
                     }
@@ -63,29 +57,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
-        binding.ivBookCover.apply {
-            homeViewModel.bookBlogBest.observe(
-                this@HomeFragment,
-                Observer {
+        binding.apply {
+            homeViewModel.bookBlogBest.observe(this@HomeFragment, Observer {
                     val initRand = Random.nextInt(DATABASELIMIT)
-                    binding.ivBookCoverTemp.loadUrl(it[initRand].cover, ImageTransformType.ROUND)
-                    loadUrl(it[initRand].cover, ImageTransformType.ROUND)
+                    ivBookCoverTemp.loadUrl(it[initRand].cover, ImageTransformType.FIT)
+                    ivBookCover.loadUrl(it[initRand].cover, ImageTransformType.FIT)
+
                     compositeDisposable.add(
                         Observable.interval(timeInterval, TimeUnit.MILLISECONDS)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                val rand = Random.nextInt(0, 30)
+                                val rand = Random.nextInt(DATABASELIMIT)
                                 Handler().postDelayed({
-                                    binding.ivBookCoverTemp.loadUrl(
+                                    ivBookCoverTemp.loadUrl(
                                         homeViewModel.bookBlogBest.value!![rand].cover,
-                                        ImageTransformType.ROUND
+                                        ImageTransformType.FIT
                                     )
                                 }, 3000)
-//                                LogW("$it : $rand")
-                                binding.ivBookCover.loadUrl(
+
+                                ivBookCover.loadUrl(
                                     homeViewModel.bookBlogBest.value!![rand].cover,
-                                    ImageTransformType.ROUND
+                                    ImageTransformType.FIT
                                 )
                             }
                     )
@@ -96,7 +89,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        homeViewModel.loadBook()
         homeViewModel.loadBook(page = Random.nextInt(1, 4), queryType = BOOK_BLOGBEST)
         homeViewModel.loadBook(queryType = BOOK_BESTSELLER)
         homeViewModel.loadBook(queryType = BOOK_ITEMNEW)
@@ -107,61 +99,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.apply {
             vm = homeViewModel
             rvBookBestseller.apply {
-                adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding>(
-                        layoutId = R.layout.recycler_item_home,
-                        bindingVariableId = BR.response,
-                        clickItemEvent = itemClickListener
-                    ) {
-
-                }
-                addOnScrollListener(endLessScrollListener1(BOOK_BESTSELLER))
+                adapter = BaseItemsApdater(R.layout.recycler_item_home,BR.book,itemClickListener)
+                addOnScrollListener(endLessScrollListener(BOOK_BESTSELLER,layoutManager))
             }
             rvBookNew.apply {
-                adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding>(
-                        layoutId = R.layout.recycler_item_home,
-                        bindingVariableId = BR.response,
-                        clickItemEvent = itemClickListener
-                    ) {}
-                addOnScrollListener(endLessScrollListener2(BOOK_ITEMNEW))
+                adapter = BaseItemsApdater(R.layout.recycler_item_home,BR.book,itemClickListener)
+                addOnScrollListener(endLessScrollListener(BOOK_ITEMNEW,layoutManager))
             }
             rvBookAll.apply {
-                adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemHomeBinding>(
-                        layoutId = R.layout.recycler_item_home,
-                        bindingVariableId = BR.response,
-                        clickItemEvent = itemClickListener
-                    ) {}
-                addOnScrollListener(endLessScrollListener3(BOOK_ITEMNEWALL))
+                adapter = BaseItemsApdater(R.layout.recycler_item_home,BR.book,itemClickListener)
+                addOnScrollListener(endLessScrollListener(BOOK_ITEMNEWALL,layoutManager))
             }
         }
     }
 
-    private fun endLessScrollListener1(queryType: String): EndlessRecyclerViewScrollListener {
-        return object : EndlessRecyclerViewScrollListener(binding.rvBookBestseller.layoutManager) {
+    private fun endLessScrollListener(queryType: String, layoutManager : RecyclerView.LayoutManager?): EndlessRecyclerViewScrollListener {
+        return object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 homeViewModel.loadMore(page = page + 1, queryType = queryType)
             }
         }
     }
-
-    private fun endLessScrollListener2(queryType: String): EndlessRecyclerViewScrollListener {
-        return object : EndlessRecyclerViewScrollListener(binding.rvBookNew.layoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                homeViewModel.loadMore(page = page + 1, queryType = queryType)
-            }
-        }
-    }
-
-    private fun endLessScrollListener3(queryType: String): EndlessRecyclerViewScrollListener {
-        return object : EndlessRecyclerViewScrollListener(binding.rvBookAll.layoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                homeViewModel.loadMore(page = page + 1, queryType = queryType)
-            }
-        }
-    }
-
     companion object {
         fun newInstance() = HomeFragment().apply {
             arguments = Bundle().apply {

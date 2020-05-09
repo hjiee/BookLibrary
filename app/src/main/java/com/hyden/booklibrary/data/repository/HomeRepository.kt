@@ -1,12 +1,10 @@
 package com.hyden.booklibrary.data.repository
 
 import com.hyden.booklibrary.data.remote.BookApi
-import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
+import com.hyden.booklibrary.data.remote.network.response.BookResponse
 import com.hyden.booklibrary.data.repository.source.HomeDataSource
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class HomeRepository(
@@ -37,7 +35,8 @@ class HomeRepository(
             put("maxresults", maxresults)
             put("output", output)
             put("cover", cover)
-        })
+        }).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }
 

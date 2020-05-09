@@ -1,10 +1,8 @@
 package com.hyden.booklibrary.data.repository.source
 
 import com.hyden.booklibrary.BuildConfig
-import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
+import com.hyden.booklibrary.data.remote.network.response.BookResponse
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 
 interface HomeDataSource {
     fun loadBook(

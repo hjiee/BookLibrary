@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.ActivityBookNoteBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
 import com.hyden.booklibrary.view.detail.mysaved.SavedDetailActivity
@@ -15,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NoteActivity : BaseActivity<ActivityBookNoteBinding>(R.layout.activity_book_note) {
 
     private val noteViewModel by viewModel<NoteViewModel>()
-    private val item by lazy { intent?.getParcelableExtra<BookEntity>(getString(R.string.book_info)) }
+    private val item by lazy { intent?.getParcelableExtra<BookItem>(getString(R.string.book_info)) }
 //    private val firestore by lazy {
 //        FirebaseFirestore.getInstance()
 //    }
