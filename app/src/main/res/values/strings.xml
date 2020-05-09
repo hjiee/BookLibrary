@@ -42,6 +42,9 @@
     <string name="publisher">출판사</string>
     <string name="price">가격</string>
     <string name="explanation">설명</string>
+    <string name="bestseller">베스트셀러</string>
+    <string name="attentionbook">주목할만한 도서</string>
+    <string name="newbook">신간 도서</string>
 
     <!--바텀 메뉴-->
     <string name="menu_home">홈</string>

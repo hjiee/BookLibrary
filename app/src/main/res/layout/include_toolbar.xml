@@ -15,8 +15,8 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,8 +32,8 @@
                     android:layout_marginEnd="10dp"
                     android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="@id/ib_back"
-                    app:layout_constraintLeft_toRightOf="@id/ib_back"
-                    app:layout_constraintRight_toLeftOf="@id/ib_info"
+                    app:layout_constraintStart_toEndOf="@id/ib_back"
+                    app:layout_constraintEnd_toStartOf="@id/ib_info"
                     app:layout_constraintTop_toTopOf="@id/ib_back" />
 
                 <ImageButton
@@ -44,7 +44,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
@@ -57,7 +57,7 @@
                     android:visibility="gone"
                     tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/ib_delete"
+                    app:layout_constraintEnd_toStartOf="@id/ib_delete"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -71,7 +71,7 @@
                     android:visibility="gone"
                     tools:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

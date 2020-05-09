@@ -22,11 +22,11 @@
             <TableRow>
 
                 <TextView
-                    style="@style/TableTextLeftStyle"
+                    style="@style/TableTextLeftStyle_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="저자" />
+                    android:text="@string/author" />
 
                 <TextView
                     android:id="@+id/tv_author"
@@ -38,11 +38,11 @@
             <TableRow>
 
                 <TextView
-                    style="@style/TableTextLeftStyle"
+                    style="@style/TableTextLeftStyle_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="출판사" />
+                    android:text="@string/publisher" />
 
                 <TextView
                     android:id="@+id/tv_publisher"
@@ -54,11 +54,11 @@
             <TableRow>
 
                 <TextView
-                    style="@style/TableTextLeftStyle"
+                    style="@style/TableTextLeftStyle_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="가격" />
+                    android:text="@string/price" />
 
                 <TextView
                     android:id="@+id/tv_price"
@@ -71,10 +71,10 @@
             <TableRow>
 
                 <TextView
-                    style="@style/TableTextLeftStyle"
+                    style="@style/TableTextLeftStyle_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="설명" />
+                    android:text="@string/explanation" />
 
                 <TextView
                     android:id="@+id/tv_description"

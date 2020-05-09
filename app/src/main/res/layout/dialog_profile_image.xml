@@ -22,10 +22,10 @@
             android:src="@drawable/ic_gallery"
             android:padding="20dp"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintRight_toLeftOf="@+id/ib_camera"
+            app:layout_constraintEnd_toStartOf="@+id/ib_camera"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_gallery"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/tv_gallery"
@@ -33,8 +33,8 @@
             android:layout_height="wrap_content"
             android:text="앨범"
             android:textColor="@color/colorLightBlack1"
-            app:layout_constraintLeft_toLeftOf="@id/ib_gallery"
-            app:layout_constraintRight_toRightOf="@id/ib_gallery"
+            app:layout_constraintStart_toStartOf="@id/ib_gallery"
+            app:layout_constraintEnd_toEndOf="@id/ib_gallery"
             app:layout_constraintTop_toBottomOf="@id/ib_gallery"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -47,10 +47,10 @@
             android:padding="20dp"
             app:layout_constraintVertical_chainStyle="packed"
             android:backgroundTint="@android:color/transparent"
-            app:layout_constraintLeft_toRightOf="@+id/ib_gallery"
+            app:layout_constraintStart_toEndOf="@+id/ib_gallery"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tv_camera"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
             android:id="@+id/tv_camera"
@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:text="카메라"
             android:textColor="@color/colorLightBlack1"
-            app:layout_constraintLeft_toLeftOf="@id/ib_camera"
-            app:layout_constraintRight_toRightOf="@id/ib_camera"
+            app:layout_constraintStart_toStartOf="@id/ib_camera"
+            app:layout_constraintEnd_toEndOf="@id/ib_camera"
             app:layout_constraintTop_toBottomOf="@id/ib_camera"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
