@@ -12,13 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyojin.util.EndlessRecyclerViewScrollListener
 import com.hyden.base.BaseFragment
-import com.hyden.base.BaseRecyclerView
+import com.hyden.base.BaseItemsApdater
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.remote.network.reponse.BookItems
-import com.hyden.booklibrary.data.remote.network.reponse.SearchResponse
-import com.hyden.booklibrary.data.remote.network.reponse.toBookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.FragmentSearchBinding
-import com.hyden.booklibrary.databinding.RecyclerItemSearchBinding
 import com.hyden.booklibrary.util.QueryType
 import com.hyden.booklibrary.view.detail.UnSavedDetailActivity
 import com.hyden.ext.moveToActivity
@@ -26,7 +23,6 @@ import com.hyden.ext.showKeyboard
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.RecyclerItemDecoration
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
@@ -51,9 +47,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         object : ItemClickListener {
             override fun <T> onItemClick(item: T) {
                 when (item) {
-                    is BookItems -> {
+                    is BookItem -> {
                         Intent(activity, UnSavedDetailActivity::class.java).apply {
-                            putExtra(getString(R.string.book_info), item.toBookEntity())
+                            putExtra(getString(R.string.book_info), item)
                             moveToActivity(this)
                         }
                     }
@@ -102,16 +98,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             vm = searchViewModel
             // 리사이클러 뷰
             rvBook.apply {
-                adapter = object :
-                    BaseRecyclerView.Adapter<SearchResponse, RecyclerItemSearchBinding>(
-                        layoutId = R.layout.recycler_item_search,
-                        bindingVariableId = BR.search,
-                        clickItemEvent = itemClickListener
-                    ) {
-                }
+                adapter = BaseItemsApdater(R.layout.item_book_image,BR.book,itemClickListener)
                 addOnScrollListener(endlessListener)
                 addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
-
             }
             // 검색 바
             includeAppbar.apply {

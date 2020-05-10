@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import com.hyden.base.BaseFragment
-import com.hyden.base.BaseRecyclerView
+import com.hyden.base.BaseItemsApdater
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
-import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.FragmentLibraryBinding
-import com.hyden.booklibrary.databinding.RecyclerItemLibraryBinding
+import com.hyden.booklibrary.databinding.ItemBookImageBinding
 import com.hyden.booklibrary.util.longClickVibrate
 import com.hyden.booklibrary.view.detail.mysaved.SavedDetailActivity
 import com.hyden.ext.showSimpleDialog
@@ -28,7 +28,13 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
     private val itemClickListener by lazy {
         object : ItemClickListener {
             override fun <T> onItemClick(item: T) {
-                when (item) { is BookEntity -> moveToActivity(item) }
+                when (item) { is BookItem ->
+                    Intent(activity, SavedDetailActivity::class.java).apply {
+                        putExtra(getString(R.string.book_info), item)
+                        startActivity(this)
+                        activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    }
+                }
             }
         }
     }
@@ -61,13 +67,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
         binding.apply {
             vm = libraryViewModel
             rvBookself.apply {
-                adapter = object :
-                    BaseRecyclerView.Adapter<BookResponse, RecyclerItemLibraryBinding>(
-                        layoutId = R.layout.recycler_item_library,
-                        bindingVariableId = BR.response,
-                        clickItemEvent = itemClickListener,
-                        longClickItemEvent = itemLongClickListener
-                    ) {}
+                adapter = BaseItemsApdater(R.layout.item_book_image,BR.book,itemClickListener,itemLongClickListener)
                 addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
             }
             srvlRefresh.apply {
@@ -75,14 +75,6 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
                     isRefreshing = false
                 }
             }
-        }
-    }
-
-    private fun moveToActivity(item : BookEntity) {
-        Intent(activity, SavedDetailActivity::class.java).apply {
-            putExtra(getString(R.string.book_info), item)
-            startActivity(this)
-            activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.ext.numberFormatter
 import kotlinx.android.synthetic.main.dialog_book_info.view.*
 
@@ -28,7 +29,7 @@ class ConstUtil {
     }
 }
 
-fun Context.dialogBookInfo(info: BookEntity?) {
+fun Context.dialogBookInfo(info: BookItem?) {
     AlertDialog.Builder(this, R.style.DeleteDialog).apply {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_book_info, null, false)
 

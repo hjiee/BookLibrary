@@ -1,10 +1,13 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'io.fabric'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
+
 
 android {
     compileSdkVersion 29
@@ -23,10 +26,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
+            manifestPlaceholders = [crashlytics_enabled: true]
         }
         debug {
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
+            manifestPlaceholders = [crashlytics_enabled: false]
+
         }
     }
     dataBinding {
@@ -93,6 +99,8 @@ dependencies {
     def firebase_analytics_version = "17.2.1"
     def firebase_firestore_version = "21.3.1"
     def firebase_version = "19.2.0"
+    implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
+    implementation "com.google.firebase:firebase-core:$firebase_analytics_version"
     implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
     implementation "com.google.firebase:firebase-database:$firebase_version"
     implementation "com.google.firebase:firebase-auth:$firebase_version"

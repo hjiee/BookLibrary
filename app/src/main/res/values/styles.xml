@@ -94,8 +94,8 @@
         <item name="android:scaleType">centerCrop</item>
         <item name="android:layout_width">@dimen/book_image_width</item>
         <item name="android:layout_height">@dimen/book_image_height</item>
-        <item name="layout_constraintLeft_toLeftOf">parent</item>
-        <item name="layout_constraintRight_toRightOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
     <style name="NavigationBarInActiveStyle">

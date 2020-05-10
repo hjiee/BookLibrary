@@ -27,22 +27,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
-                bindItems="@{vm.sharedItems}"
+                bindItems="@{vm.sharedItem}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 app:adapter="@{adapter}"
-                tools:listitem="@layout/recycler_item_library"/>
+                tools:listitem="@layout/item_book_image"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-<!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="내가 공유한 책 목록"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

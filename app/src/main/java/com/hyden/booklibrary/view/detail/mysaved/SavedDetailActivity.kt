@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.ActivityDetailSavedBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
 import com.hyden.booklibrary.util.dialogBookInfo
@@ -20,13 +21,12 @@ import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SavedDetailActivity :
-    BaseActivity<ActivityDetailSavedBinding>(R.layout.activity_detail_saved) {
+class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.activity_detail_saved) {
 
     private val savedDetailViewModel by viewModel<SavedDetailViewModel>()
     private val feedViewModel by inject<FeedViewModel>()
 
-    var item: BookEntity? = null
+    var item: BookItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,14 +97,14 @@ class SavedDetailActivity :
                     savedDetailViewModel.pushLike(this.isSelected, item!!)
                 }
             }
-            ivComment.apply {
-                this.isSelected = item?.isReviews ?: false
-                setOnClickListener {
-                    this.isSelected = this.isSelected.not()
-                    item?.isReviews = this.isSelected
-                    savedDetailViewModel.bookUpdate(item!!)
-                }
-            }
+//            ivComment.apply {
+//                this.isSelected = item?.isReviews ?: false
+//                setOnClickListener {
+//                    this.isSelected = this.isSelected.not()
+//                    item?.isReviews = this.isSelected
+//                    savedDetailViewModel.bookUpdate(item!!)
+//                }
+//            }
             // 피드에 책 등록
             ivShared.apply {
                 this.isSelected = item?.isShared ?: false
@@ -149,7 +149,7 @@ class SavedDetailActivity :
                 }
             }
             tvTitle?.text = item?.title!!.split(" - ")[0]
-            ivBookCover?.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
+//            includeBookCover.ivBookCover?.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
 
         }
     }
@@ -158,7 +158,7 @@ class SavedDetailActivity :
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             BOOK_NOTE_REQUEST_CODE -> {
-                item = data?.getParcelableExtra("data") as? BookEntity
+                item = data?.getParcelableExtra("data") as? BookItem
             }
         }
     }

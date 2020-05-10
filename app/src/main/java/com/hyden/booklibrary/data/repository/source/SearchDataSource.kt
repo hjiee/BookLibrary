@@ -1,9 +1,8 @@
 package com.hyden.booklibrary.data.repository.source
 
 import com.hyden.booklibrary.BuildConfig
-import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
-import com.hyden.booklibrary.data.remote.network.reponse.SearchResponse
-import io.reactivex.disposables.Disposable
+import com.hyden.booklibrary.data.remote.network.response.SearchResponse
+import io.reactivex.Single
 
 interface SearchDataSource {
 
@@ -16,8 +15,6 @@ interface SearchDataSource {
         searchtarget: String = "book",                   // 조회 대상 Mall
         maxresults: Int = 30,                   // 검색결과 한 페이지당 최대 출력 개수
         output: String = "js",                  // 출력방법
-        cover : String = "big",                 // 표지크기
-        success: (SearchResponse) -> Unit,        // 성공
-        failure: (String) -> Unit               // 실패
-    ): Disposable
+        cover : String = "big"                  // 표지크기
+    ): Single<SearchResponse>
 }

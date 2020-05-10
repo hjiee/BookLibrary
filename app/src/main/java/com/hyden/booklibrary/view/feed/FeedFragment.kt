@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hyojin.util.EndlessRecyclerViewScrollListener
 import com.hyden.base.BaseFragment
+import com.hyden.base.BaseItemsApdater
 import com.hyden.base.BaseRecyclerView
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
@@ -31,8 +32,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
             override fun <T> onItemClick(item: T) {
                 when (item) {
                     is BookEntity -> {
-                        Toast.makeText(context, item.title!!.split(" - ")[0], Toast.LENGTH_SHORT)
-                            .show()
+//                        Toast.makeText(context, item.title!!.split(" - ")[0], Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -74,7 +74,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                 addItemDecoration(RecyclerItemDecoration(5f.toPx(context)))
                 adapter = object : BaseRecyclerView.Adapter<FeedData, RecyclerItemFeedBinding>(
                     layoutId = R.layout.recycler_item_feed,
-                    bindingVariableId = BR.response,
+                    bindingVariableId = BR.feeds,
                     clickItemEvent = itemClickListener
                 ) {
                     override fun onCreateViewHolder(
@@ -83,7 +83,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
                     ): BaseRecyclerView.ViewHolder<RecyclerItemFeedBinding> {
                         val holder = super.onCreateViewHolder(parent, viewType)
                         holder.binding?.setVariable(BR.feedVm,feedViewModel)
-
                         return holder
                     }
                 }

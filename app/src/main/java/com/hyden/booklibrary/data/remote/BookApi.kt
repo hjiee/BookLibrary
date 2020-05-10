@@ -1,10 +1,9 @@
 package com.hyden.booklibrary.data.remote
 
-import com.hyden.booklibrary.data.remote.network.reponse.BookResponse
-import com.hyden.booklibrary.data.remote.network.reponse.SearchResponse
+import com.hyden.booklibrary.data.remote.network.response.BookResponse
+import com.hyden.booklibrary.data.remote.network.response.SearchResponse
 import io.reactivex.Single
 import retrofit2.http.*
-import java.util.*
 import kotlin.collections.HashMap
 
 interface BookApi {

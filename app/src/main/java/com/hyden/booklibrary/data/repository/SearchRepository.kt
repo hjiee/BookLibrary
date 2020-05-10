@@ -1,10 +1,10 @@
 package com.hyden.booklibrary.data.repository
 
 import com.hyden.booklibrary.data.remote.BookApi
-import com.hyden.booklibrary.data.remote.network.reponse.SearchResponse
+import com.hyden.booklibrary.data.remote.network.response.SearchResponse
 import com.hyden.booklibrary.data.repository.source.SearchDataSource
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class SearchRepository(
@@ -21,10 +21,8 @@ class SearchRepository(
         searchtarget: String,
         maxresults: Int,
         output: String,
-        cover : String,
-        success: (SearchResponse) -> Unit,
-        failure: (String) -> Unit
-    ): Disposable {
+        cover : String
+    ): Single<SearchResponse> {
         return bookApi.bookSearch(HashMap<String, Any>().apply {
             put("ttbkey", ttbkey)
             put("start", page)
@@ -37,13 +35,5 @@ class SearchRepository(
             put("cover", cover)
         }).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    success.invoke(it)
-                },
-                {
-                    failure.invoke(it.toString())
-                }
-            )
     }
 }

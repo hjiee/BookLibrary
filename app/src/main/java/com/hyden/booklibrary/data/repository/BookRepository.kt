@@ -3,11 +3,11 @@ package com.hyden.booklibrary.data.repository
 import com.hyden.booklibrary.data.local.db.BookDao
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.repository.source.BookDataSource
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class BookRepository(
@@ -15,97 +15,56 @@ class BookRepository(
 ) : BookDataSource {
 
 
-    override fun insert(
-        bookEntity: BookEntity?,
-        success: () -> Unit,
-        failure: (String) -> Unit
-    ): Disposable {
-        return bookDao.insert(listOf(bookEntity))
+    override fun insertBook(bookEntity: BookEntity?): Completable {
+        return bookDao.insertBook(listOf(bookEntity))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { success.invoke() },
-                { failure.invoke(it.toString()) }
-            )
     }
 
 
-    override fun deleteBook(
-        isbn13: String,
-        success: () -> Unit,
-        failure: (String) -> Unit
-    ): Disposable {
+    override fun deleteBook(isbn13: String): Completable {
         return bookDao.deleteBook(isbn13)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { success.invoke() },
-                { failure.invoke(it.toString()) }
-            )
     }
 
-    override fun updateBook(
-        bookEntity: BookEntity?
-    ): Disposable {
+    override fun updateBook(bookEntity: BookEntity): Completable {
         return bookDao.updateBook(bookEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
     }
 
-    override fun getBook(
-        isbn13: String,
-        success: (BookEntity?) -> Unit,
-        failure: (String) -> Unit
-    ): Disposable {
+    override fun getBook(isbn13: String): Single<BookEntity> {
         return Single.create<BookEntity> { emitter ->
             emitter.onSuccess(bookDao.getBook(isbn13))
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { success.invoke(it) },
-                { failure.invoke(it.toString()) }
-            )
-
     }
 
     override fun getSharedBook(): Flowable<List<BookEntity>> {
         return bookDao.getSharedBook()
-    }
-
-    override fun getAll(
-        success: (List<BookEntity>) -> Unit,
-        failure: (String) -> Unit
-    ): Disposable {
-        return Observable.create<List<BookEntity>> { emitter ->
-            emitter.onNext(bookDao.getAll())
-        }.subscribeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { success.invoke(it) },
-                { failure.invoke(it.toString()) }
-            )
     }
 
-    override fun isContains(
-        isbn13: String,
-        success: (Boolean) -> Unit,
-        failure: (Boolean) -> Unit
-    ): Disposable {
+    override fun getAll(): Flowable<List<BookEntity>> {
+        return Flowable.create<List<BookEntity>>({ emitter ->
+            emitter.onNext(bookDao.getAll())
+        }, BackpressureStrategy.BUFFER)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun isContains(isbn13: String): Completable {
         return Single.create<Int> { emitter ->
             emitter.onSuccess(bookDao.isContains(isbn13))
-        }.subscribeOn(Schedulers.io())
+        }.flatMapCompletable {
+            when (it) {
+                0 -> Completable.error(Throwable())
+                else -> Completable.complete()
+            }
+        }
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    when (it) {
-                        0 -> failure.invoke(false)
-                        else -> success.invoke(true)
-                    }
-                },
-                {
-                    failure.invoke(false)
-                }
-            )
     }
 }

@@ -5,6 +5,14 @@
 
     <data>
 
+        <import type="com.hyden.util.ImageTransformType" />
+
+        <import type="com.hyden.ext.StringExtKt" />
+
+        <variable
+            name="book"
+            type="com.hyden.booklibrary.data.remote.network.response.BookItem" />
+
         <variable
             name="vm"
             type="com.hyden.booklibrary.view.detail.UnSavedDetailViewModel" />
@@ -19,23 +27,39 @@
             android:id="@+id/toolbar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageButton
                     android:id="@+id/ib_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
                     android:background="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:text="@{book.title}"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@id/ib_back"
+                    app:layout_constraintEnd_toStartOf="@id/ib_download"
+                    app:layout_constraintStart_toEndOf="@id/ib_back"
+                    app:layout_constraintTop_toTopOf="@id/ib_back"
+                    tools:text="코틀린 인 액션" />
 
                 <ImageButton
                     android:id="@+id/ib_download"
@@ -45,20 +69,23 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/ic_download"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.appcompat.widget.Toolbar>
 
 
-        <ImageView
-            android:id="@+id/iv_book_cover"
+        <include
+            android:id="@+id/include_book_cover"
+            layout="@layout/item_book_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            style="@style/BookImageStyle"
-            tools:background="@drawable/book_sample_cover"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/cv_book_info"
+            app:isLinkAvailable="@{true}"
+            app:book="@{book}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cv_book_info"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:layout_constraintVertical_chainStyle="packed" />
 
@@ -66,97 +93,72 @@
             android:id="@+id/cv_book_info"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:backgroundTint="@color/colorPaltte2"
-            app:cardCornerRadius="5dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintLeft_toRightOf="@id/iv_book_cover"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_book_cover"
-            app:layout_constraintBottom_toBottomOf="@id/iv_book_cover">
+            android:backgroundTint="@color/colorLightBlack1"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/include_book_cover"
+            app:layout_constraintStart_toEndOf="@id/include_book_cover"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/include_book_cover">
 
             <TableLayout
                 android:id="@+id/tl_book_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:padding="10dp">
 
                 <TableRow>
 
                     <TextView
-                        style="@style/TableTextLeftStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="제목" />
-
-                    <TextView
-                        android:id="@+id/tv_title"
-                        style="@style/TableTextRightStyle"
-                        android:layout_width="wrap_content"
-                        android:textSize="20sp"
-                        android:layout_height="wrap_content" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        style="@style/TableTextLeftStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="부제" />
-
-                    <TextView
-                        android:id="@+id/tv_subtitle"
-                        style="@style/TableTextRightStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        style="@style/TableTextLeftStyle"
+                        style="@style/TableTextLeftStyle_13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:text="저자" />
+                        android:text="@string/author" />
 
                     <TextView
                         android:id="@+id/tv_author"
                         style="@style/TableTextRightStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@{book.author}"
+                        tools:text="@string/author" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow android:layout_marginTop="5dp">
 
                     <TextView
-                        style="@style/TableTextLeftStyle"
+                        style="@style/TableTextLeftStyle_13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:text="출판사" />
+                        android:text="@string/publisher" />
 
                     <TextView
                         android:id="@+id/tv_publisher"
                         style="@style/TableTextRightStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@{book.publisher}"
+                        tools:text="@string/publisher" />
                 </TableRow>
 
-                <TableRow>
+                <TableRow android:layout_marginTop="5dp">
 
                     <TextView
-                        style="@style/TableTextLeftStyle"
+                        style="@style/TableTextLeftStyle_13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:text="가격" />
+                        android:text="@string/price" />
 
                     <TextView
                         android:id="@+id/tv_price"
                         style="@style/TableTextRightStyle"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text='@{StringExtKt.numberFormatter(book.priceSales) + "원" }'
+                        tools:text="50,000원" />
                 </TableRow>
             </TableLayout>
         </androidx.cardview.widget.CardView>
@@ -166,19 +168,27 @@
             android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorWhite"
             android:layout_marginTop="20dp"
+            android:background="@color/colorWhite"
             app:layout_constraintTop_toBottomOf="@id/cv_book_info" />
 
-        <TextView
-            android:id="@+id/tv_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/view_line"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/cv_book_info"
+            app:layout_constraintStart_toStartOf="@id/include_book_cover"
+            app:layout_constraintTop_toBottomOf="@id/view_line">
 
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:text="@{book.description}"
+                tools:text="설계부터 유지 보수까지 튼튼하고 유연한 안드로이드 애플리케이션 만들기 안드로이드 앱 시장이 성숙하고, 서비스가 고도화됨에 따라 앱 설계에 대한 중요성이 강조되고 있다. 안드로이드 앱 설계의 핵심 목표는 앱의 성능, 안정성, 유지 보수 용이성을 높이는 것이다. 이를 위해서는 Dagger2, Jetpack, RxJava 등과 같은 더 나은 앱을 만들기 위한 기술들을 배울 필요가 있다." />
 
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

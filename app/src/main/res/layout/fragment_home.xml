@@ -18,19 +18,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-        <!--            android:id="@+id/rvl_refresh"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="0dp"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent">-->
-
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingBottom="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -44,26 +35,21 @@
                             android:id="@+id/iv_book_cover_temp"
                             android:layout_width="match_parent"
                             android:layout_height="500dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
                             android:scaleType="centerCrop"/>
 
                         <ImageView
                             android:id="@+id/iv_book_cover"
                             android:layout_width="match_parent"
                             android:layout_height="500dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
                             android:scaleType="centerCrop"/>
                     </FrameLayout>
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextTitleStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="베스트셀러" />
+                        android:text="@string/bestseller"
+                        android:layout_marginTop="10dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_book_bestseller"
@@ -80,11 +66,12 @@
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextTitleStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="주목할만한 도서" />
+                        android:text="@string/attentionbook"
+                        android:layout_marginTop="10dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_book_new"
@@ -101,11 +88,12 @@
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="1" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         style="@style/TextTitleStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="신간 도서" />
+                        android:text="@string/newbook"
+                        android:layout_marginTop="10dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_book_all"
@@ -121,7 +109,7 @@
                         app:spanCount="1" />
 
                 </LinearLayout>
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
 <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 

@@ -8,23 +8,27 @@
         <import type="com.hyden.util.ImageTransformType"/>
 
         <variable
-            name="response"
-            type="com.hyden.booklibrary.data.local.db.BookEntity" />
+            name="isLinkAvailable"
+            type="Boolean" />
+        <variable
+            name="book"
+            type="com.hyden.booklibrary.data.remote.network.response.BookItem" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?android:selectableItemBackground">
 
-        <ImageView
-            android:id="@+id/img_book_cover"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_book_cover"
             tools:background="@drawable/book_sample_cover"
+            app:webviewUrl="@{isLinkAvailable ? book.link : null}"
             style="@style/BookImageStyle"
-            loadUrl="@{response.cover}"
+            loadUrl="@{book.cover}"
             tranformType="@{ImageTransformType.ROUND}"
-            radius="@{@integer/book_image_radius}"
-             />
+            radius="@{@integer/book_image_radius}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

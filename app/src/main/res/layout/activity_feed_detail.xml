@@ -27,8 +27,8 @@
                     android:id="@+id/iv_book_cover"
                     style="@style/BookImageStyle"
                     android:layout_margin="10dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/toolbar"
                     app:layout_constraintVertical_chainStyle="packed"
                     tools:background="@drawable/book_sample_cover" />
@@ -50,8 +50,8 @@
                     android:layout_height="0.5dp"
                     android:layout_marginTop="20dp"
                     android:background="@color/colorWhite"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_contents" />
 
 
@@ -74,8 +74,8 @@
 <!--                android:layout_width="0dp"-->
 <!--                android:layout_height="0.5dp"-->
 <!--                android:background="@color/colorWhite"-->
-<!--                app:layout_constraintLeft_toLeftOf="parent"-->
-<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
 <!--                app:layout_constraintTop_toBottomOf="@id/include_toolbar" />-->
 
             <androidx.recyclerview.widget.RecyclerView
@@ -94,8 +94,8 @@
         <!--            android:layout_height="0dp"-->
         <!--            android:layout_marginTop="20dp"-->
         <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintLeft_toLeftOf="@id/view_line"-->
-        <!--            app:layout_constraintRight_toRightOf="@id/view_line"-->
+        <!--            app:layout_constraintStart_toStartOf="@id/view_line"-->
+        <!--            app:layout_constraintEnd_toEndOf="@id/view_line"-->
         <!--            app:layout_constraintTop_toBottomOf="@id/view_line" >-->
 
         <!--            <TextView-->

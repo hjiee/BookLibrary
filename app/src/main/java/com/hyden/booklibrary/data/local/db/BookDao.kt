@@ -13,34 +13,26 @@ import io.reactivex.Flowable
 interface BookDao {
 
     @Insert
-    fun insert(
-        bookEntity: List<BookEntity?>
-    ): Completable
+    fun insertBook(bookEntity: List<BookEntity?>): Completable
 
     @Insert
-    fun insertNote(
-        bookEntity: BookEntity?
-    ): Completable
+    fun insertNote(bookEntity: BookEntity?): Completable
 
 
     @Query("DELETE FROM $DATABASENAME_BOOK WHERE isbn13 = :isbn13")
-    fun deleteBook(
-        isbn13: String
-    ): Completable
+    fun deleteBook(isbn13: String): Completable
 
     @Query("SELECT * FROM $DATABASENAME_BOOK WHERE isbn13 = :isbn13")
-    fun getBook(
-        isbn13: String
-    ): BookEntity
-
-    @Query("SELECT * FROM $DATABASENAME_BOOK WHERE isShared = 1")
-    fun getSharedBook() : Flowable<List<BookEntity>>
+    fun getBook(isbn13: String): BookEntity
 
     @Query("SELECT * FROM $DATABASENAME_BOOK LIMIT $DATABASELIMIT")
     fun getAll(): List<BookEntity>
 
+    @Query("SELECT * FROM $DATABASENAME_BOOK WHERE isShared = 1")
+    fun getSharedBook() : Flowable<List<BookEntity>>
+
     @Update
-    fun updateBook(bookEntity: BookEntity?) : Completable
+    fun updateBook(bookEntity: BookEntity) : Completable
 
     @Query("SELECT COUNT(*) FROM $DATABASENAME_BOOK WHERE isbn13 = :isbn13")
     fun isContains(isbn13: String): Int

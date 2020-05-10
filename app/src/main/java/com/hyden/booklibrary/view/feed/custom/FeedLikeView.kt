@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.recycler_item_feed.view.*
 fun ConstraintLayout.bindLike(feedVm: FeedViewModel, feed: Feed) {
     feedVm.isLiked(feed.likesInfo.users) {
         iv_like.isSelected = true
-        iv_like.setBackgroundResource(R.drawable.ic_like_on)
+        iv_like.setImageResource(R.drawable.ic_like_on)
     }
 
     iv_like.setOnClickListener(null)
@@ -24,11 +24,11 @@ fun ConstraintLayout.bindLike(feedVm: FeedViewModel, feed: Feed) {
         iv_like.isSelected = iv_like.isSelected.not()
         feedVm.postLike(feed, iv_like.isSelected)
         if (iv_like.isSelected) {
-            iv_like.setBackgroundResource(R.drawable.ic_like_on)
+            iv_like.setImageResource(R.drawable.ic_like_on)
             tv_like_count.text = String.format(resources.getString(R.string.like_count),tv_like_count.text.onlyNumber().toInt() + 1)
             feed.likesCount = feed.likesCount.plus(1)
         } else {
-            iv_like.setBackgroundResource(R.drawable.ic_like_off)
+            iv_like.setImageResource(R.drawable.ic_like_off)
             tv_like_count.text = String.format(resources.getString(R.string.like_count),tv_like_count.text.onlyNumber().toInt() - 1)
             feed.likesCount = feed.likesCount.minus(1)
         }
