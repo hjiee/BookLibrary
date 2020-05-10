@@ -26,10 +26,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
+            manifestPlaceholders = [crashlytics_enabled: true]
         }
         debug {
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
+            manifestPlaceholders = [crashlytics_enabled: false]
+
         }
     }
     dataBinding {

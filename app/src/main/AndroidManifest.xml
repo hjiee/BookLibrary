@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+
     <application
         android:name=".HomeApplication"
         android:allowBackup="false"
@@ -34,18 +35,22 @@
         </activity>
 
         <activity android:name=".view.login.LoginActivity" />
-        <activity
-            android:name=".view.main.MainActivity"
-            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".view.detail.UnSavedDetailActivity" />
         <activity android:name=".view.note.NoteActivity" />
         <activity android:name=".view.comment.CommentActivity" />
         <activity android:name=".view.detail.mysaved.SavedDetailActivity" />
+        <activity android:name=".view.detail.feed.FeedDetailActivity"/>
+
+        <activity
+            android:name=".view.main.MainActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".view.profile.ProfileActivity"
             android:windowSoftInputMode="adjustPan"/>
 
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/ImageCropTheme"/>
 
         <activity android:name=".view.OpenSourceActivity">
@@ -54,8 +59,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.detail.feed.FeedDetailActivity"/>
 
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${crashlytics_enabled}" />
     </application>
 
 </manifest>
