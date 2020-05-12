@@ -1,5 +1,6 @@
 package com.hyden.booklibrary.data.remote
 
+import com.hyden.booklibrary.data.remote.network.response.BookDetailResponse
 import com.hyden.booklibrary.data.remote.network.response.BookResponse
 import com.hyden.booklibrary.data.remote.network.response.SearchResponse
 import io.reactivex.Single
@@ -21,6 +22,12 @@ interface BookApi {
      */
     @GET("ItemList.aspx")
     fun bookInfo(@QueryMap map : HashMap<String,Any>) : Single<BookResponse>
+
+    /**
+     * 상품조회
+     */
+    @GET("ItemLookUp.aspx")
+    fun bookDetail(@QueryMap map : HashMap<String,Any>) : Single<BookDetailResponse>
 
     /**
      * 상품 검색
