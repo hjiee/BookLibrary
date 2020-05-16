@@ -23,7 +23,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
         val LOGIN_START = 99
     }
     private val firebaseRemoteConfig by lazy { FirebaseRemoteConfig.getInstance() }
-    private val firebaseRemoteSetting by lazy { FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(3600L).build() }
+    private val firebaseRemoteSetting by lazy { FirebaseRemoteConfigSettings.Builder().build() }
     private val splashViewModel by viewModel<SplashViewModel>()
     private val handler = Handler()
     private val runnable = Runnable {
@@ -49,23 +49,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val default = HashMap<String,Any>()
-        default.put("version","0.0.0")
         firebaseRemoteConfig.setConfigSettingsAsync(firebaseRemoteSetting)
-        firebaseRemoteConfig.setDefaultsAsync(default)
-        firebaseRemoteConfig.fetch(3600)
+        firebaseRemoteConfig.setDefaultsAsync(R.xml.default_remote_config)
+        firebaseRemoteConfig.fetchAndActivate()
             .addOnCompleteListener {
                 if(it.isSuccessful) {
-                    Toast.makeText(this@SplashActivity, "Fetch Success : ${firebaseRemoteConfig.getString("remote_update")}", Toast.LENGTH_SHORT).show()
+                    remoteConfig()
                 } else {
-                    Toast.makeText(this@SplashActivity, "Fetch Fail : ${firebaseRemoteConfig.getString("remote_update")}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SplashActivity, "Fetch Fail : ${firebaseRemoteConfig.getString("version")}", Toast.LENGTH_SHORT).show()
                 }
-            }
-            .addOnSuccessListener {
-                Toast.makeText(this@SplashActivity, "Fetch Success : ${firebaseRemoteConfig.getString("remote_update")}", Toast.LENGTH_SHORT)
-            }
-            .addOnFailureListener { 
-                
             }
         splashViewModel.showLoading()
 //        handler.postDelayed(runnable, 2000)
@@ -83,6 +75,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     override fun onDestroy() {
         super.onDestroy()
         splashViewModel.hideLoading()
+    }
+
+    private fun remoteConfig() {
+        firebaseRemoteConfig
+        Toast.makeText(this@SplashActivity, "Fetch Success : ${firebaseRemoteConfig.getString("version")}", Toast.LENGTH_SHORT).show()
+
     }
 
     override fun initBind() {
