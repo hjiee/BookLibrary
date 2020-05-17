@@ -6,6 +6,7 @@
     <data>
 
         <import type="com.hyden.ext.RecyclerViewExtKt" />
+        <import type="com.hyden.ext.StringExtKt" />
 
         <variable
             name="vm"
@@ -18,100 +19,150 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-            <androidx.core.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="10dp">
 
-                    <FrameLayout
+                    <ImageView
+                        android:id="@+id/iv_book_cover_temp"
                         android:layout_width="@dimen/book_image_width_large"
                         android:layout_height="@dimen/book_image_height_large"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginStart="2dp">
-                        <ImageView
-                            android:id="@+id/iv_book_cover_temp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/iv_book_cover"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"/>
-                    </FrameLayout>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/TextTitleStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bestseller"
-                        android:layout_marginTop="10dp"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_book_bestseller"
-                        bindItems="@{vm.bookBestSeller}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:orientation="horizontal"
-                        android:scrollbarStyle="outsideInset"
-                        android:scrollbarThumbVertical="@color/colorWhite"
-                        android:scrollbars="vertical"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/recycler_item_home"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1" />
+                    <ImageView
+                        android:id="@+id/iv_book_cover"
+                        android:layout_width="@dimen/book_image_width_large"
+                        android:layout_height="@dimen/book_image_height_large"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:background="@drawable/book_sample_cover" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_title"
                         style="@style/TextTitleStyle"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/attentionbook"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_book_new"
-                        bindItems="@{vm.bookNew}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:orientation="horizontal"
-                        android:scrollbarStyle="outsideInset"
-                        android:scrollbarThumbVertical="@color/colorWhite"
-                        android:scrollbars="vertical"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/recycler_item_home"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1" />
+                        android:textColor="@color/white"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:ellipsize="end"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_book_cover"
+                        tools:text="제목" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        tools:text="가격"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:ellipsize="end"
+                        android:textColor="@color/white"
                         style="@style/TextTitleStyle"
-                        android:layout_width="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                        app:layout_constraintStart_toEndOf="@+id/iv_book_cover"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_toc"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/newbook"/>
+                        tools:text="목차"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:ellipsize="end"
+                        android:textColor="@color/white"
+                        style="@style/TextTitleStyle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_price"
+                        app:layout_constraintStart_toEndOf="@+id/iv_book_cover"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_book_all"
-                        bindItems="@{vm.bookAll}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:orientation="horizontal"
-                        android:scrollbarStyle="outsideInset"
-                        android:scrollbarThumbVertical="@color/colorWhite"
-                        android:scrollbars="vertical"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="1" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextTitleStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/bestseller" />
 
-<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_book_bestseller"
+                    bindItems="@{vm.bookBestSeller}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbarThumbVertical="@color/colorWhite"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/recycler_item_home" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextTitleStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attentionbook" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_book_new"
+                    bindItems="@{vm.bookNew}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbarThumbVertical="@color/colorWhite"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/recycler_item_home" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextTitleStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/newbook" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_book_all"
+                    bindItems="@{vm.bookAll}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbarThumbVertical="@color/colorWhite"
+                    android:scrollbars="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="1" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
