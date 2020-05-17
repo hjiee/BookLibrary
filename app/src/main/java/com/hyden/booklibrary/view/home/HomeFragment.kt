@@ -57,11 +57,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun onResume() {
         super.onResume()
+        val imageType = ImageTransformType.ROUND
         binding.apply {
             homeViewModel.bookBlogBest.observe(this@HomeFragment, Observer {
                     val initRand = Random.nextInt(DATABASELIMIT)
-                    ivBookCoverTemp.loadUrl(it[initRand].cover, ImageTransformType.FIT)
-                    ivBookCover.loadUrl(it[initRand].cover, ImageTransformType.FIT)
+                    ivBookCoverTemp.loadUrl(it[initRand].cover, imageType)
+                    ivBookCover.loadUrl(it[initRand].cover, imageType)
 
                     compositeDisposable.add(
                         Observable.interval(timeInterval, TimeUnit.MILLISECONDS)
@@ -70,16 +71,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                             .subscribe {
                                 val rand = Random.nextInt(DATABASELIMIT)
                                 Handler().postDelayed({
-                                    ivBookCoverTemp.loadUrl(
-                                        homeViewModel.bookBlogBest.value!![rand].cover,
-                                        ImageTransformType.FIT
-                                    )
+                                    ivBookCoverTemp.loadUrl(homeViewModel.bookBlogBest.value!![rand].cover, imageType)
                                 }, 3000)
 
-                                ivBookCover.loadUrl(
-                                    homeViewModel.bookBlogBest.value!![rand].cover,
-                                    ImageTransformType.FIT
-                                )
+                                ivBookCover.loadUrl(homeViewModel.bookBlogBest.value!![rand].cover, imageType)
                             }
                     )
                 }
