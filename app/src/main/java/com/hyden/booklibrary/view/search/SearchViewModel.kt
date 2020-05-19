@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.response.BookItem
-import com.hyden.booklibrary.data.repository.source.SearchDataSource
+import com.hyden.booklibrary.data.repository.AladinRepository
+import com.hyden.booklibrary.data.repository.source.AladinDataSource
 import com.hyden.util.LogUtil.LogE
 
 class SearchViewModel(
-    private val searchDataSource: SearchDataSource
+    private val aladinRepository: AladinRepository
 ) : BaseViewModel() {
 
     private val _searchBookInfo = MutableLiveData<List<BookItem>>()
@@ -53,7 +54,7 @@ class SearchViewModel(
     ) {
         _searchFinishing.value = false
         compositeDisposable.add(
-            searchDataSource.search(
+            aladinRepository.search(
                 page = page,
                 query = query,
                 querytype = queryType,
