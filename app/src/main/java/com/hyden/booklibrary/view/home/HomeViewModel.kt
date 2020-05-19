@@ -4,17 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.response.BookItem
-import com.hyden.booklibrary.data.repository.source.BookDataSource
-import com.hyden.booklibrary.data.repository.source.HomeDataSource
+import com.hyden.booklibrary.data.remote.network.response.BookResponse
+import com.hyden.booklibrary.data.repository.AladinRepository
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BESTSELLER
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BLOGBEST
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEWALL
 import com.hyden.util.LogUtil.LogE
+import io.reactivex.Single
+import kotlin.random.Random
 
 class HomeViewModel(
-    private val homeDataSource: HomeDataSource,
-    private val bookDataSource: BookDataSource
+    private val aladinRepository: AladinRepository
 ) : BaseViewModel() {
 
     private val _bookBlogBest = MutableLiveData<List<BookItem>>()
@@ -39,6 +40,8 @@ class HomeViewModel(
     private val _isRefreshingAll = MutableLiveData<Boolean>()
     val isRefreshingAll: LiveData<Boolean> get() = _isRefreshingAll
 
+    private val searchTarget : String = "book"
+
     fun loadMore(
         page: Int,
         queryType: String
@@ -48,11 +51,10 @@ class HomeViewModel(
 
     fun loadBook(
         page: Int = 1,
-        queryType: String,
-        searchTarget: String = "book"
+        queryType: String
     ) {
         compositeDisposable.add(
-            homeDataSource.loadBook(
+            aladinRepository.loadBook(
                 page = page,
                 querytype = queryType,
                 searchtarget = searchTarget
@@ -65,6 +67,44 @@ class HomeViewModel(
                     BOOK_ITEMNEWALL -> bookAll(it.item)
                 }
             }, { LogE("$it") })
+        )
+    }
+
+    fun load(page: Int = 1) {
+//        compositeDisposable.add(
+//            fetchBlogBest().zipWith(fetchBestSeller(page),fetchItemNew(page),fetchItemNewAll(page))
+//        )
+    }
+
+    private fun fetchBlogBest(): Single<BookResponse> {
+        return aladinRepository.loadBook(
+                page = Random.nextInt(1, 4),
+                querytype = BOOK_BLOGBEST,
+                searchtarget = searchTarget
+            )
+    }
+
+    private fun fetchBestSeller(page: Int = 1): Single<BookResponse> {
+        return aladinRepository.loadBook(
+                page = page,
+                querytype = BOOK_BESTSELLER,
+                searchtarget = searchTarget
+            )
+    }
+
+    private fun fetchItemNew(page: Int = 1): Single<BookResponse> {
+        return aladinRepository.loadBook(
+                page = page,
+                querytype = BOOK_ITEMNEW,
+                searchtarget = searchTarget
+            )
+    }
+
+    private fun fetchItemNewAll(page: Int = 1): Single<BookResponse> {
+        return aladinRepository.loadBook(
+            page = page,
+            querytype = BOOK_ITEMNEWALL,
+            searchtarget = searchTarget
         )
     }
 
