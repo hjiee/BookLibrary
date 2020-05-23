@@ -43,10 +43,18 @@ class AladinRepository(private val bookApi : BookApi) : AladinDataSource {
      * 책 상세 정보
      */
     override fun detail(
-
-    ) : Single<BookDetailResponse> {
+        ttbkey: String,
+        itemIdType: String,
+        itemId: String,
+        output: String,
+        version: String
+    ): Single<BookDetailResponse> {
         return bookApi.bookDetail(HashMap<String,Any>().apply {
-
+            put("ttbkey", ttbkey)
+            put("itemIdType", itemIdType)
+            put("itemId", itemId)
+            put("output", output)
+            put("version", version)
         }).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

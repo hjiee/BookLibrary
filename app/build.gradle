@@ -125,8 +125,8 @@ dependencies {
     def stetho_version = '1.5.1'
     debugImplementation "com.facebook.stetho:stetho:$stetho_version"
     // Leakcanary
-    def leakcanary_version = '2.2'
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+//    def leakcanary_version = '2.2'
+//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -127,7 +127,7 @@ class SettingFragment : PreferenceFragmentCompat() {
             setOnPreferenceClickListener {
 
                 FirebaseAuth.getInstance().apply {
-                    context.showSimpleDialog("로그아웃 하시겠습니까?") {
+                    context.showSimpleDialog(message = "로그아웃 하시겠습니까?") {
                         settingViewModel.signOut()
                         moveToActivity(Intent(activity,LoginActivity::class.java))
                         activity?.finish()

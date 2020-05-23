@@ -13,7 +13,6 @@
             type="com.hyden.booklibrary.view.home.HomeViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,7 +55,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_title"
-                        style="@style/TextTitleStyle"
+                        style="@style/TextTitleStyle4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
@@ -76,7 +75,7 @@
                         android:layout_marginEnd="10dp"
                         android:ellipsize="end"
                         android:textColor="@color/white"
-                        style="@style/TextTitleStyle"
+                        style="@style/TextTitleStyle4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_title"
                         app:layout_constraintStart_toEndOf="@+id/iv_book_cover"/>
@@ -90,7 +89,7 @@
                         android:layout_marginEnd="10dp"
                         android:ellipsize="end"
                         android:textColor="@color/white"
-                        style="@style/TextTitleStyle"
+                        style="@style/TextTitleStyle4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_price"
                         app:layout_constraintStart_toEndOf="@+id/iv_book_cover"/>
@@ -98,7 +97,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextTitleStyle"
+                    style="@style/TextTitleStyle6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -120,7 +119,7 @@
                     tools:listitem="@layout/recycler_item_home" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextTitleStyle"
+                    style="@style/TextTitleStyle6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/attentionbook" />
@@ -141,7 +140,7 @@
                     tools:listitem="@layout/recycler_item_home" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextTitleStyle"
+                    style="@style/TextTitleStyle6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/newbook" />

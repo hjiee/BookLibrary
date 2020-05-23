@@ -45,7 +45,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
                 when (item) {
                     is BookEntity -> {
                         longClickVibrate()
-                        context?.showSimpleDialog(getString(R.string.are_you_delete_book_info)) { deleteBook(item.isbn13) }
+                        context?.showSimpleDialog(message = getString(R.string.are_you_delete_book_info)) { deleteBook(item.isbn13) }
                     }
                 }
                 return true

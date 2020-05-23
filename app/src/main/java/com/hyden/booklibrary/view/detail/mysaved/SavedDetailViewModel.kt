@@ -3,18 +3,22 @@ package com.hyden.booklibrary.view.detail.mysaved
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
-import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.local.db.convertToBookItem
+import com.hyden.booklibrary.data.remote.BookApi
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
-import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
+import com.hyden.booklibrary.data.repository.AladinRepository
 import com.hyden.booklibrary.data.repository.source.BookDataSource
+import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
+import com.hyden.util.LogUtil.LogW
+import io.reactivex.rxkotlin.addTo
 
 class SavedDetailViewModel(
     private val bookDataSource: BookDataSource,
-    private val firebaseDataSource: FirebaseDataSource
+    private val firebaseDataSource: FirebaseDataSource,
+    private val bookApi : AladinRepository
 ) : BaseViewModel() {
 
     private val _detailInfo = MutableLiveData<BookItem>()
@@ -31,33 +35,42 @@ class SavedDetailViewModel(
         LogD("데이터 저장")
     }
 
-    fun bookReLoad(isbn13: String) {
-        compositeDisposable.add(
-            bookDataSource.getBook(isbn13)
-                .subscribe(
-                    { _detailInfo.value = it.convertToBookItem() },
-                    { LogE("$it") }
-                )
-        )
+    fun loadBookDetail(isbn : String) {
+        bookApi.detail(itemId = isbn)
+            .subscribe(
+                {
+                    LogW("$it")
+                },
+                {
+                    LogE("$it")
+                }
+            )
+            .addTo(compositeDisposable)
     }
 
-    fun deleteBook(isbn13 : String) {
-        compositeDisposable.add(
-            bookDataSource.deleteBook(isbn13)
-                .subscribe(
-                    { _isDelete.value = true },
-                    {
-                        _isDelete.value = false
-                        LogE("$it")
-                    }
-                )
-        )
+    fun bookReLoad(isbn13: String) {
+        bookDataSource.getBook(isbn13)
+            .subscribe(
+                { _detailInfo.value = it.convertToBookItem() },
+                { LogE("$it") }
+            ).addTo(compositeDisposable)
+    }
+
+    fun deleteBook(isbn13: String) {
+        bookDataSource.deleteBook(isbn13)
+            .subscribe(
+                { _isDelete.value = true },
+                {
+                    _isDelete.value = false
+                    LogE("$it")
+                }
+            ).addTo(compositeDisposable)
     }
 
     fun bookUpdate(bookItem: BookItem) {
         compositeDisposable.add(
             bookDataSource.updateBook(bookEntity = bookItem.convertToBookEntity())
-                .subscribe({},{ LogE("$it") })
+                .subscribe({}, { LogE("$it") })
         )
     }
 

@@ -26,10 +26,21 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
     private val savedDetailViewModel by viewModel<SavedDetailViewModel>()
     private val feedViewModel by inject<FeedViewModel>()
 
-    var item: BookItem? = null
+    val item by lazy { intent?.getParcelableExtra<BookItem>(getString(R.string.book_info)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        item?.isbn?.let {
+            savedDetailViewModel.loadBookDetail(it)
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        savedDetailViewModel.bookReLoad(item?.isbn13!!)
+    }
+
+    override fun observing() {
+        super.observing()
 
         savedDetailViewModel.isContain.observe(
             this@SavedDetailActivity,
@@ -64,13 +75,6 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
                     ).show()
                 }
             })
-
-        item = intent?.getParcelableExtra(getString(R.string.book_info))
-    }
-
-    override fun onResume() {
-        super.onResume()
-        savedDetailViewModel.bookReLoad(item?.isbn13!!)
     }
 
     override fun initBind() {
@@ -79,7 +83,7 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
             vm = savedDetailViewModel
             ibDelete.apply {
                 setOnClickListener {
-                    showSimpleDialog(getString(R.string.are_you_delete_book_info)) { savedDetailViewModel.deleteBook(item?.isbn13!!) }
+                    showSimpleDialog(message = getString(R.string.are_you_delete_book_info)) { savedDetailViewModel.deleteBook(item?.isbn13!!) }
                 }
             }
             ibBack.setOnClickListener { finish() }
@@ -97,21 +101,14 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
                     savedDetailViewModel.pushLike(this.isSelected, item!!)
                 }
             }
-//            ivComment.apply {
-//                this.isSelected = item?.isReviews ?: false
-//                setOnClickListener {
-//                    this.isSelected = this.isSelected.not()
-//                    item?.isReviews = this.isSelected
-//                    savedDetailViewModel.bookUpdate(item!!)
-//                }
-//            }
+
             // 피드에 책 등록
             ivShared.apply {
                 this.isSelected = item?.isShared ?: false
                 setOnClickListener {
                     if (!isSelected) {
                         isTimeAutomatic {
-                            showSimpleDialog("감상노트를 공유 하시겠습니까?") {
+                            showSimpleDialog(message = "감상노트를 공유 하시겠습니까?") {
                                 this.isSelected = this.isSelected.not()
                                 sharedCheck(isSelected = isSelected)
                                 item?.let { savedDetailViewModel.pushShare(it) }
@@ -131,7 +128,7 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
 //                            }
 //                        }
                     } else {
-                        showSimpleDialog("공유한 책정보를 해제하시겠습니까?") {
+                        showSimpleDialog(message = "공유한 책정보를 해제하시겠습니까?") {
                             this.isSelected = this.isSelected.not()
                             sharedCheck(isSelected = this.isSelected)
                             item?.let { savedDetailViewModel.pushDelete(it.isbn13) }
@@ -148,7 +145,7 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
 //                    Toast.makeText(context, "감상글을 수정합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
-            tvTitle?.text = item?.title!!.split(" - ")[0]
+            tvTitle.text = item?.title!!.split(" - ")[0]
 //            includeBookCover.ivBookCover?.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
 
         }
@@ -158,13 +155,9 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             BOOK_NOTE_REQUEST_CODE -> {
-                item = data?.getParcelableExtra("data") as? BookItem
+                item?.bookNote = (data?.getParcelableExtra("data") as? BookItem)?.bookNote
             }
         }
-    }
-
-    private fun writeReviews() {
-
     }
 
     private fun sharedCheck(isSelected: Boolean) {

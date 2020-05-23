@@ -5,24 +5,40 @@ import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
+import com.hyden.booklibrary.data.repository.AladinRepository
 import com.hyden.booklibrary.data.repository.source.BookDataSource
 import com.hyden.util.LogUtil.LogE
+import com.hyden.util.LogUtil.LogW
+import io.reactivex.rxkotlin.addTo
 
 class UnSavedDetailViewModel(
-    private val bookDataSource: BookDataSource
+    private val bookDataSource: BookDataSource,
+    private val bookApi: AladinRepository
 ) : BaseViewModel() {
 
     private val _detailInfo = MutableLiveData<BookItem>()
     val detailInfo: LiveData<BookItem> get() = _detailInfo
 
     private val _isContain = MutableLiveData<Boolean>()
-    val isContain : LiveData<Boolean> get() = _isContain
+    val isContain: LiveData<Boolean> get() = _isContain
 
     private val _isDelete = MutableLiveData<Boolean>()
-    val isDelete : LiveData<Boolean> get() = _isDelete
+    val isDelete: LiveData<Boolean> get() = _isDelete
 
     fun bookInfo(bookInfo: BookItem?) {
         _detailInfo.value = bookInfo
+    }
+
+    fun loadBookDetail(isbn: String) {
+        bookApi.detail(itemId = isbn)
+            .subscribe(
+                {
+                    LogW("$it")
+                },
+                {
+                    LogE("$it")
+                }
+            ).addTo(compositeDisposable)
     }
 
     fun bookInsert() {
@@ -38,7 +54,7 @@ class UnSavedDetailViewModel(
         )
     }
 
-    fun deleteBook(isbn13 : String) {
+    fun deleteBook(isbn13: String) {
         compositeDisposable.add(
             bookDataSource.deleteBook(isbn13)
                 .subscribe(
