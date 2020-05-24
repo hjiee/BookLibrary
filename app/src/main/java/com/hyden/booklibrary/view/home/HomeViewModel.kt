@@ -8,8 +8,8 @@ import com.hyden.booklibrary.data.remote.network.response.BookResponse
 import com.hyden.booklibrary.data.repository.AladinRepository
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BESTSELLER
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_BLOGBEST
-import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW
-import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEWALL
+import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW_SPECIAL
+import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_ITEMNEW_ALL
 import com.hyden.util.LogUtil.LogE
 import io.reactivex.Single
 import kotlin.random.Random
@@ -24,11 +24,11 @@ class HomeViewModel(
     private val _bookBestSeller = MutableLiveData<List<BookItem>>()
     val bookBestSeller: LiveData<List<BookItem>> get() = _bookBestSeller
 
-    private val _bookNew = MutableLiveData<List<BookItem>>()
-    val bookNew: LiveData<List<BookItem>> get() = _bookNew
+    private val _bookNewSpecial = MutableLiveData<List<BookItem>>()
+    val bookNewSpecial: LiveData<List<BookItem>> get() = _bookNewSpecial
 
-    private val _bookAll = MutableLiveData<List<BookItem>>()
-    val bookAll: LiveData<List<BookItem>> get() = _bookAll
+    private val _bookNewAll = MutableLiveData<List<BookItem>>()
+    val bookNewAll: LiveData<List<BookItem>> get() = _bookNewAll
 
 
     private val _isRefreshingBestSeller = MutableLiveData<Boolean>()
@@ -63,8 +63,8 @@ class HomeViewModel(
                 when (queryTypeName) {
                     BOOK_BLOGBEST -> bookBlogBest(it.item)
                     BOOK_BESTSELLER -> bookBestSeller(it.item)
-                    BOOK_ITEMNEW -> bookNew(it.item)
-                    BOOK_ITEMNEWALL -> bookAll(it.item)
+                    BOOK_ITEMNEW_SPECIAL -> bookNewSpecial(it.item)
+                    BOOK_ITEMNEW_ALL -> bookNewAll(it.item)
                 }
             }, { LogE("$it") })
         )
@@ -95,7 +95,7 @@ class HomeViewModel(
     private fun fetchItemNew(page: Int = 1): Single<BookResponse> {
         return aladinRepository.loadBook(
                 page = page,
-                querytype = BOOK_ITEMNEW,
+                querytype = BOOK_ITEMNEW_SPECIAL,
                 searchtarget = searchTarget
             )
     }
@@ -103,7 +103,7 @@ class HomeViewModel(
     private fun fetchItemNewAll(page: Int = 1): Single<BookResponse> {
         return aladinRepository.loadBook(
             page = page,
-            querytype = BOOK_ITEMNEWALL,
+            querytype = BOOK_ITEMNEW_ALL,
             searchtarget = searchTarget
         )
     }
@@ -125,11 +125,11 @@ class HomeViewModel(
         _isRefreshingBestSeller.value = false
     }
 
-    private fun bookNew(data: List<BookItem>) {
+    private fun bookNewSpecial(data: List<BookItem>) {
         if (_isRefreshingNew.value ?: true) {
-            _bookNew.value = data ?: emptyList()
+            _bookNewSpecial.value = data ?: emptyList()
         } else {
-            _bookNew.value = _bookNew.value?.let {
+            _bookNewSpecial.value = _bookNewSpecial.value?.let {
                 it.toMutableList().apply {
                     addAll(data)
                 }
@@ -138,11 +138,11 @@ class HomeViewModel(
         _isRefreshingNew.value = false
     }
 
-    private fun bookAll(data: List<BookItem>) {
+    private fun bookNewAll(data: List<BookItem>) {
         if (_isRefreshingAll.value ?: true) {
-            _bookAll.value = data
+            _bookNewAll.value = data
         } else {
-            _bookAll.value = _bookAll.value?.let {
+            _bookNewAll.value = _bookNewAll.value?.let {
                 it.toMutableList().apply {
                     addAll(data)
                 }

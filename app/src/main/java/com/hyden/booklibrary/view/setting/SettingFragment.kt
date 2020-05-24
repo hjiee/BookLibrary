@@ -4,13 +4,16 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.util.*
@@ -19,6 +22,7 @@ import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
 import com.hyden.booklibrary.view.myshared.MySharedBookFragment
 import com.hyden.ext.*
+import com.hyden.util.LogUtil.LogW
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -142,9 +146,31 @@ class SettingFragment : PreferenceFragmentCompat() {
     }
 
     private fun infoAppVersion() {
+        var backKeyPressedTime = 0L
+        var count = 0
         findPreference<Preference>(getString(R.string.setting_key_version))?.apply {
             summary = "앱 버전 : ${context.versionName()}"
             this.context.setTheme(R.style.PreferenceTheme)
+            setOnPreferenceClickListener {
+                LogW("$count")
+                if(System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                    backKeyPressedTime = System.currentTimeMillis()
+                    count = 0
+                } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+                    count++
+                    if(count == 7) {
+                        val snackbar =  Snackbar.make(view!!,getString(R.string.version_multiple_click),Snackbar.LENGTH_SHORT)
+                        val view = snackbar.view
+                        val textView = view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                        textView.textAlignment = (View.TEXT_ALIGNMENT_CENTER)
+                        snackbar.show()
+//                        Toast.makeText(context,getString(R.string.version_multiple_click),Toast.LENGTH_SHORT).show()
+                        count = 0
+                        backKeyPressedTime = 0L
+                    }
+                }
+                true
+            }
         }
     }
 

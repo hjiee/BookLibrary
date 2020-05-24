@@ -62,7 +62,7 @@ class SearchViewModel(
             )
                 .subscribe(
                     { data ->
-                        when (data.item ?: false) {
+                        when ((data.item?.size ?: 0) > 0) {
                             false -> _isResultEmpty.value = false
                             else -> _isResultEmpty.value = true
                         }

@@ -30,7 +30,7 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        item?.isbn?.let {
+        item?.isbn13?.let {
             savedDetailViewModel.loadBookDetail(it)
         }
     }

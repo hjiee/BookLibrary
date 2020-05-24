@@ -1,6 +1,7 @@
 package com.hyden.booklibrary
 
 import com.facebook.stetho.Stetho
+import com.google.android.gms.ads.MobileAds
 import com.hyden.base.BaseApplication
 import com.hyden.booklibrary.di.appModule
 import com.hyden.booklibrary.di.networkModule
@@ -14,6 +15,7 @@ class HomeApplication : BaseApplication() {
     override fun onCreate() {
         super.onCreate()
         Stetho.initializeWithDefaults(this)
+        MobileAds.initialize(applicationContext) { }
         startKoin {
             androidContext(this@HomeApplication)
             modules(listOf(networkModule, viewModelModule, appModule, roomModule))

@@ -30,8 +30,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:contentInsetEnd="16dp"
-                app:contentInsetStart="16dp"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways">
 
@@ -45,9 +45,10 @@
                         style="@style/SpinnerStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:backgroundTint="@color/colorWhite"
+                        android:popupBackground="@color/colorLightBlack3"
+                        android:backgroundTint="@color/colorLightBlack3"
                         android:entries="@array/search"
-                        android:spinnerMode="dialog"
+                        android:spinnerMode="dropdown"
                         app:layout_constraintBottom_toBottomOf="@+id/edt_search_input"
                         app:layout_constraintTop_toTopOf="@+id/edt_search_input"
                         app:layout_constraintVertical_bias="1.0" />

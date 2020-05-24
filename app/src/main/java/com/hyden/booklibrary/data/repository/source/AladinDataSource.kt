@@ -21,7 +21,7 @@ interface AladinDataSource {
 
     fun detail(
         ttbkey : String =  BuildConfig.TTBKEY,
-        itemIdType: String ="ISBN",
+        itemIdType: String ="ISBN13",
         itemId : String,
         output : String = "js",
         version : String = "20131101"

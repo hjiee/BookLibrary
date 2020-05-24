@@ -29,8 +29,8 @@ class UnSavedDetailViewModel(
         _detailInfo.value = bookInfo
     }
 
-    fun loadBookDetail(isbn: String) {
-        bookApi.detail(itemId = isbn)
+    fun loadBookDetail(isbn13: String) {
+        bookApi.detail(itemId = isbn13)
             .subscribe(
                 {
                     LogW("$it")

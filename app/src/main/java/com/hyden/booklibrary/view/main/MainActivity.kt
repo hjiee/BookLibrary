@@ -3,8 +3,9 @@ package com.hyden.booklibrary.view.main
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityMainBinding
@@ -15,6 +16,9 @@ import com.hyden.booklibrary.view.library.LibraryFragment
 import com.hyden.booklibrary.view.search.SearchFragment
 import com.hyden.booklibrary.view.setting.SettingFragment
 import com.hyden.ext.replaceFragment
+import com.hyden.util.LogUtil.LogW
+import com.hyden.util.RxBus
+import com.hyden.util.RxBusEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -22,10 +26,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private var currentNavigationView: Int = -1
     private var backKeyPressedTime = 0L
     private lateinit var toast: Toast
+
     private val mainViewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        RxBus.publish(RxBusEvent.SplashFinish())
+
         if (intent.getBooleanExtra("theme", false)) {
             replaceFragment(SettingFragment.newInstance(), binding.flContainer.id)
             binding.bnvMenu.selectedItemId = R.id.menu_setting
@@ -49,10 +56,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 }
             }
         }
+
     }
 
     override fun onBackPressed() {
-        if(!supportFragmentManager.popBackStackImmediate()){
+        if (!supportFragmentManager.popBackStackImmediate()) {
             if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
                 backKeyPressedTime = System.currentTimeMillis()
                 toast = Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT)
@@ -79,11 +87,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     if (currentNavigationView != it.itemId) {
                         currentNavigationView = it.itemId
                         when (it.itemId) {
-                            R.id.menu_home -> { replaceFragment(HomeFragment.newInstance(), binding.flContainer.id) }
-                            R.id.menu_search -> { replaceFragment(SearchFragment.newInstance(), binding.flContainer.id) }
-                            R.id.menu_feed -> { replaceFragment(FeedFragment.newInstance(), binding.flContainer.id) }
-                            R.id.menu_library -> { replaceFragment(LibraryFragment.newInstance(), binding.flContainer.id) }
-                            R.id.menu_setting -> { replaceFragment(SettingFragment.newInstance(), binding.flContainer.id) }
+                            R.id.menu_home -> {
+                                replaceFragment(HomeFragment.newInstance(), binding.flContainer.id)
+                            }
+                            R.id.menu_search -> {
+                                replaceFragment(
+                                    SearchFragment.newInstance(),
+                                    binding.flContainer.id
+                                )
+                            }
+                            R.id.menu_feed -> {
+                                replaceFragment(FeedFragment.newInstance(), binding.flContainer.id)
+                            }
+                            R.id.menu_library -> {
+                                replaceFragment(
+                                    LibraryFragment.newInstance(),
+                                    binding.flContainer.id
+                                )
+                            }
+                            R.id.menu_setting -> {
+                                replaceFragment(
+                                    SettingFragment.newInstance(),
+                                    binding.flContainer.id
+                                )
+                            }
                         }
                     }
                     true

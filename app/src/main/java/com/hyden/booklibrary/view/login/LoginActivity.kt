@@ -3,6 +3,9 @@ package com.hyden.booklibrary.view.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -12,11 +15,15 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityLoginBinding
+import com.hyden.booklibrary.util.AdsUtil
 import com.hyden.booklibrary.view.main.MainActivity
 import com.hyden.booklibrary.view.splash.SplashActivity.Companion.LOGIN_START
 import com.hyden.ext.moveToActivity
+import com.hyden.util.LogUtil
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
+import com.hyden.util.RxBus
+import com.hyden.util.RxBusEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -35,6 +42,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onPause() {
+        super.onPause()
     }
 
     override fun initBind() {
@@ -81,6 +92,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 }
             }
     }
+
+
 
     private fun goMain() {
         loginViewModel.saveUser()

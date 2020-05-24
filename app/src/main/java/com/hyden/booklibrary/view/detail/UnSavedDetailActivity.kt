@@ -19,7 +19,7 @@ class UnSavedDetailActivity : BaseActivity<ActivityDetailUnsavedBinding>(R.layou
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailViewModel.bookInfo(book)
-        book?.isbn?.let {
+        book?.isbn13?.let {
             detailViewModel.loadBookDetail(it)
         }
     }

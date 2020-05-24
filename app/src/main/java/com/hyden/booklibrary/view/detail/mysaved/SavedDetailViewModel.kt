@@ -35,8 +35,8 @@ class SavedDetailViewModel(
         LogD("데이터 저장")
     }
 
-    fun loadBookDetail(isbn : String) {
-        bookApi.detail(itemId = isbn)
+    fun loadBookDetail(isbn13 : String) {
+        bookApi.detail(itemId = isbn13)
             .subscribe(
                 {
                     LogW("$it")
