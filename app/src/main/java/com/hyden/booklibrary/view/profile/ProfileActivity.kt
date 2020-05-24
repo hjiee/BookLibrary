@@ -136,7 +136,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
                 when (it) {
                     ProfileUpdateType.STARTING -> {
                         isTimeAutomatic {
-                            showSimpleDialog(getString(R.string.check_update_profile)) {
+                            showSimpleDialog(message = getString(R.string.check_update_profile)) {
                                 // 이미지를 firebase storage에 저장한다.
                                 profileViewModel.showLoading()
                                 profileViewModel.saveStroageProfile()

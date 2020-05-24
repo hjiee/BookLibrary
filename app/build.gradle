@@ -26,13 +26,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
-            manifestPlaceholders = [crashlytics_enabled: true]
+            buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
+            manifestPlaceholders = [crashlytics_enabled: true, admob_id: "ca-app-pub-8639043459373611~4059668627"]
         }
         debug {
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
-            manifestPlaceholders = [crashlytics_enabled: false]
-
+            buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
+            manifestPlaceholders = [crashlytics_enabled: false, admob_id: "ca-app-pub-8639043459373611~4059668627"]
         }
     }
     dataBinding {
@@ -102,6 +103,8 @@ dependencies {
     implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
     implementation "com.google.firebase:firebase-core:$firebase_analytics_version"
     implementation "com.google.firebase:firebase-config:19.1.4"
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation 'com.google.firebase:firebase-ads:19.1.0'
     implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
     implementation "com.google.firebase:firebase-database:$firebase_version"
     implementation "com.google.firebase:firebase-auth:$firebase_version"
@@ -125,8 +128,8 @@ dependencies {
     def stetho_version = '1.5.1'
     debugImplementation "com.facebook.stetho:stetho:$stetho_version"
     // Leakcanary
-    def leakcanary_version = '2.2'
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+//    def leakcanary_version = '2.2'
+//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

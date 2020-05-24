@@ -2,7 +2,7 @@ package com.hyden.booklibrary.data.remote.network.response
 
 data class Bookinfo(
     val authors: List<Author>,
-    val ebookList: List<Any>,
+    val ebookList: List<Ebook>,
     val itemPage: Int,
     val letslookimg: List<String>,
     val originalTitle: String,

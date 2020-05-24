@@ -19,7 +19,13 @@ interface AladinDataSource {
         cover : String = "big"                 // 표지크기
     ) : Single<BookResponse>
 
-    fun detail() : Single<BookDetailResponse>
+    fun detail(
+        ttbkey : String =  BuildConfig.TTBKEY,
+        itemIdType: String ="ISBN13",
+        itemId : String,
+        output : String = "js",
+        version : String = "20131101"
+    ) : Single<BookDetailResponse>
 
     fun search(
         ttbkey: String = BuildConfig.TTBKEY,    // key값

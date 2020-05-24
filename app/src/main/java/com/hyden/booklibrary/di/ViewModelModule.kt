@@ -33,9 +33,10 @@ val viewModelModule = module {
     viewModel { MySharedBookViewMiodel(get()) }
 
     // sub
-    viewModel { UnSavedDetailViewModel(get()) }
+    viewModel { UnSavedDetailViewModel(get(),get()) }
     viewModel {
         SavedDetailViewModel(
+            get(),
             get(),
             get()
         )

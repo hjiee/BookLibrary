@@ -28,7 +28,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/book_image_width"
+            android:minHeight="@dimen/book_image_height">
 
             <include
                 android:id="@+id/include_book_cover"
@@ -37,22 +39,22 @@
                 app:book="@{book}"
                 layout="@layout/item_book_image"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/TextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center_horizontal"
-                android:maxLines="3"
-                android:minLines="3"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:text='@{book.title.split(" - ")[0]}'
-                android:textSize="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/include_book_cover"
-                app:layout_constraintStart_toStartOf="@+id/include_book_cover"
-                app:layout_constraintTop_toBottomOf="@+id/include_book_cover"
-                tools:text="코틀린 인 액션" />
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                style="@style/TextStyle"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:maxLines="3"-->
+<!--                android:minLines="3"-->
+<!--                android:paddingStart="4dp"-->
+<!--                android:paddingEnd="4dp"-->
+<!--                android:text='@{book.title.split(" - ")[0]}'-->
+<!--                android:textSize="8dp"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/include_book_cover"-->
+<!--                app:layout_constraintStart_toStartOf="@+id/include_book_cover"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/include_book_cover"-->
+<!--                tools:text="코틀린 인 액션" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

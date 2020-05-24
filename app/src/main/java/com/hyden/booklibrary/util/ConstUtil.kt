@@ -20,8 +20,8 @@ class ConstUtil {
         const val FEED_LIMIT = 6L
         const val BOOK_BLOGBEST = "BLOGBEST"
         const val BOOK_BESTSELLER = "BESTSELLER"
-        const val BOOK_ITEMNEW = "ITEMNEWSPECIAL"
-        const val BOOK_ITEMNEWALL = "ITEMNEWALL"
+        const val BOOK_ITEMNEW_SPECIAL = "ITEMNEWSPECIAL"
+        const val BOOK_ITEMNEW_ALL = "ITEMNEWALL"
         const val BOOK_NOTE_REQUEST_CODE = 1224
         const val DEFAULT_COLLAPSEDLINES = 3
 //        const val LOGIN_ID = "hjiee"
