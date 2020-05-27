@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.view.feed.FeedViewModel
@@ -20,6 +21,8 @@ fun ConstraintLayout.bindLike(feedVm: FeedViewModel, feed: Feed) {
     }
 
     iv_like.setOnClickListener(null)
+    cl_info.setOnClickListener(null)
+
     iv_like.setOnClickListener {
         iv_like.isSelected = iv_like.isSelected.not()
         feedVm.postLike(feed, iv_like.isSelected)
@@ -32,5 +35,9 @@ fun ConstraintLayout.bindLike(feedVm: FeedViewModel, feed: Feed) {
             tv_like_count.text = String.format(resources.getString(R.string.like_count),tv_like_count.text.onlyNumber().toInt() - 1)
             feed.likesCount = feed.likesCount.minus(1)
         }
+    }
+
+    cl_info.setOnClickListener {
+        Snackbar.make(this,"준비중입니다",Snackbar.LENGTH_SHORT).show()
     }
 }

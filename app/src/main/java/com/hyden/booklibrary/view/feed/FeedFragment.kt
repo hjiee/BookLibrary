@@ -14,8 +14,11 @@ import com.hyden.base.BaseItemsApdater
 import com.hyden.base.BaseRecyclerView
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.data.local.db.BookEntity
+import com.hyden.booklibrary.data.local.db.convertToBookItem
+import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.FragmentFeedBinding
 import com.hyden.booklibrary.databinding.RecyclerItemFeedBinding
+import com.hyden.booklibrary.util.dialogBookInfo
 import com.hyden.booklibrary.view.feed.model.FeedData
 import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
@@ -31,8 +34,8 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
         object : ItemClickListener {
             override fun <T> onItemClick(item: T) {
                 when (item) {
-                    is BookEntity -> {
-//                        Toast.makeText(context, item.title!!.split(" - ")[0], Toast.LENGTH_SHORT).show()
+                    is FeedData -> {
+                        context?.dialogBookInfo(item.feed?.bookEntity?.convertToBookItem())
                     }
                 }
             }

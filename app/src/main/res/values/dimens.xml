@@ -10,6 +10,9 @@
     <dimen name="book_image_width">115dp</dimen>
     <dimen name="book_image_height">180dp</dimen>
 
+<!--    <dimen name="book_image_width">130dp</dimen>-->
+<!--    <dimen name="book_image_height">180dp</dimen>-->
+
     <dimen name="book_image_width_large">172.5dp</dimen>
     <dimen name="book_image_height_large">270dp</dimen>
 </resources>

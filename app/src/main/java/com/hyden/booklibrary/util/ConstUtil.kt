@@ -24,16 +24,15 @@ class ConstUtil {
         const val BOOK_ITEMNEW_ALL = "ITEMNEWALL"
         const val BOOK_NOTE_REQUEST_CODE = 1224
         const val DEFAULT_COLLAPSEDLINES = 3
-//        const val LOGIN_ID = "hjiee"
-//        const val LOGIN_NAME = "hyojin"
     }
 }
 
-fun Context.dialogBookInfo(info: BookItem?) {
+fun Context.dialogBookInfo(info: BookItem?, dismiss : (() -> Unit)? = null) {
     AlertDialog.Builder(this, R.style.DeleteDialog).apply {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_book_info, null, false)
 
         view.tv_author.text = info?.author
+        view.tv_isbn13.text = info?.isbn13
         view.tv_publisher.text = info?.publisher
         view.tv_price.text = info?.priceSales?.numberFormatter()
         view.tv_description.text = info?.description
@@ -42,6 +41,7 @@ fun Context.dialogBookInfo(info: BookItem?) {
         setIcon(R.drawable.round_menu_book_24)
         setView(view)
         setPositiveButton("확인") { _, _ -> }
+        setOnDismissListener { dismiss?.invoke() }
     }.show()
 }
 
