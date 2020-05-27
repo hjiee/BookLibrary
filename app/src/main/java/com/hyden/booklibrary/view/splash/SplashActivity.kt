@@ -72,6 +72,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
                 }
             }
         splashViewModel.showLoading()
+        density()
     }
 
     override fun onResume() {

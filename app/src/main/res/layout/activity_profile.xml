@@ -93,6 +93,7 @@
             android:id="@+id/til_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/colorGray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_profile">
@@ -108,6 +109,7 @@
                 android:focusable="false"
                 android:cursorVisible="false"
                 android:hint="@string/string_email_kr"
+                android:textColorHint="@color/white"
                 android:textSize="12sp"
                 android:text="@{firebase.getEmail()}" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -116,6 +118,7 @@
             android:id="@+id/til_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/colorGray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_email">
@@ -139,6 +142,7 @@
             android:id="@+id/til_nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/colorGray"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/til_name">

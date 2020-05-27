@@ -45,14 +45,9 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
 
     lateinit var feedVm: FeedViewModel
 
-    //    private var tvContents: TextView? = null
-//    private var ibToggle: ImageButton? = null
-    private val ibToggle by lazy { this.findViewById<ImageButton>(R.id.ib_expand_collapse) }
-    //    private val tvContents by lazy { this.findViewById<TextView>(R.id.tv_expandable) }
-//    private val tvShowMore by lazy { this.findViewById<TextView>(R.id.tv_show_more) }
-    val tvContents by lazy { ExpandableTextView(context) }
-    val tvShowMore by lazy { TextView(context) }
-    val tvComments by lazy { TextView(context) }
+    private val tvContents by lazy { ExpandableTextView(context) }
+    private val tvShowMore by lazy { TextView(context) }
+    private val tvComments by lazy { TextView(context) }
 
 
     constructor(context: Context) : super(context) {}
@@ -135,10 +130,6 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
         when (view?.id) {
             R.id.tv_expandable -> {
 
-                Toast.makeText(context, "내용", Toast.LENGTH_SHORT).show()
-//                FeedDetailFragment.newInstance().run {
-//                    replaceFragmentStack(this, rootView?.fl_container?.id!!)
-//                }
             }
             R.id.tv_show_more -> {
                 showMore(feedVm.feedItems.value!![index].isExpanded)
@@ -195,7 +186,6 @@ class ExpandableTextLayout : LinearLayout, View.OnClickListener {
     fun setText(userName: String?, text: String?, feedVm: FeedViewModel, feedData: Feed?) {
         val bold = Typeface.createFromAsset(resources.assets, "scdream9_black.otf")
         val sb = SpannableStringBuilder("$userName $text").apply {
-            //        setSpan(StyleSpan(Typeface.BOLD),0, userName?.length ?: 0, SPAN_EXCLUSIVE_EXCLUSIVE)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 setSpan(TypefaceSpan(bold),0,userName?.length ?: 0 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             } else {

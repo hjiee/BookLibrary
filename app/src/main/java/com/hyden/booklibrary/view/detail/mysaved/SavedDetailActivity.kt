@@ -114,19 +114,6 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
                                 item?.let { savedDetailViewModel.pushShare(it) }
                             }
                         }
-//                        if (isTimeAutomatic()) {
-//                            dialogSimple("시스템시간을 네트워크시간으로 설정하겠습니까?") {
-//                                startActivity(Intent(Settings.ACTION_DATE_SETTINGS))
-//                            }
-//                            Toast.makeText(context, "시간설정을 네트워크 자동 시간으로 설정해주세요", Toast.LENGTH_SHORT).show()
-//
-//                        } else {
-//                            dialogSimple("감상노트를 공유 하시겠습니까?") {
-//                                this.isSelected = this.isSelected.not()
-//                                sharedCheck(isSelected = isSelected)
-//                                item?.let { savedDetailViewModel.pushShare(it) }
-//                            }
-//                        }
                     } else {
                         showSimpleDialog(message = "공유한 책정보를 해제하시겠습니까?") {
                             this.isSelected = this.isSelected.not()
@@ -142,11 +129,9 @@ class SavedDetailActivity : BaseActivity<ActivityDetailSavedBinding>(R.layout.ac
                         putExtra(getString(R.string.book_info), item)
                         moveToActivityForResult(this)
                     }
-//                    Toast.makeText(context, "감상글을 수정합니다.", Toast.LENGTH_SHORT).show()
                 }
             }
             tvTitle.text = item?.title!!.split(" - ")[0]
-//            includeBookCover.ivBookCover?.loadUrl(item?.cover, ImageTransformType.ROUND,resources.getInteger(R.integer.book_image_radius))
 
         }
     }

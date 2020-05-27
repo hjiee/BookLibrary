@@ -68,7 +68,7 @@ class LibraryFragment : BaseFragment<FragmentLibraryBinding>(R.layout.fragment_l
             vm = libraryViewModel
             rvBookself.apply {
                 adapter = BaseItemsApdater(R.layout.item_book_image,BR.book,itemClickListener,itemLongClickListener)
-                addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
+//                addItemDecoration(RecyclerItemDecoration(ITEM_DECORATION))
             }
             srvlRefresh.apply {
                 setOnRefreshListener {
