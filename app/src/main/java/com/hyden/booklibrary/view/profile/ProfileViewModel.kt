@@ -29,6 +29,12 @@ class ProfileViewModel(private val firebaseDataSource: FirebaseDataSource) : Bas
     private val _userNickName = MutableLiveData<String>()
     val userNickName : LiveData<String> get() = _userNickName
 
+    private val _userEmail = MutableLiveData<String>()
+    val userEmail : LiveData<String> get() = _userEmail
+
+    private val _userName = MutableLiveData<String>()
+    val userName : LiveData<String> get() = _userName
+
     private val _userProfile = MutableLiveData<String>()
     val userProfile : LiveData<String> get() = _userProfile
 
@@ -44,6 +50,8 @@ class ProfileViewModel(private val firebaseDataSource: FirebaseDataSource) : Bas
     init {
         _userProfile.value = firebaseDataSource.getLoginProfile()
         _userNickName.value = firebaseDataSource.getLoginNickname()
+        _userEmail.value = firebaseDataSource.getLoginEmail()
+        _userName.value = firebaseDataSource.getLoginName()
         isProfileChangeState.set(false)
         isNicknameChangeState.set(false)
     }

@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityProfileBinding
-import com.hyden.booklibrary.view.common.FirebaseModule
 import com.hyden.ext.*
 import com.hyden.util.ImageTransformType
 import com.hyden.util.LogUtil.LogE
@@ -21,13 +20,11 @@ import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR
 import com.theartofdev.edmodo.cropper.CropImageView
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.Exception
 
 
 class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_profile) {
 
     private val profileViewModel by viewModel<ProfileViewModel>()
-    private val firebaseModule by inject<FirebaseModule>()
     private val REQUEST_GALLERY_CODE = 2000
     private val REQUEST_CAMERA_CODE = 2001
 
@@ -51,7 +48,7 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.ivProfile.loadUrl(firebaseModule.getProfile(), ImageTransformType.CIRCLE)
+        binding.ivProfile.loadUrl(profileViewModel.userProfile.value, ImageTransformType.CIRCLE)
         profileViewModel.currentProfile(Uri.parse("android.resource://com.hyden.booklibrary/${R.drawable.background_circle}"))
         initObserving()
     }
@@ -59,7 +56,6 @@ class ProfileActivity : BaseActivity<ActivityProfileBinding>(R.layout.activity_p
     override fun initBind() {
         binding.apply {
             vm = profileViewModel
-            firebase = firebaseModule
             ivBack.setOnClickListener { finish() }
         }
         LogE("${supportFragmentManager.backStackEntryCount}")
