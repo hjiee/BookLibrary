@@ -31,6 +31,7 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 app:adapter="@{adapter}"
+                app:bindDecoration="@{@integer/image_decoration}"
                 tools:listitem="@layout/item_book_image"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
