@@ -7,12 +7,13 @@ import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
 import com.hyden.booklibrary.data.repository.AladinRepository
 import com.hyden.booklibrary.data.repository.source.BookDataSource
+import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.util.LogUtil.LogE
-import com.hyden.util.LogUtil.LogW
 import io.reactivex.rxkotlin.addTo
 
 class UnSavedDetailViewModel(
     private val bookDataSource: BookDataSource,
+    private val firebaseDataSource: FirebaseDataSource,
     private val bookApi: AladinRepository
 ) : BaseViewModel() {
 
@@ -30,40 +31,39 @@ class UnSavedDetailViewModel(
     }
 
     fun loadBookDetail(isbn13: String) {
-        bookApi.detail(itemId = isbn13)
+//        bookApi.detail(itemId = isbn13)
+//            .subscribe(
+//                {
+//                    LogW("$it")
+//                },
+//                {
+//                    LogE("$it")
+//                }
+//            ).addTo(compositeDisposable)
+    }
+
+    fun bookInsert() {
+        _detailInfo.value?.convertToBookEntity()?.let {
+            firebaseDataSource.myBookInsert(it)
+        }
+        bookDataSource.insertBook(_detailInfo.value?.convertToBookEntity())
             .subscribe(
+                { _isContain.value = true },
                 {
-                    LogW("$it")
-                },
-                {
+                    _isContain.value = false
                     LogE("$it")
                 }
             ).addTo(compositeDisposable)
     }
 
-    fun bookInsert() {
-        compositeDisposable.add(
-            bookDataSource.insertBook(_detailInfo.value?.convertToBookEntity())
-                .subscribe(
-                    { _isContain.value = true },
-                    {
-                        _isContain.value = false
-                        LogE("$it")
-                    }
-                )
-        )
-    }
-
     fun deleteBook(isbn13: String) {
-        compositeDisposable.add(
-            bookDataSource.deleteBook(isbn13)
-                .subscribe(
-                    { _isDelete.value = true },
-                    {
-                        _isDelete.value = false
-                        LogE("$it")
-                    }
-                )
-        )
+        bookDataSource.deleteBook(isbn13)
+            .subscribe(
+                { _isDelete.value = true },
+                {
+                    _isDelete.value = false
+                    LogE("$it")
+                }
+            ).addTo(compositeDisposable)
     }
 }
