@@ -3,6 +3,7 @@ package com.hyden.booklibrary.view.login
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
@@ -16,6 +17,8 @@ import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityLoginBinding
 import com.hyden.booklibrary.util.AdsUtil
+import com.hyden.booklibrary.util.getInitPreferences
+import com.hyden.booklibrary.util.setInitPreferences
 import com.hyden.booklibrary.view.main.MainActivity
 import com.hyden.booklibrary.view.splash.SplashActivity.Companion.LOGIN_START
 import com.hyden.ext.moveToActivity
@@ -96,7 +99,19 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
 
     private fun goMain() {
-        loginViewModel.saveUser()
+        if(!getInitPreferences()) {
+            setInitPreferences(true)
+            loginViewModel.saveUser()
+            loginViewModel.myBook()
+            loginViewModel.succesInit.observe(this@LoginActivity, Observer {
+                move()
+            })
+        } else {
+            move()
+        }
+
+    }
+    private fun move() {
         moveToActivity(Intent(this@LoginActivity, MainActivity::class.java))
         setResult(LOGIN_START)
         finish()

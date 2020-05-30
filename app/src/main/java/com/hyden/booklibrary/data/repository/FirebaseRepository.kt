@@ -7,6 +7,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.hyden.booklibrary.data.local.db.BookEntity
@@ -18,6 +19,8 @@ import com.hyden.booklibrary.util.getUserNickName
 import com.hyden.booklibrary.util.getUserProfile
 import com.hyden.booklibrary.util.setUserNickName
 import com.hyden.booklibrary.util.setUserProfile
+import com.hyden.booklibrary.view.feed.model.FeedData
+import com.hyden.booklibrary.view.feed.model.convertToFeed
 import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
 import com.hyden.util.Result
@@ -113,6 +116,19 @@ class FirebaseRepository(
                     )
                 ), SetOptions.merge()
             )
+    }
+
+    override fun myBookAll(result : ((MutableList<BookEntity>) -> Unit)?) {
+        firebaseFireStore.collection(getLoginEmail())
+            .orderBy("sharedInfo.sharedDate", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                val temp = mutableListOf<BookEntity>()
+                for (i in documentSnapshot.documents.indices) {
+                    temp.add(convertToFeed(documentSnapshot.documents[i].data).bookEntity)
+                }
+                result?.invoke(temp)
+            }
     }
 
     override fun myBookInsert(item: BookEntity) {

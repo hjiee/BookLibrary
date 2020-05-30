@@ -6,6 +6,7 @@
     <string name="developer_email">jin33032@gmail.com</string>
     <string name="firebase_collection_boos">books</string>
     <string name="firebase_collection_users">users</string>
+    <string name="init_pref_book">pref_book</string>
 
     <string name="string_email">Email</string>
     <string name="string_passward">Passward</string>
@@ -37,6 +38,7 @@
     <string name="check_validation_nickname">사용할 수 없는 닉네임입니다.</string>
     <string name="check_validation_nickname_error">닉네임에는 공백/특수문자를 포함할 수 없습니다.</string>
     <string name="are_you_delete_book_info">책에 저장된 정보가 삭제됩니다.\n정말 삭제하시겠습니까?</string>
+    <string name="not_shared">공유한 책이없습니다</string>
     <string name="book_community_space">독서 소통공간</string>
     <string name="author">저자</string>
     <string name="isbn13">ISBN13</string>

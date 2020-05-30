@@ -8,6 +8,7 @@ import io.reactivex.Single
 interface BookDataSource {
 
     fun insertBook(bookEntity: BookEntity?): Completable
+    fun insertBookAll(bookEntities: List<BookEntity?>): Completable
 
     fun deleteBook(isbn13: String): Completable
 

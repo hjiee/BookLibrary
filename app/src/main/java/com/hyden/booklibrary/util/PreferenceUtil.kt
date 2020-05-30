@@ -69,14 +69,14 @@ fun Context.setUserNickName(nickname: String) {
         }
 }
 
-fun Context.getUserNickName() : String {
+fun Context.getUserNickName(): String {
     return getSharedPreferences(
         getString(R.string.string_nickname),
         MODE_PRIVATE
     )?.getString("userNickName", null) ?: ""
 }
 
-fun Context.setUserProfile(profile : String) {
+fun Context.setUserProfile(profile: String) {
     getSharedPreferences(getString(R.string.string_profile), MODE_PRIVATE)?.edit()
         ?.apply {
             putString("userProfile", profile)
@@ -84,9 +84,27 @@ fun Context.setUserProfile(profile : String) {
         }
 }
 
-fun Context.getUserProfile() : String {
+fun Context.getUserProfile(): String {
     return getSharedPreferences(
         getString(R.string.string_profile),
         MODE_PRIVATE
     )?.getString("userProfile", null) ?: FirebaseAuth.getInstance().currentUser?.photoUrl.toString()
+}
+
+/**
+ * 초기
+ */
+fun Context.setInitPreferences(data: Boolean) {
+    getSharedPreferences(getString(R.string.init_pref_book), MODE_PRIVATE)?.edit()
+        ?.apply {
+            putBoolean("init_data", data)
+            apply()
+        }
+}
+
+fun Context.getInitPreferences(): Boolean {
+    return getSharedPreferences(
+        getString(R.string.init_pref_book),
+        MODE_PRIVATE
+    )?.getBoolean("init_data", false) ?: false
 }

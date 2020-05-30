@@ -21,8 +21,12 @@ class MySharedBookViewMiodel(
         compositeDisposable.add(
             bookDataSource.getSharedBook()
                 .subscribe(
-                    { _sharedItems.value = it.convertToBookItems() },
-                    { LogE(it.toString()) }
+                    {
+                        _sharedItems.value = it?.convertToBookItems()
+                    },
+                    {
+                        LogE(it.toString())
+                    }
                 )
         )
     }
