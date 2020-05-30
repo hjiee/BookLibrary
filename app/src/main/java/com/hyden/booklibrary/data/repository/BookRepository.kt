@@ -21,6 +21,11 @@ class BookRepository(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+    override fun insertBookAll(bookEntities: List<BookEntity?>): Completable {
+        return bookDao.insertBook(bookEntities)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     override fun deleteBook(isbn13: String): Completable {
         return bookDao.deleteBook(isbn13)

@@ -14,6 +14,7 @@ import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_BOOK
 import com.hyden.booklibrary.util.ConstUtil.Companion.FEED_LIMIT
 import com.hyden.booklibrary.view.feed.model.FeedData
+import com.hyden.booklibrary.view.feed.model.convertToFeed
 import com.hyden.util.LogUtil.LogW
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -131,7 +132,7 @@ class FeedViewModel(
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
-                    temp.add(FeedData(feed(documentSnapshot.documents[i].data), false))
+                    temp.add(FeedData(convertToFeed(documentSnapshot.documents[i].data), false))
                 }
                 _feedItems.value = temp
             }
@@ -149,7 +150,7 @@ class FeedViewModel(
 
                     val temp = mutableListOf<FeedData>()
                     for (i in documentSnapshot.documents.indices) {
-                        temp.add(FeedData(feed(documentSnapshot.documents[i].data),false))
+                        temp.add(FeedData(convertToFeed(documentSnapshot.documents[i].data),false))
                     }
                     _feedItems.value = _feedItems.value?.let {
                         it.toMutableList().apply {
@@ -159,53 +160,4 @@ class FeedViewModel(
                 }
             }
     }
-
-
-    // 데이터 파싱
-    private fun feed(documents: Map<*, *>?): Feed {
-        return documents?.run {
-            Feed(
-                get("sharedInfo").toSharedInfo(),
-                book(get("bookEntity") as HashMap<*, *>),
-                get("likesCount").toString().toLong(),
-                get("likesInfo").toLike()
-            )
-        }?.toFeed()!!
-    }
-
-    private fun book(documents: HashMap<*, *>): BookEntity {
-        return documents?.run {
-            BookItem(
-                get("savaed") as Boolean? ?: false,
-                get("liked") as Boolean? ?: false,
-                get("shared") as Boolean? ?: false,
-                get("chated") as Boolean? ?: false,
-                get("bookNote").toString(),
-                get("bookReviews").toString(),
-                get("title").toString(),
-                get("link").toString(),
-                get("author").toString(),
-                get("pubDate").toString(),
-                get("description").toString(),
-                get("isbn").toString(),
-                get("isbn13").toString(),
-                get("itemId").toString(),
-                get("priceSales").toString(),
-                get("priceStandard").toString(),
-                get("mallType").toString(),
-                get("stockStatus").toString(),
-                get("mileage").toString(),
-                get("cover").toString(),
-                get("categoryId").toString(),
-                get("categoryName").toString(),
-                get("publisher").toString(),
-                get("salesPoint").toString(),
-                get("adult").toString(),
-                get("fixedPrice").toString(),
-                get("customerReviewRank").toString(),
-                get("bestRank").toString()
-            )
-        }.convertToBookEntity()
-    }
-
 }

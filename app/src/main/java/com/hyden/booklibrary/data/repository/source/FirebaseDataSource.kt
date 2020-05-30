@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.Feed
 import com.hyden.booklibrary.data.model.User
+import com.hyden.booklibrary.view.feed.model.FeedData
 import com.hyden.util.Result
 import java.io.InputStream
 import java.util.*
@@ -23,6 +24,7 @@ interface FirebaseDataSource {
     fun getCommentCount(documentId : String,complete : (Long) -> Unit)
     fun pushComment()
     fun pushShare(item : BookEntity)
+    fun myBookAll(result : ((MutableList<BookEntity>) -> Unit)?)
     fun myBookInsert(item : BookEntity)
     fun myBookDelete(isbn13 : String)
 

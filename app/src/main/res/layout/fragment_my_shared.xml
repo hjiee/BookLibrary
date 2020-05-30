@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.hyden.booklibrary.view.myshared.MySharedBookViewMiodel" />
@@ -35,5 +37,17 @@
                 tools:listitem="@layout/item_book_image"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/not_shared"
+            android:textColor="@color/white"
+            tools:text="공유한 책이 없습니다"
+            android:visibility="@{vm.sharedItem.size() > 0 ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
