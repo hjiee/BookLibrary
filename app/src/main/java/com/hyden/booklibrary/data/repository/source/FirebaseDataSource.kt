@@ -23,6 +23,8 @@ interface FirebaseDataSource {
     fun getCommentCount(documentId : String,complete : (Long) -> Unit)
     fun pushComment()
     fun pushShare(item : BookEntity)
+    fun myBookInsert(item : BookEntity)
+    fun myBookDelete(isbn13 : String)
 
 
     // User

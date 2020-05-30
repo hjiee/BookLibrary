@@ -1,6 +1,5 @@
 package com.hyden.booklibrary.data.repository
 
-import android.app.Application
 import android.content.Context
 import android.net.Uri
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -38,10 +37,17 @@ class FirebaseRepository(
             .requestEmail()
             .build()
     }
-    private val googleSignInClient by lazy { GoogleSignIn.getClient(applicationContext, googleSignInOptions) }
+    private val googleSignInClient by lazy {
+        GoogleSignIn.getClient(
+            applicationContext,
+            googleSignInOptions
+        )
+    }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
-    override var currentUser = User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
-    private var userInfo = UserInfo(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile())
+    override var currentUser =
+        User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
+    private var userInfo =
+        UserInfo(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile())
 
 // Book
     /**
@@ -95,8 +101,10 @@ class FirebaseRepository(
      * 책정보 피드에 등록
      */
     override fun pushShare(item: BookEntity) {
-        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + item.isbn13)
-            .set(Feed(
+        firebaseFireStore.collection(DATABASENAME_BOOK)
+            .document(getLoginEmail() + "-" + item.isbn13)
+            .set(
+                Feed(
                     bookEntity = item,
                     sharedInfo = SharedInfo(getDate(), currentUser),
                     likesCount = if (item.isLiked == true) 1 else 0,
@@ -107,14 +115,33 @@ class FirebaseRepository(
             )
     }
 
+    override fun myBookInsert(item: BookEntity) {
+        firebaseFireStore.collection(getLoginEmail()).document(item.isbn13)
+            .set(
+                Feed(
+                    bookEntity = item,
+                    sharedInfo = SharedInfo(getDate(), currentUser),
+                    likesCount = if (item.isLiked == true) 1 else 0,
+                    likesInfo = if (item.isLiked == true) Like(listOf(currentUser)) else Like(
+                        emptyList()
+                    )
+                ), SetOptions.merge()
+            )
+    }
+
+    override fun myBookDelete(isbn13: String) {
+        firebaseFireStore.collection(getLoginEmail()).document(isbn13).delete()
+    }
 
     override fun updateBook(item: BookEntity) {
-        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + item.isbn13)
+        firebaseFireStore.collection(DATABASENAME_BOOK)
+            .document(getLoginEmail() + "-" + item.isbn13)
             .update("bookEntity", item)
     }
 
     override fun deleteBook(isbn13: String) {
-        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + isbn13).delete()
+        firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + isbn13)
+            .delete()
     }
 
     override fun saveBook() {
@@ -142,13 +169,15 @@ class FirebaseRepository(
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 for (i in documentSnapshot.documents.indices) {
-                    val isbn13 = (documentSnapshot.documents[i].data?.get("bookEntity") as HashMap<*, *>)["isbn13"] as String
+                    val isbn13 =
+                        (documentSnapshot.documents[i].data?.get("bookEntity") as HashMap<*, *>)["isbn13"] as String
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["email"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
 //                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["updateAt"]
-                    firebaseFireStore.collection(DATABASENAME_BOOK).document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
+                    firebaseFireStore.collection(DATABASENAME_BOOK)
+                        .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
                 }
                 saveUser()
                 success.invoke()

@@ -57,9 +57,12 @@ class SavedDetailViewModel(
     }
 
     fun deleteBook(isbn13: String) {
+        firebaseDataSource.myBookDelete(isbn13)
         bookDataSource.deleteBook(isbn13)
             .subscribe(
-                { _isDelete.value = true },
+                {
+                    _isDelete.value = true
+                },
                 {
                     _isDelete.value = false
                     LogE("$it")
