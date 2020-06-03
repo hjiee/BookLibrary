@@ -27,12 +27,16 @@ android {
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
             buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
+            buildConfigField("String", "ADMOB_BANNER", "\"ca-app-pub-8639043459373611/3704251880\"")
+            buildConfigField("String", "ADMOB_FULL", "\"ca-app-pub-8639043459373611/6614513921\"")
             manifestPlaceholders = [crashlytics_enabled: true, admob_id: "ca-app-pub-8639043459373611~4059668627"]
         }
         debug {
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
             buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
+            buildConfigField("String", "ADMOB_BANNER", "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField("String", "ADMOB_FULL", "\"ca-app-pub-3940256099942544/1033173712\"")
             manifestPlaceholders = [crashlytics_enabled: false, admob_id: "ca-app-pub-8639043459373611~4059668627"]
         }
     }

@@ -3,13 +3,6 @@
    <string name="ad_banner">ca-app-pub-8639043459373611/3704251880</string>
    <string name="ad_full">ca-app-pub-8639043459373611/6614513921</string>
 
-   <string name="ad_test_banner">ca-app-pub-3940256099942544/6300978111</string> <!--배너 광고-->
-   <string name="ad_test_full">ca-app-pub-3940256099942544/1033173712</string> <!--전면 광고-->
-   <string name="ad_test_full_video">ca-app-pub-3940256099942544/8691691433</string> <!--전면 동영상 광고-->
-   <string name="ad_test_reword_video">ca-app-pub-3940256099942544/5224354917</string> <!--보상형 동영상 광고-->
-   <string name="ad_test_native">ca-app-pub-3940256099942544/2247696110</string> <!--네이티브 광고 고급형-->
-   <string name="ad_test_naitve_video">ca-app-pub-3940256099942544/1044960115</string> <!--네이티브 동영상 광고 고급형-->
-
    <string name="key_feed_data">feed</string>
 
    <string name="title_logo_transition_name">title_logo</string>
