@@ -22,7 +22,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
@@ -127,13 +127,6 @@ dependencies {
     // Image Cropping Library
     // https://github.com/ArthurHub/Android-Image-Cropper
     implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
-
-    // Stetho
-    def stetho_version = '1.5.1'
-    debugImplementation "com.facebook.stetho:stetho:$stetho_version"
-    // Leakcanary
-//    def leakcanary_version = '2.2'
-//    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
