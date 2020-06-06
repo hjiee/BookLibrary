@@ -40,6 +40,7 @@ class AdsUtil(val context: Context) {
 
             override fun onAdFailedToLoad(p0: Int) {
                 super.onAdFailedToLoad(p0)
+                closed?.invoke()
             }
 
             override fun onAdOpened() {

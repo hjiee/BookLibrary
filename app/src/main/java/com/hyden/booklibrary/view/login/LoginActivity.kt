@@ -4,9 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -16,17 +13,13 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
 import com.hyden.booklibrary.databinding.ActivityLoginBinding
-import com.hyden.booklibrary.util.AdsUtil
 import com.hyden.booklibrary.util.getInitPreferences
 import com.hyden.booklibrary.util.setInitPreferences
 import com.hyden.booklibrary.view.main.MainActivity
 import com.hyden.booklibrary.view.splash.SplashActivity.Companion.LOGIN_START
 import com.hyden.ext.moveToActivity
-import com.hyden.util.LogUtil
 import com.hyden.util.LogUtil.LogD
 import com.hyden.util.LogUtil.LogE
-import com.hyden.util.RxBus
-import com.hyden.util.RxBusEvent
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
@@ -71,7 +64,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)
                     googleAuthWithGoogle(account!!)
-//                    loginViewModel.mysharedBook()
                 } catch (e: ApiException) {
                     // Google Sign In failed, update UI appropriately
                     LogE("Google sign in failed : $e")
