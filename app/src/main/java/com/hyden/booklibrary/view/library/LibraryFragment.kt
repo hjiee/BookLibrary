@@ -14,10 +14,8 @@ import com.hyden.booklibrary.databinding.ItemBookImageBinding
 import com.hyden.booklibrary.util.longClickVibrate
 import com.hyden.booklibrary.view.detail.mysaved.SavedDetailActivity
 import com.hyden.ext.showSimpleDialog
-import com.hyden.util.ConstValueUtil.Companion.ITEM_DECORATION
 import com.hyden.util.ItemClickListener
 import com.hyden.util.ItemLongClickListener
-import com.hyden.util.RecyclerItemDecoration
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

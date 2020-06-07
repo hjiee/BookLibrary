@@ -7,7 +7,6 @@ import com.hyden.booklibrary.data.model.toLike
 import com.hyden.booklibrary.data.model.toSharedInfo
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
-import com.hyden.booklibrary.view.feed.FeedViewModel
 
 data class FeedData(
     val feed : Feed?,

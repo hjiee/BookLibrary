@@ -42,35 +42,37 @@ data class BookEntity(
 fun List<BookEntity>.convertToBookItems(): List<BookItem> {
     val items = arrayListOf<BookItem>()
     this.forEach {
-        items.add(BookItem(
-            isLiked = it.isLiked,
-            isShared = it.isShared,
-            isReviews = it.isReviews,
-            bookNote = it.bookNote,
-            bookReviews = it.bookReviews,
-            title = it.title,
-            link = it.link,
-            author = it.author,
-            pubDate = it.pubDate,
-            description = it.description,
-            isbn = it.isbn,
-            isbn13 = it.isbn13,
-            itemId = it.itemId,
-            priceSales = it.priceSales,
-            priceStandard = it.priceStandard,
-            mallType = it.mallType,
-            stockStatus = it.stockStatus,
-            mileage = it.mileage,
-            cover = it.cover,
-            categoryId = it.categoryId,
-            categoryName = it.categoryName,
-            publisher = it.publisher,
-            salesPoint = it.salesPoint,
-            adult = it.adult,
-            fixedPrice = it.fixedPrice,
-            customerReviewRank = it.customerReviewRank,
-            bestRank = it.bestRank
-        ))
+        items.add(
+            BookItem(
+                isLiked = it.isLiked,
+                isShared = it.isShared,
+                isReviews = it.isReviews,
+                bookNote = it.bookNote,
+                bookReviews = it.bookReviews,
+                title = it.title,
+                link = it.link,
+                author = it.author,
+                pubDate = it.pubDate,
+                description = it.description,
+                isbn = it.isbn,
+                isbn13 = it.isbn13,
+                itemId = it.itemId,
+                priceSales = it.priceSales,
+                priceStandard = it.priceStandard,
+                mallType = it.mallType,
+                stockStatus = it.stockStatus,
+                mileage = it.mileage,
+                cover = it.cover,
+                categoryId = it.categoryId,
+                categoryName = it.categoryName,
+                publisher = it.publisher,
+                salesPoint = it.salesPoint,
+                adult = it.adult,
+                fixedPrice = it.fixedPrice,
+                customerReviewRank = it.customerReviewRank,
+                bestRank = it.bestRank
+            )
+        )
     }
     return items
 }

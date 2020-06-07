@@ -2,7 +2,6 @@ package com.hyden.booklibrary.view.note
 
 import androidx.databinding.ObservableField
 import com.hyden.base.BaseViewModel
-import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
 import com.hyden.booklibrary.data.repository.source.BookDataSource

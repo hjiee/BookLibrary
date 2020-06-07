@@ -1,9 +1,9 @@
 package com.hyden.booklibrary.data.repository
 
 import com.hyden.booklibrary.data.remote.BookApi
-import com.hyden.booklibrary.data.remote.network.response.BookDetailResponse
+import com.hyden.booklibrary.data.remote.network.response.detail.BookDetailResponse
 import com.hyden.booklibrary.data.remote.network.response.BookResponse
-import com.hyden.booklibrary.data.remote.network.response.SearchResponse
+import com.hyden.booklibrary.data.remote.network.response.search.SearchResponse
 import com.hyden.booklibrary.data.repository.source.AladinDataSource
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

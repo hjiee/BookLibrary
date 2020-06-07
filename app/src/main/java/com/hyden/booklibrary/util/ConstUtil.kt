@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.ext.numberFormatter
 import kotlinx.android.synthetic.main.dialog_book_info.view.*

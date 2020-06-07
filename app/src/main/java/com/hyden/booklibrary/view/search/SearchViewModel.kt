@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.repository.AladinRepository
-import com.hyden.booklibrary.data.repository.source.AladinDataSource
 import com.hyden.util.LogUtil.LogE
 
 class SearchViewModel(

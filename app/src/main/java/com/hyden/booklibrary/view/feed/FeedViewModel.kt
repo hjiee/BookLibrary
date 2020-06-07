@@ -6,10 +6,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.hyden.base.BaseViewModel
-import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.model.*
-import com.hyden.booklibrary.data.remote.network.response.BookItem
-import com.hyden.booklibrary.data.remote.network.response.convertToBookEntity
 import com.hyden.booklibrary.data.repository.source.FirebaseDataSource
 import com.hyden.booklibrary.util.ConstUtil.Companion.DATABASENAME_BOOK
 import com.hyden.booklibrary.util.ConstUtil.Companion.FEED_LIMIT
@@ -18,7 +15,6 @@ import com.hyden.booklibrary.view.feed.model.convertToFeed
 import com.hyden.util.LogUtil.LogW
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
-import kotlin.collections.HashMap
 
 class FeedViewModel(
     private val firebaseDataSource: FirebaseDataSource
