@@ -5,6 +5,7 @@
     <data>
 
         <import type="com.hyden.booklibrary.util.AdsType"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,9 +16,11 @@
             android:id="@+id/ad_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="50dp"
             android:layout_marginTop="10dp"
-            app:adId="@{AdsType.BANNER}"/>
+            android:minHeight="50dp"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-8639043459373611/3704251880"
+            app:adListener="@{AdsType.BANNER}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
