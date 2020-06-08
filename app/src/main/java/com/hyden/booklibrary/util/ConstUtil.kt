@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.dialog_book_info.view.*
 class ConstUtil {
     companion object {
         const val DATABASE_VERSION = 1
-        const val DATABASENAME_BOOK = "book"
+        const val DATABASENAME_BOOK = "_book"
         const val DATABASENAME_SHARED = "sharedbook"
-        const val FIRESTORE_USERS = "users"
+        const val FIRESTORE_USERS = "_users"
         const val FIRESTORE_PERSONAL = "personal"
         const val DATABASELIMIT = 30
         const val FEED_LIMIT = 6L

@@ -12,7 +12,7 @@ import java.util.*
 
 interface FirebaseDataSource {
 
-    var currentUser : User
+    val currentUser : User
 
     // Book
     fun saveBook()
