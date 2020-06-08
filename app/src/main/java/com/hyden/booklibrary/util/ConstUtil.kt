@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.ext.numberFormatter
 import kotlinx.android.synthetic.main.dialog_book_info.view.*
@@ -12,9 +11,9 @@ import kotlinx.android.synthetic.main.dialog_book_info.view.*
 class ConstUtil {
     companion object {
         const val DATABASE_VERSION = 1
-        const val DATABASENAME_BOOK = "book"
+        const val DATABASENAME_BOOK = "_book"
         const val DATABASENAME_SHARED = "sharedbook"
-        const val FIRESTORE_USERS = "users"
+        const val FIRESTORE_USERS = "_users"
         const val FIRESTORE_PERSONAL = "personal"
         const val DATABASELIMIT = 30
         const val FEED_LIMIT = 6L

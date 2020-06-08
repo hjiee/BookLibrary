@@ -19,7 +19,6 @@ import com.hyden.booklibrary.util.getUserNickName
 import com.hyden.booklibrary.util.getUserProfile
 import com.hyden.booklibrary.util.setUserNickName
 import com.hyden.booklibrary.util.setUserProfile
-import com.hyden.booklibrary.view.feed.model.FeedData
 import com.hyden.booklibrary.view.feed.model.convertToFeed
 import com.hyden.util.LogUtil.LogE
 import com.hyden.util.LogUtil.LogW
@@ -46,11 +45,9 @@ class FirebaseRepository(
             googleSignInOptions
         )
     }
+    override val currentUser: User by lazy { User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date()) }
     private val googleAuth by lazy { FirebaseAuth.getInstance() }
-    override var currentUser =
-        User(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile(), Date())
-    private var userInfo =
-        UserInfo(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile())
+    private val userInfo by lazy { UserInfo(getLoginEmail(), getLoginName(), getLoginNickname(), getLoginProfile()) }
 
 // Book
     /**
@@ -178,7 +175,7 @@ class FirebaseRepository(
     }
 
     override fun updateProfile(user: User, success: () -> Unit?) {
-        currentUser = user
+        applicationContext.setUserNickName(user.nickName)
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail()).set(user)
         firebaseFireStore.collection(DATABASENAME_BOOK)
             .whereEqualTo("sharedInfo.users.email", getLoginEmail())
@@ -187,15 +184,9 @@ class FirebaseRepository(
                 for (i in documentSnapshot.documents.indices) {
                     val isbn13 =
                         (documentSnapshot.documents[i].data?.get("bookEntity") as HashMap<*, *>)["isbn13"] as String
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["email"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["updateAt"]
                     firebaseFireStore.collection(DATABASENAME_BOOK)
                         .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
                 }
-                saveUser()
                 success.invoke()
             }
             .addOnFailureListener {

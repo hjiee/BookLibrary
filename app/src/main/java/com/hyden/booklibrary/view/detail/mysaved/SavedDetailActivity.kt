@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.hyden.base.BaseActivity
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.data.local.db.BookEntity
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.databinding.ActivityDetailSavedBinding
 import com.hyden.booklibrary.util.ConstUtil.Companion.BOOK_NOTE_REQUEST_CODE
@@ -15,9 +14,7 @@ import com.hyden.booklibrary.view.feed.FeedViewModel
 import com.hyden.booklibrary.view.note.NoteActivity
 import com.hyden.ext.showSimpleDialog
 import com.hyden.ext.isTimeAutomatic
-import com.hyden.ext.loadUrl
 import com.hyden.ext.moveToActivityForResult
-import com.hyden.util.ImageTransformType
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

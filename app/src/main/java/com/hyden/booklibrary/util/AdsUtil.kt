@@ -1,8 +1,12 @@
 package com.hyden.booklibrary.util
 
 import android.content.Context
+import android.view.View
 import androidx.databinding.BindingAdapter
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.InterstitialAd
 import com.hyden.booklibrary.BuildConfig
 import kotlin.random.Random
 
@@ -70,28 +74,37 @@ enum class AdsType() {
     NAITVE_VIDEO // 네이티브 동영상 광고 고급형
 }
 
-@BindingAdapter(value = ["adId"])
-fun com.google.android.gms.ads.AdView.bindAdId(type: AdsType) {
-    when (type) {
-        AdsType.BANNER -> {
-            this.adSize = AdSize.BANNER
-            this.adUnitId = BuildConfig.ADMOB_BANNER
+@BindingAdapter(value = ["adListener"])
+fun AdView.bindAdId(type: AdsType) {
+    loadAd(AdRequest.Builder().build())
+    adListener = object : AdListener() {
+        override fun onAdImpression() {
+            super.onAdImpression()
         }
-        AdsType.FULL -> {
 
+        override fun onAdLeftApplication() {
+            super.onAdLeftApplication()
         }
-        AdsType.FULL_VIDEO -> {
 
+        override fun onAdClicked() {
+            super.onAdClicked()
         }
-        AdsType.REWORD_VIDEO -> {
 
+        override fun onAdFailedToLoad(p0: Int) {
+            super.onAdFailedToLoad(p0)
+            this@bindAdId.visibility = View.GONE
         }
-        AdsType.NATIVE -> {
 
+        override fun onAdClosed() {
+            super.onAdClosed()
         }
-        AdsType.NAITVE_VIDEO -> {
 
+        override fun onAdOpened() {
+            super.onAdOpened()
+        }
+
+        override fun onAdLoaded() {
+            super.onAdLoaded()
         }
     }
-    loadAd(AdRequest.Builder().build())
 }

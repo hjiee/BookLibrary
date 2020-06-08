@@ -6,8 +6,6 @@ import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.local.db.convertToBookItems
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.repository.source.BookDataSource
-import com.hyden.booklibrary.util.SingleLiveEvent
-import com.hyden.util.ItemClickListener
 import com.hyden.util.LogUtil.LogE
 
 class MySharedBookViewMiodel(
