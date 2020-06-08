@@ -175,6 +175,7 @@ class FirebaseRepository(
     }
 
     override fun updateProfile(user: User, success: () -> Unit?) {
+        applicationContext.setUserNickName(user.nickName)
         firebaseFireStore.collection(FIRESTORE_USERS).document(getLoginEmail()).set(user)
         firebaseFireStore.collection(DATABASENAME_BOOK)
             .whereEqualTo("sharedInfo.users.email", getLoginEmail())
@@ -183,15 +184,9 @@ class FirebaseRepository(
                 for (i in documentSnapshot.documents.indices) {
                     val isbn13 =
                         (documentSnapshot.documents[i].data?.get("bookEntity") as HashMap<*, *>)["isbn13"] as String
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["email"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["name"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["nickName"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["profile"]
-//                    ((documentSnapshot.documents[i].data?.get("sharedInfo") as HashMap<*,*>).get("users") as HashMap<*,*>)["updateAt"]
                     firebaseFireStore.collection(DATABASENAME_BOOK)
                         .document(getLoginEmail() + "-" + isbn13).update("sharedInfo.users", user)
                 }
-                saveUser()
                 success.invoke()
             }
             .addOnFailureListener {
