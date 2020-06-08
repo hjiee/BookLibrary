@@ -40,7 +40,9 @@
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
 # removes such information by default, so configure it to keep all of it.
--keep class com.hyden.booklibrary.data.remote.network.response.** { <fields>; }
+-keep class com.hyden.booklibrary.data.remote.network.response.** { *; }
+-keep class com.hyden.booklibrary.data.local.** { *; }
+-keep class com.hyden.booklibrary.data.model.** { *; }
 
 -keepattributes Signature
 
@@ -86,3 +88,8 @@
   *** rewind();
 }
 ##---------------End: proguard configuration for Glide  ----------
+
+##---------------Begin: proguard configuration for Room  ----------
+-keep class * extends androidx.room.RoomDatabase
+-dontwarn androidx.room.paging.**
+##---------------End: proguard configuration for Room  ----------
