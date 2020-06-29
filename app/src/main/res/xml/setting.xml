@@ -14,13 +14,13 @@
         android:key="@string/setting_category_key1"
         app:iconSpaceReserved="true">
 
-        <ListPreference
-            android:summary="@string/setting_summary_start_view"
-            android:title="@string/setting_start_view"
-            android:entries="@array/start_view"
-            android:entryValues="@array/start_view"
-            android:key="@string/setting_key_start_view"
-            app:iconSpaceReserved="true" />
+<!--        <ListPreference-->
+<!--            android:summary="@string/setting_summary_start_view"-->
+<!--            android:title="@string/setting_start_view"-->
+<!--            android:entries="@array/start_view"-->
+<!--            android:entryValues="@array/start_view"-->
+<!--            android:key="@string/setting_key_start_view"-->
+<!--            app:iconSpaceReserved="true" />-->
 
         <Preference
             android:summary="@string/setting_summary_my_feed_book"

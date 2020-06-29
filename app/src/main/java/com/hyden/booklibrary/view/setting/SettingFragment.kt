@@ -143,6 +143,7 @@ class SettingFragment : PreferenceFragmentCompat() {
     }
 
     private fun sendToEvaluation() {
+
     }
 
     private fun infoAppVersion() {
@@ -164,7 +165,6 @@ class SettingFragment : PreferenceFragmentCompat() {
                         val textView = view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
                         textView.textAlignment = (View.TEXT_ALIGNMENT_CENTER)
                         snackbar.show()
-//                        Toast.makeText(context,getString(R.string.version_multiple_click),Toast.LENGTH_SHORT).show()
                         count = 0
                         backKeyPressedTime = 0L
                     }

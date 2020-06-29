@@ -19,7 +19,6 @@ class FeedDetailViewModel() : BaseViewModel() {
 
     private val firestore by lazy { FirebaseFirestore.getInstance() }
     lateinit var lastVisible: DocumentSnapshot
-    var adapter = BaseItemsApdater(R.layout.recycler_item_comment)
 
     private val _feedItem = MutableLiveData<List<FeedData>>()
     val feedItem : LiveData<List<FeedData>> get() = _feedItem
