@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/empty_data"
-            android:visibility="@{vm.isResultEmpty() ? View.GONE : View.VISIBLE}"
+            android:visibility="@{vm.searchBookInfo == null || vm.searchBookInfo.size() == 0  ? View.VISIBLE : View.GONE}"
             android:layout_gravity="center" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

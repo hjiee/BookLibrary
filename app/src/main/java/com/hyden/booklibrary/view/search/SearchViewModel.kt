@@ -6,6 +6,8 @@ import com.hyden.base.BaseViewModel
 import com.hyden.booklibrary.data.remote.network.response.BookItem
 import com.hyden.booklibrary.data.repository.AladinRepository
 import com.hyden.util.LogUtil.LogE
+import com.hyden.util.NetworkStatus
+import io.reactivex.rxkotlin.addTo
 
 class SearchViewModel(
     private val aladinRepository: AladinRepository
@@ -20,9 +22,6 @@ class SearchViewModel(
     private val _searchFinishing = MutableLiveData<Boolean>()
     val searchFinishing: LiveData<Boolean> get() = _searchFinishing
 
-    private val _isResultEmpty = MutableLiveData<Boolean>()
-    val isResultEmpty: LiveData<Boolean> get() = _isResultEmpty
-
     private val searchTargetVal = "book"
     private val queryTypeVal = "keyword"
 
@@ -32,7 +31,9 @@ class SearchViewModel(
         queryType: String = queryTypeVal
     ) {
         _isRefreshing.value = false
-        search(page, query, queryType)
+        if(loadingStatus.value != NetworkStatus.LOADING) {
+            search(page, query, queryType)
+        }
     }
 
     fun searchRefresh(
@@ -52,20 +53,17 @@ class SearchViewModel(
         searchTarget: String = searchTargetVal
     ) {
         _searchFinishing.value = false
-        compositeDisposable.add(
+        compositeDisposable.clear()
             aladinRepository.search(
                 page = page,
                 query = query,
                 querytype = queryType,
                 searchtarget = searchTarget
-            )
+            ).doOnSubscribe { loadingStatus.value = NetworkStatus.LOADING }
+                .doOnSuccess { loadingStatus.value = NetworkStatus.SUCCESS }
+                .doOnError { loadingStatus.value = NetworkStatus.FAILURE }
                 .subscribe(
                     { data ->
-                        when ((data.item?.size ?: 0) > 0) {
-                            false -> _isResultEmpty.value = false
-                            else -> _isResultEmpty.value = true
-                        }
-
                         if (_isRefreshing.value ?: true) {
                             _searchBookInfo.value = data.item ?: emptyList()
                             _isRefreshing.value = false
@@ -80,10 +78,8 @@ class SearchViewModel(
                         _searchFinishing.value = true
                     },
                     {
-                        _isResultEmpty.value = false
                         LogE("$it")
                     }
-                )
-        )
+                ).addTo(compositeDisposable)
     }
 }
