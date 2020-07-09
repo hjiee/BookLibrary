@@ -72,15 +72,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         // 통신 결과에 대해 observing 한다.
 
         searchViewModel.apply {
-            isResultEmpty.observe(
-                this@SearchFragment,
-                Observer {
-                    when (it) {
-                        true -> binding.tvResult.visibility = View.GONE
-                        false -> binding.tvResult.visibility = View.VISIBLE
-                    }
-                }
-            )
             searchFinishing.observe(
                 this@SearchFragment,
                 Observer {
