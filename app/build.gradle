@@ -22,6 +22,8 @@ android {
     }
     buildTypes {
         release {
+            debuggable false
+            shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
@@ -32,6 +34,7 @@ android {
             manifestPlaceholders = [crashlytics_enabled: true, admob_id: "ca-app-pub-8639043459373611~4059668627"]
         }
         debug {
+            minifyEnabled false
             buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
             buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
             buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
@@ -39,6 +42,12 @@ android {
             buildConfigField("String", "ADMOB_FULL", "\"ca-app-pub-3940256099942544/1033173712\"")
             manifestPlaceholders = [crashlytics_enabled: false, admob_id: "ca-app-pub-8639043459373611~4059668627"]
         }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
     dataBinding {
         enabled = true
