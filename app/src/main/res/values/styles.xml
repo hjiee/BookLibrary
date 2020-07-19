@@ -1,0 +1,126 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="ImageCropTheme" parent="Theme.AppCompat">
+        <item name="colorPrimaryDark">@color/colorLightBlack2</item>
+        <item name="colorPrimary">@color/colorLightBlack2</item>
+        <item name="android:windowBackground">@color/colorLightBlack2</item>
+        <item name="android:navigationBarColor">@color/colorLightBlack2</item>
+        <item name="bottomNavigationStyle">@style/NavigationBarInActiveStyle</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/scdream4_regular</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <!--기본 배경 테마-->
+    <style name="NoActionBarThemeDark" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorLightBlack2</item>
+        <item name="android:windowBackground">@color/colorLightBlack2</item>
+        <item name="android:navigationBarColor">@color/colorLightBlack2</item>
+        <item name="bottomNavigationStyle">@style/NavigationBarInActiveStyle</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/scdream4_regular</item>
+        <item name="android:lineSpacingExtra">4sp</item>
+    </style>
+
+    <style name="NoActionBarThemeWhite" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorWhite</item>
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="bottomNavigationStyle">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:windowLightStatusBar">true</item> <!--status bar text color change-->
+    </style>
+
+
+    <style name="TextStyle">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+    </style>
+
+    <style name="TextTitleStyle6">
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/scdream6_bold</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="TextTitleStyle4">
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:fontFamily">@font/scdream4_regular</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+
+    <style name="TableTextLeftStyle_15">
+        <item name="android:textColor">@color/colorPaltte4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="TableTextLeftStyle_13">
+        <item name="android:textColor">@color/colorPaltte4</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="TableTextRightStyle">
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:colorAccent">@color/colorWhite</item>
+        <item name="android:textAppearance">@color/colorWhite</item>
+
+    </style>
+
+    <style name="PreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorGray</item>
+
+    </style>
+
+    <style name="TextHintStyle">
+        <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="BookImageStyle">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_width">@dimen/book_image_width</item>
+        <item name="android:layout_height">@dimen/book_image_height</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="NavigationBarInActiveStyle">
+        <item name="android:fontFamily">@font/scdream2_extra_light</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="NavigationBarActiveStyle">
+        <item name="android:fontFamily">@font/scdream3_light</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextInputEditTextStyle">
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:textColorHighlight">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>

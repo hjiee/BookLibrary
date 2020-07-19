@@ -1,0 +1,252 @@
+<resources>
+    <!--    <string name="app_name">BookLibrary</string>-->
+    <string name="app_name">시골책방</string>
+
+    <!--정보-->
+    <string name="developer_email">jin33032@gmail.com</string>
+    <string name="firebase_collection_boos">books</string>
+    <string name="firebase_collection_users">users</string>
+    <string name="init_pref_book">pref_book</string>
+
+    <string name="string_email">Email</string>
+    <string name="string_passward">Passward</string>
+
+    <string name="string_email_kr">이메일</string>
+    <string name="string_name">이름</string>
+    <string name="string_nickname">닉네임</string>
+    <string name="string_profile">프로필</string>
+    <string name="string_forgot_passward">Forgot Passward</string>
+    <string name="string_login">Login</string>
+
+    <!--일반-->
+    <string name="email_subject">[서재] 앱 문의사항</string>
+    <string name="email_body"></string>
+    <string name="empty_data">검색 결과가 없습니다 🔍</string>
+    <string name="developing">개발중입니다📝\n조금만 기다려주세요😊</string>
+    <string name="book_info">book_detail_info</string>
+    <string name="book_detail_type">detail_call_type</string>
+    <string name="book_detail_type_value">mybook</string>
+    <string name="opensource">OpenSource License</string>
+    <string name="profile">프로필 설정</string>
+    <string name="complete">완료</string>
+    <string name="like_count">좋아요 %,d개</string>
+    <string name="comment_count">댓글 %,d개</string>
+    <string name="check_update_profile">프로필을 바꾸시겠습니까?\n변경하는데 다소 시간이 소요될 수 있습니다.</string>
+    <string name="check_update_profile_success">변경이 완료되었습니다.</string>
+    <string name="check_update_profile_cancel">변경된 정보가 없습니다.</string>
+    <string name="check_update_profile_failure">정보가 변경되지 않았습니다.\n잠시후 다시 시도해주세요.</string>
+    <string name="check_validation_nickname">사용할 수 없는 닉네임입니다.</string>
+    <string name="check_validation_nickname_error">닉네임에는 공백/특수문자를 포함할 수 없습니다.</string>
+    <string name="are_you_delete_book_info">책에 저장된 정보가 삭제됩니다.\n정말 삭제하시겠습니까?</string>
+    <string name="not_shared">공유한 책이없습니다</string>
+    <string name="book_community_space">독서 소통공간</string>
+    <string name="author">저자</string>
+    <string name="isbn13">ISBN13</string>
+    <string name="publisher">출판사</string>
+    <string name="price">가격</string>
+    <string name="explanation">설명</string>
+    <string name="blog_special">블로그 추천 도서</string>
+    <string name="bestseller">베스트셀러</string>
+    <string name="attentionbook">주목할만한 도서</string>
+    <string name="newbook">신간 도서</string>
+
+    <!--바텀 메뉴-->
+    <string name="menu_home">홈</string>
+    <string name="menu_search">검색</string>
+    <string name="menu_feed">감상노트</string>
+    <string name="menu_library">책꽂이</string>
+    <string name="menu_setting">설정</string>
+
+
+    <!--설정 메뉴-->
+    <string name="setting_category_base_setting">기본설정</string>
+    <string name="setting_category_help">도움말</string>
+    <string name="setting_category_tos">이용약관</string>
+    <string name="setting_category_infomation">앱정보</string>
+
+    <string name="setting_category_key1">category1</string>
+    <string name="setting_category_key2">category2</string>
+    <string name="setting_category_key3">category3</string>
+
+    <string name="setting_title_setting">설정</string>
+    <string name="setting_summary_setting">설정</string>
+    <string name="setting_key_setting">setting</string>
+
+
+    <!--시작화면 변경-->
+    <string name="setting_start_view">시작화면 설정</string>
+    <string name="setting_summary_start_view">시작화면을 변경합니다</string>
+    <string name="setting_key_start_view">start_view</string>
+
+    <!--내가 공유한 책 정보-->
+    <string name="setting_title_my_feed_book">공유한 책 정보</string>
+    <string name="setting_summary_my_feed_book">공유한 책 정보를 확인합니다.</string>
+    <string name="setting_key_my_feed_book">my_feed_book</string>
+
+    <!--테마설정 변경-->
+    <string name="setting_title_theme">테마설정</string>
+    <string name="setting_summary_theme">테마 색상을 변경합니다</string>
+    <string name="setting_key_theme">theme</string>
+
+    <!--프로필 설정-->
+    <string name="setting_state_profile">프로필</string>
+    <string name="setting_summary_profile">프로필사진, 닉네임을 변경합니다.</string>
+    <string name="setting_key_profile">profile</string>
+
+    <!--로그아웃-->
+    <string name="setting_state_logout">로그아웃</string>
+    <string name="setting_summary_logout">로그아웃</string>
+    <string name="setting_key_logout">logout</string>
+
+    <!--앱 버전정보-->
+    <string name="setting_title_version">앱 버전정보</string>
+    <string name="setting_summary_version">버전</string>
+    <string name="setting_key_version">version</string>
+    <string name="version_multiple_click">❤️이용해주셔서 감사합니다❤️</string>
+
+    <!--오픈소스 라이서서 정보-->
+    <string name="setting_title_opensource">오픈소스 라이선스</string>
+    <string name="setting_summary_opensource">오픈소스 소프트웨어에 대한 라이선스 정보</string>
+    <string name="setting_key_opensource">opensource</string>
+
+    <!--문의하기-->
+    <string name="setting_title_question">문의하기</string>
+    <string name="setting_summary_question">개발자에게 버그나 궁금한점, 기능개선 및 추가 메일을 보냅니다</string>
+    <string name="setting_key_question">sendmail</string>
+
+    <!--평가하기-->
+    <string name="setting_title_evaluation">평가하기</string>
+    <string name="setting_summary_evaluation">플레이스토어에 평점 및 리뷰 남겨주세요!</string>
+    <string name="setting_key_evaluation">evaluation</string>
+
+    <string name="title_license_retrofit">Retrofit</string>
+    <string name="content_license_retrofit">Copyright 2013 Square, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+\n\nUnless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+
+    <string name="title_license_rxjava">RxJava</string>
+    <string name="content_license_rxjava">Copyright (c) 2016-present, RxJava Contributors.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+\n\nUnless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+
+    <string name="title_license_rxandroid">RxAndroid</string>
+    <string name="content_license_rxandroid">Copyright 2015 The RxAndroid authors
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+\n\nUnless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+
+    <string name="title_license_glide">Glide</string>
+    <string name="content_license_glide">License for everything not in third_party and not otherwise marked:
+
+Copyright 2014 Google, Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
+
+   \n\n1. Redistributions of source code must retain the above copyright notice, this list of
+         conditions and the following disclaimer.
+
+   \n\n2. Redistributions in binary form must reproduce the above copyright notice, this list
+         of conditions and the following disclaimer in the documentation and/or other materials
+         provided with the distribution.
+
+\n\nTHIS SOFTWARE IS PROVIDED BY GOOGLE, INC. ``AS IS`` AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL GOOGLE, INC. OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are those of the
+authors and should not be interpreted as representing official policies, either expressed
+or implied, of Google, Inc.
+\n\n---------------------------------------------------------------------------------------------
+\n\nLicense for third_party/disklrucache:
+
+Copyright 2012 Jake Wharton
+Copyright 2011 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+\n\nUnless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+\n\n---------------------------------------------------------------------------------------------
+\n\nLicense for third_party/gif_decoder:
+
+Copyright (c) 2013 Xcellent Creations, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+\n\n---------------------------------------------------------------------------------------------
+\n\nLicense for third_party/gif_encoder/AnimatedGifEncoder.java and
+third_party/gif_encoder/LZWEncoder.java:
+
+No copyright asserted on the source code of this class. May be used for any
+purpose, however, refer to the Unisys LZW patent for restrictions on use of
+the associated LZWEncoder class. Please forward any corrections to
+kweiner@fmsware.com.
+
+\n\n-----------------------------------------------------------------------------
+\n\nLicense for third_party/gif_encoder/NeuQuant.java
+
+Copyright (c) 1994 Anthony Dekker
+
+NEUQUANT Neural-Net quantization algorithm by Anthony Dekker, 1994. See
+"Kohonen neural networks for optimal colour quantization" in "Network:
+Computation in Neural Systems" Vol. 5 (1994) pp 351-367. for a discussion of
+the algorithm.
+
+Any party obtaining a copy of these files from the author, directly or
+indirectly, is granted, free of charge, a full and unrestricted irrevocable,
+world-wide, paid up, royalty-free, nonexclusive right and license to deal in
+this software and documentation files (the "Software"), including without
+limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons who
+receive copies from any such party to do so, with the only requirement being
+that this copyright notice remain intact.</string>
+
+</resources>

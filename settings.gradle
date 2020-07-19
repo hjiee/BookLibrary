@@ -1,0 +1,4 @@
+include ':app', ':base'
+
+project(':base').projectDir = new File('/Users/hyojin/Github/BaseModule/base')
+

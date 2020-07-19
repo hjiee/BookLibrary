@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="setting">
+        <item>설정1</item>
+        <item>설정2</item>
+        <item>설정3</item>
+        <item>설정4</item>
+        <item>설정5</item>
+        <item>설정6</item>
+    </string-array>
+
+    <string-array name="theme">
+        <item>블랙</item>
+        <item>화이트</item>
+        <item>블루</item>
+        <item>핑크</item>
+        <item>그레이</item>
+    </string-array>
+
+    <string-array name="start_view">
+        <item>홈</item>
+        <item>검색</item>
+        <item>감상노트</item>
+        <item>책꽂이</item>
+    </string-array>
+
+    <string-array name="search">
+        <item>제목+저자</item>
+        <item>제목</item>
+        <item>저자</item>
+        <item>출판사</item>
+    </string-array>
+
+    <string-array name="developer_email">
+        <item>helpservice0000@gmail.com</item>
+    </string-array>
+
+</resources>

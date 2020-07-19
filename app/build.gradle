@@ -1,0 +1,141 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'io.fabric'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.1"
+    defaultConfig {
+        applicationId "com.hyden.booklibrary"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
+            buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
+            buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
+            buildConfigField("String", "ADMOB_BANNER", "\"ca-app-pub-8639043459373611/3704251880\"")
+            buildConfigField("String", "ADMOB_FULL", "\"ca-app-pub-8639043459373611/6614513921\"")
+            manifestPlaceholders = [crashlytics_enabled: true, admob_id: "ca-app-pub-8639043459373611~4059668627"]
+        }
+        debug {
+            minifyEnabled false
+            buildConfigField("String", "BASEURL", "\"https://www.aladin.co.kr/ttb/api/\"")
+            buildConfigField("String", "TTBKEY", "\"ttbeoeo281259003\"")
+            buildConfigField("String", "ADMOBID", "\"ca-app-pub-8639043459373611~4059668627\"")
+            buildConfigField("String", "ADMOB_BANNER", "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField("String", "ADMOB_FULL", "\"ca-app-pub-3940256099942544/1033173712\"")
+            manifestPlaceholders = [crashlytics_enabled: false, admob_id: "ca-app-pub-8639043459373611~4059668627"]
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    dataBinding {
+        enabled = true
+    }
+    androidExtensions {
+        experimental = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+//    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    api project(':base')
+
+
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha03'
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'androidx.preference:preference:1.1.0'
+
+//     koin
+    def koin_version = '2.0.1'
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-ext:$koin_version"
+
+    // Retrofit
+    def retrofit_version = "2.6.0"
+    def logging_version = "3.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_version"
+
+    // Rx
+    def rxjava_version = '2.2.10'
+    def rxkotlin_version = '2.3.0'
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+
+    // Room
+    def room_version = "2.2.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-guava:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // Firebase
+    def firebase_analytics_version = "17.2.1"
+    def firebase_firestore_version = "21.3.1"
+    def firebase_version = "19.2.0"
+    implementation "com.crashlytics.sdk.android:crashlytics:2.10.1"
+    implementation "com.google.firebase:firebase-core:$firebase_analytics_version"
+    implementation "com.google.firebase:firebase-config:19.1.4"
+    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation 'com.google.firebase:firebase-ads:19.1.0'
+    implementation "com.google.firebase:firebase-analytics:$firebase_analytics_version"
+    implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation "com.google.firebase:firebase-firestore:$firebase_firestore_version"
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //FirebaseStorage
+    def firebase_firestorage = "19.1.1"
+    implementation "com.google.firebase:firebase-storage:$firebase_firestorage"
+
+    // Lottie
+    def lottie_version = "3.3.1"
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
+    // Image Cropping Library
+    // https://github.com/ArthurHub/Android-Image-Cropper
+    implementation "com.theartofdev.edmodo:android-image-cropper:2.8.+"
+}
+
+apply plugin: 'com.google.gms.google-services'

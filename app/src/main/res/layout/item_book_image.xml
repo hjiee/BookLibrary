@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.hyden.ext.ImageViewExtKt"/>
+        <import type="com.hyden.util.ImageTransformType"/>
+
+        <variable
+            name="isLinkAvailable"
+            type="Boolean" />
+        <variable
+            name="book"
+            type="com.hyden.booklibrary.data.remote.network.response.BookItem" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/book_image_width"
+        android:minHeight="@dimen/book_image_height"
+        android:foreground="?android:selectableItemBackground">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_book_cover"
+            tools:background="@drawable/book_sample_cover"
+            app:webviewUrl="@{isLinkAvailable ? book.link : null}"
+            style="@style/BookImageStyle"
+            loadUrl="@{book.cover}"
+            tranformType="@{ImageTransformType.ROUND}"
+            radius="@{@integer/book_image_radius}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

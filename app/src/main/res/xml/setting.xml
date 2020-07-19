@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="true">
+
+    <!--로고-->
+<!--    <PreferenceCategory-->
+<!--        android:layout="@layout/fragment_setting">-->
+<!--    </PreferenceCategory>-->
+
+    <!--기본설정-->
+    <PreferenceCategory
+        android:title="@string/setting_category_base_setting"
+        android:key="@string/setting_category_key1"
+        app:iconSpaceReserved="true">
+
+<!--        <ListPreference-->
+<!--            android:summary="@string/setting_summary_start_view"-->
+<!--            android:title="@string/setting_start_view"-->
+<!--            android:entries="@array/start_view"-->
+<!--            android:entryValues="@array/start_view"-->
+<!--            android:key="@string/setting_key_start_view"-->
+<!--            app:iconSpaceReserved="true" />-->
+
+        <Preference
+            android:summary="@string/setting_summary_my_feed_book"
+            android:title="@string/setting_title_my_feed_book"
+            android:key="@string/setting_key_my_feed_book"
+            app:iconSpaceReserved="true" />
+
+        <Preference
+            android:summary="@string/setting_summary_profile"
+            android:title="@string/setting_state_profile"
+            android:key="@string/setting_key_profile"
+            app:iconSpaceReserved="true" />
+
+        <Preference
+            android:summary="@string/setting_summary_logout"
+            android:title="@string/setting_state_logout"
+            android:key="@string/setting_key_logout"
+            app:iconSpaceReserved="true" />
+
+<!--        <Preference-->
+<!--            android:summary="@string/setting_summary_setting"-->
+<!--            android:title="@string/setting_title_setting"-->
+<!--            android:key="@string/setting_key_setting"-->
+<!--            app:iconSpaceReserved="true" />-->
+    </PreferenceCategory>
+
+    <!--도움말-->
+    <PreferenceCategory
+        android:title="@string/setting_category_help"
+        android:key="@string/setting_category_key2"
+        app:iconSpaceReserved="true">
+        <Preference
+            android:summary="@string/setting_summary_question"
+            android:title="@string/setting_title_question"
+            app:iconSpaceReserved="true"
+            android:key="@string/setting_key_question">
+        </Preference>
+
+        <PreferenceScreen
+            android:summary="@string/setting_summary_evaluation"
+            android:title="@string/setting_title_evaluation"
+            app:iconSpaceReserved="true">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="market://details?id=com.hyden.booklibrary"/>
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <!--정보-->
+    <PreferenceCategory
+        android:title="@string/setting_category_infomation"
+        android:key="@string/setting_category_key3"
+        app:iconSpaceReserved="true">
+        <Preference
+            android:summary="@string/setting_summary_version"
+            android:title="@string/setting_title_version"
+            app:iconSpaceReserved="true"
+            android:key="@string/setting_key_version"/>
+
+        <Preference
+            android:summary="@string/setting_summary_opensource"
+            android:title="@string/setting_title_opensource"
+            app:iconSpaceReserved="true"
+            android:key="@string/setting_key_opensource">
+        </Preference>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

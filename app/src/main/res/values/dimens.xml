@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="profile_iamge_margin_top">10dp</dimen>
+    <dimen name="profile_modify_iamge_margin_right">5dp</dimen>
+    <dimen name="profile_modify_iamge_margin_bottom">5dp</dimen>
+
+<!--    <dimen name="book_image_width">115dp</dimen>-->
+<!--    <dimen name="book_image_height">160dp</dimen>-->
+    <dimen name="book_image_width">115dp</dimen>
+    <dimen name="book_image_height">180dp</dimen>
+
+<!--    <dimen name="book_image_width">130dp</dimen>-->
+<!--    <dimen name="book_image_height">180dp</dimen>-->
+
+    <dimen name="book_image_width_large">172.5dp</dimen>
+    <dimen name="book_image_height_large">270dp</dimen>
+</resources>

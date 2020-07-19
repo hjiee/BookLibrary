@@ -1,0 +1,10 @@
+<resources>
+
+   <string name="ad_banner">ca-app-pub-8639043459373611/3704251880</string>
+   <string name="ad_full">ca-app-pub-8639043459373611/6614513921</string>
+
+   <string name="key_feed_data">feed</string>
+
+   <string name="title_logo_transition_name">title_logo</string>
+
+</resources>
