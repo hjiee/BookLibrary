@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <font android:font="@font/scdream1_thin"/>
+    <font android:font="@font/scdream2_extra_light"/>
+    <font android:font="@font/scdream3_light"/>
+    <font android:font="@font/scdream4_regular"/>
+    <font android:font="@font/scdream5_medium"/>
+    <font android:font="@font/scdream6_bold"/>
+    <font android:font="@font/scdream7_extra_bold"/>
+    <font android:font="@font/scdream8_heavy"/>
+    <font android:font="@font/scdream9_black"/>
+</font-family>
+
