@@ -59,14 +59,12 @@
             android:key="@string/setting_key_question">
         </Preference>
 
-        <PreferenceScreen
+        <Preference
             android:summary="@string/setting_summary_evaluation"
             android:title="@string/setting_title_evaluation"
-            app:iconSpaceReserved="true">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="market://details?id=com.hyden.booklibrary"/>
-        </PreferenceScreen>
+            app:iconSpaceReserved="true"
+            android:key="@string/setting_key_evaluation">
+        </Preference>
     </PreferenceCategory>
 
     <!--정보-->

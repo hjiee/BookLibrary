@@ -1,10 +1,10 @@
 package com.hyden.booklibrary.view.setting
 
 import android.app.Activity.RESULT_OK
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +16,14 @@ import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.hyden.booklibrary.R
-import com.hyden.booklibrary.util.*
+import com.hyden.booklibrary.util.InAppReview
+import com.hyden.booklibrary.util.getPreferenceStartView
+import com.hyden.booklibrary.util.setPreferenceStartView
 import com.hyden.booklibrary.view.OpenSourceActivity
-import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.booklibrary.view.login.LoginActivity
 import com.hyden.booklibrary.view.myshared.MySharedBookFragment
+import com.hyden.booklibrary.view.profile.ProfileActivity
 import com.hyden.ext.*
-import com.hyden.util.LogUtil.LogW
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -43,7 +44,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
             CONTACT_DIRECTELY -> {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     Toast.makeText(context, "문의메일 보내기에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -67,20 +68,24 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun sendToMail() {
         findPreference<Preference>(getString(R.string.setting_key_question))?.apply {
             setOnPreferenceClickListener {
-                Intent(Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    setPackage("com.google.android.gm")
-                    putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.developer_email))
-                    putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
-                    putExtra(
-                        Intent.EXTRA_TEXT,
-                        "모델명 : ${Build.MODEL}\n" +
-                                "OS버전 : ${Build.VERSION.RELEASE}\n" +
-                                "SDK버전 : ${Build.VERSION.SDK_INT}\n" +
-                                "앱버전 : ${context.versionName()}\n " +
-                                "-----------------------------------------\n\n"
-                    )
-                    moveToActivityForResult(this,CONTACT_DIRECTELY)
+                try {
+                    Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        setPackage("com.google.android.gm")
+                        putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.developer_email))
+                        putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
+                        putExtra(
+                            Intent.EXTRA_TEXT,
+                            "모델명 : ${Build.MODEL}\n" +
+                                    "OS버전 : ${Build.VERSION.RELEASE}\n" +
+                                    "SDK버전 : ${Build.VERSION.SDK_INT}\n" +
+                                    "앱버전 : ${context.versionName()}\n " +
+                                    "-----------------------------------------\n\n"
+                        )
+                        moveToActivityForResult(this, CONTACT_DIRECTELY)
+                    }
+                } catch (e : ActivityNotFoundException) {
+                    context?.showToast("메일 앱이 설치 되어있지 않습니다")
                 }
                 true
             }
@@ -91,7 +96,10 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun changeMyFeedBook() {
         findPreference<Preference>(getString(R.string.setting_key_my_feed_book))?.apply {
             setOnPreferenceClickListener {
-                replaceFragmentStack(MySharedBookFragment.newInstance(),activity?.fl_container?.id!!)
+                replaceFragmentStack(
+                    MySharedBookFragment.newInstance(),
+                    activity?.fl_container?.id!!
+                )
                 true
             }
         }
@@ -117,8 +125,12 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun changeProfile() {
         findPreference<Preference>(getString(R.string.setting_key_profile))?.apply {
             setOnPreferenceClickListener {
-                moveToActivity(Intent(activity,
-                    ProfileActivity::class.java))
+                moveToActivity(
+                    Intent(
+                        activity,
+                        ProfileActivity::class.java
+                    )
+                )
                 true
             }
         }
@@ -133,7 +145,7 @@ class SettingFragment : PreferenceFragmentCompat() {
                 FirebaseAuth.getInstance().apply {
                     context.showSimpleDialog(message = "로그아웃 하시겠습니까?") {
                         settingViewModel.signOut()
-                        moveToActivity(Intent(activity,LoginActivity::class.java))
+                        moveToActivity(Intent(activity, LoginActivity::class.java))
                         activity?.finish()
                     }
                 }
@@ -142,8 +154,14 @@ class SettingFragment : PreferenceFragmentCompat() {
         }
     }
 
+    // 평가하기
     private fun sendToEvaluation() {
-
+        findPreference<Preference>(getString(R.string.setting_key_evaluation))?.apply {
+            setOnPreferenceClickListener {
+                InAppReview(requireActivity()).start()
+                true
+            }
+        }
     }
 
     private fun infoAppVersion() {
@@ -153,14 +171,18 @@ class SettingFragment : PreferenceFragmentCompat() {
             summary = "앱 버전 : ${context.versionName()}"
             this.context.setTheme(R.style.PreferenceTheme)
             setOnPreferenceClickListener {
-                LogW("$count")
                 if(System.currentTimeMillis() > backKeyPressedTime + 2000) {
                     backKeyPressedTime = System.currentTimeMillis()
                     count = 0
                 } else if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
                     count++
+                    //
                     if(count == 7) {
-                        val snackbar =  Snackbar.make(view!!,getString(R.string.version_multiple_click),Snackbar.LENGTH_SHORT)
+                        val snackbar =  Snackbar.make(
+                            view!!,
+                            getString(R.string.version_multiple_click),
+                            Snackbar.LENGTH_SHORT
+                        )
                         val view = snackbar.view
                         val textView = view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
                         textView.textAlignment = (View.TEXT_ALIGNMENT_CENTER)
@@ -178,7 +200,7 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun infoOpenSourceLicense() {
         findPreference<Preference>(getString(R.string.setting_key_opensource))?.apply {
             setOnPreferenceClickListener {
-                moveToActivity(Intent(activity,OpenSourceActivity::class.java))
+                moveToActivity(Intent(activity, OpenSourceActivity::class.java))
                 true
             }
         }
